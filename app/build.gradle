@@ -46,9 +46,14 @@ dependencies {
     implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
 
     // Jetpack Compose
-    implementation 'androidx.ui:ui-tooling:0.1.0-dev02'
-    implementation 'androidx.ui:ui-layout:0.1.0-dev02'
-    implementation 'androidx.ui:ui-material:0.1.0-dev02'
+    implementation 'androidx.compose:compose-runtime:0.1.0-dev03'
+    implementation 'androidx.ui:ui-layout:0.1.0-dev03'
+    implementation 'androidx.ui:ui-framework:0.1.0-dev03'
+    implementation 'androidx.ui:ui-layout:0.1.0-dev03'
+    implementation 'androidx.ui:ui-foundation:0.1.0-dev03'
+    implementation 'androidx.ui:ui-animation:0.1.0-dev03'
+    implementation 'androidx.ui:ui-tooling:0.1.0-dev03'
+    implementation 'androidx.ui:ui-material:0.1.0-dev03'
 
     // Local testing dependencies
     testImplementation 'junit:junit:4.12'
