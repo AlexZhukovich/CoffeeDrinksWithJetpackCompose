@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -56,7 +54,7 @@ dependencies {
     implementation 'androidx.ui:ui-material:0.1.0-dev03'
 
     // Local testing dependencies
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
 
     // Instrumentation testing dependencies
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
