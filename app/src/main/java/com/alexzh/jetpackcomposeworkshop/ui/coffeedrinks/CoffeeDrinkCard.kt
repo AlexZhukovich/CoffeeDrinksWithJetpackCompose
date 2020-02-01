@@ -2,56 +2,70 @@ package com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable
-import androidx.compose.unaryPlus
 import androidx.ui.core.Alignment
 import androidx.ui.core.Text
-import androidx.ui.core.dp
 import androidx.ui.foundation.DrawImage
 import androidx.ui.graphics.Color
-import androidx.ui.layout.Column
-import androidx.ui.layout.Container
-import androidx.ui.layout.FlexRow
-import androidx.ui.layout.Spacing
+import androidx.ui.layout.*
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.ripple.Ripple
+import androidx.ui.material.surface.Card
 import androidx.ui.res.imageResource
+import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextOverflow
+import androidx.ui.tooling.preview.Preview
+import androidx.ui.unit.dp
+import androidx.ui.unit.sp
 import com.alexzh.jetpackcomposeworkshop.R
+import com.alexzh.jetpackcomposeworkshop.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.jetpackcomposeworkshop.ui.components.Favourite
+import com.alexzh.jetpackcomposeworkshop.ui.mapper.CoffeeDrinkMapper
 import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinkModel
 
+@Preview
 @Composable
-fun CoffeeDrinkCard(coffeeDrink: CoffeeDrinkModel, onFavouriteStateChanged: (CoffeeDrinkModel) -> Unit) {
+fun previewCard() {
+    CoffeeDrinkCard(
+        coffeeDrink = CoffeeDrinkMapper().map(RuntimeCoffeeDrinkRepository().getCoffeeDrinks()[2]),
+        onFavouriteStateChanged = {}
+    )
+}
+
+@Composable
+fun CoffeeDrinkCard(
+    coffeeDrink: CoffeeDrinkModel,
+    onFavouriteStateChanged: (CoffeeDrinkModel) -> Unit
+) {
     MaterialTheme {
         Column {
-            FlexRow {
-                inflexible {
-                    CoffeeDrinkLogo(id = coffeeDrink.imageUrl)
-                }
-                expanded(flex = 1f) {
-                    Container(alignment = Alignment.TopLeft) {
-                        Column {
-                            CoffeeDrinkTitle(title = coffeeDrink.name)
-                            CoffeeDrinkIngredient(ingredients = coffeeDrink.ingredients)
-                        }
+            Row {
+                CoffeeDrinkLogo(id = coffeeDrink.imageUrl)
+                Container(
+                    alignment = Alignment.TopLeft,
+                    modifier = LayoutFlexible(1f)
+                ) {
+                    Column {
+                        CoffeeDrinkTitle(title = coffeeDrink.name)
+                        CoffeeDrinkIngredient(ingredients = coffeeDrink.ingredients)
                     }
                 }
-                inflexible {
-                    CoffeeDrinkFavouriteIcon(
-                        favouriteState = coffeeDrink.isFavourite,
-                        onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
-                    )
-                }
+                CoffeeDrinkFavouriteIcon(
+                    favouriteState = coffeeDrink.isFavourite,
+                    onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
+                )
             }
-            CoffeeDrinkDescription(description = coffeeDrink.description, show = coffeeDrink.isExtended)
         }
+        CoffeeDrinkDescription(
+            description = coffeeDrink.description,
+            show = coffeeDrink.isExtended
+        )
     }
 }
 
 @Composable
 fun CoffeeDrinkLogo(@DrawableRes id: Int) {
-    Container(width = 80.dp, height = 80.dp, alignment = Alignment.Center) {
-        DrawImage(image = +imageResource(id))
+    Container(modifier = LayoutSize(80.dp), alignment = Alignment.Center) {
+        DrawImage(image = imageResource(id))
     }
 }
 
@@ -78,7 +92,7 @@ fun CoffeeDrinkFavouriteIcon(
 fun CoffeeDrinkTitle(title: String) {
     Text(
         text = title,
-        modifier = Spacing(
+        modifier = LayoutPadding(
             left = 8.dp,
             right = 8.dp,
             top = 8.dp
@@ -91,7 +105,7 @@ fun CoffeeDrinkTitle(title: String) {
 fun CoffeeDrinkIngredient(ingredients: String) {
     Text(
         text = ingredients,
-        modifier = Spacing(left = 8.dp, right = 8.dp),
+        modifier = LayoutPadding(left = 8.dp, right = 8.dp),
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
@@ -102,7 +116,7 @@ fun CoffeeDrinkDescription(description: String, show: Boolean) {
     if (show) {
         Text(
             text = description,
-            modifier = Spacing(top = 4.dp, left = 88.dp, right = 8.dp, bottom = 8.dp)
+            modifier = LayoutPadding(left = 88.dp, right = 8.dp, bottom = 8.dp)
         )
     }
 }

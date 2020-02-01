@@ -3,15 +3,15 @@ package com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks
 import androidx.compose.Composable
 import androidx.compose.frames.ModelList
 import androidx.ui.core.Opacity
-import androidx.ui.core.dp
 import androidx.ui.foundation.Clickable
 import androidx.ui.foundation.VerticalScroller
 import androidx.ui.graphics.Color
 import androidx.ui.layout.Column
 import androidx.ui.layout.Container
-import androidx.ui.layout.Spacing
+import androidx.ui.layout.LayoutPadding
 import androidx.ui.material.Divider
 import androidx.ui.material.ripple.Ripple
+import androidx.ui.unit.dp
 import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinkModel
 
 @Composable
@@ -44,6 +44,6 @@ fun CoffeeDrinkList(
 @Composable
 private fun CoffeeDrinkDivider() {
     Opacity(0.08f) {
-        Divider(modifier = Spacing(left = 88.dp), color = Color.Black)
+        Divider(modifier = LayoutPadding(left = 88.dp), color = Color.Black)
     }
 }

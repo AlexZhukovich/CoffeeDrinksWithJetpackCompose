@@ -2,11 +2,11 @@ package com.alexzh.jetpackcomposeworkshop.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable
-import androidx.ui.core.dp
 import androidx.ui.foundation.selection.Toggleable
 import androidx.ui.graphics.Color
 import androidx.ui.layout.Container
-import androidx.ui.layout.Size
+import androidx.ui.layout.LayoutSize
+import androidx.ui.unit.dp
 
 @Composable
 fun Favourite(
@@ -20,7 +20,7 @@ fun Favourite(
         value = state,
         onValueChange = onValueChanged
     ) {
-        Container(modifier = Size(48.dp, 48.dp)) {
+        Container(modifier = LayoutSize(48.dp)) {
             if (state) {
                 VectorImage(
                     id = favouriteVectorId,
