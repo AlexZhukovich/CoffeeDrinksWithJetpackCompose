@@ -9,7 +9,6 @@ import androidx.ui.graphics.Color
 import androidx.ui.layout.*
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.ripple.Ripple
-import androidx.ui.material.surface.Card
 import androidx.ui.res.imageResource
 import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextOverflow
@@ -95,8 +94,10 @@ fun CoffeeDrinkTitle(title: String) {
         modifier = LayoutPadding(
             left = 8.dp,
             right = 8.dp,
-            top = 8.dp
+            top = 8.dp,
+            bottom = 8.dp
         ),
+        style = TextStyle(fontSize = 24.sp),
         maxLines = 1
     )
 }
