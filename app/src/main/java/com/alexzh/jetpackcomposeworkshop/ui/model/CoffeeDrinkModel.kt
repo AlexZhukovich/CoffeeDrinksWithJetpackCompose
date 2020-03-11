@@ -7,8 +7,9 @@ data class CoffeeDrinkModel(
     val id: Long,
     val name: String,
     val imageUrl: Int,
+    val backgroundImage: Int,
     val ingredients: String,
     val description: String,
-    val isFavourite: Boolean,
+    var isFavourite: Boolean,
     val isExtended: Boolean
 )

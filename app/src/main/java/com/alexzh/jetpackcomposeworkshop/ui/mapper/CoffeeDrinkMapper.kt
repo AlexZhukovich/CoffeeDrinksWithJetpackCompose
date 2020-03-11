@@ -10,6 +10,7 @@ class CoffeeDrinkMapper {
             coffeeDrink.id,
             coffeeDrink.name,
             coffeeDrink.imageUrl,
+            coffeeDrink.backgroundImage,
             coffeeDrink.ingredients,
             coffeeDrink.description,
             coffeeDrink.isFavourite,

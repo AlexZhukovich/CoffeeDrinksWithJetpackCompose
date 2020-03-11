@@ -16,6 +16,7 @@ import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinkModel
 
 @Composable
 fun CoffeeDrinkList(
+    status: Status,
     coffeeDrinks: ModelList<CoffeeDrinkModel>,
     onCoffeeDrinkClicked: (CoffeeDrinkModel) -> Unit,
     onFavouriteStateChanged: (CoffeeDrinkModel) -> Unit
@@ -27,11 +28,31 @@ fun CoffeeDrinkList(
                     Clickable(onClick = { onCoffeeDrinkClicked(coffee) }) {
                         Container {
                             Column {
-                                CoffeeDrinkCard(
-                                    coffeeDrink = coffee,
-                                    onFavouriteStateChanged = { onFavouriteStateChanged(it) }
-                                )
-                                CoffeeDrinkDivider()
+                                if (status.isGrid) {
+                                    Container(
+                                        modifier = LayoutPadding(
+                                            top = 8.dp,
+                                            left = 8.dp,
+                                            right = 8.dp,
+                                            bottom = 8.dp
+                                        )
+                                    ) {
+                                        CoffeeDrinkGridCard(
+                                            coffeeDrink = coffee,
+                                            onFavouriteStateChanged = {
+                                                onFavouriteStateChanged(
+                                                    it
+                                                )
+                                            }
+                                        )
+                                    }
+                                } else {
+                                    CoffeeDrinkListCard(
+                                        coffeeDrink = coffee,
+                                        onFavouriteStateChanged = { onFavouriteStateChanged(it) }
+                                    )
+                                    CoffeeDrinkDivider()
+                                }
                             }
                         }
                     }
