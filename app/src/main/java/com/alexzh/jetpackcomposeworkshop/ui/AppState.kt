@@ -11,6 +11,7 @@ object AppState {
 sealed class Screen {
     object CoffeeDrinks : Screen()
     data class CoffeeDrinkDetails(val coffeeDrink: CoffeeDrinkModel) : Screen()
+    object OrderCoffeeDrinks : Screen()
 }
 
 fun navigateTo(destination: Screen) {

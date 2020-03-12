@@ -8,6 +8,7 @@ import androidx.ui.core.setContent
 import androidx.ui.material.MaterialTheme
 import com.alexzh.jetpackcomposeworkshop.ui.coffeedetails.CoffeeDrinkDetailsScreen
 import com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks.CoffeeDrinksScreen
+import com.alexzh.jetpackcomposeworkshop.ui.order.OrderCoffeeDrinkScreen
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             when (screen) {
                 is Screen.CoffeeDrinks -> CoffeeDrinksScreen()
                 is Screen.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(coffeeDrink = screen.coffeeDrink)
+                is Screen.OrderCoffeeDrinks -> OrderCoffeeDrinkScreen()
             }
         }
     }
