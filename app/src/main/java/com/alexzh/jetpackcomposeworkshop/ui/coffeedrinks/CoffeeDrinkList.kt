@@ -28,7 +28,7 @@ fun CoffeeDrinkList(
                     Clickable(onClick = { onCoffeeDrinkClicked(coffee) }) {
                         Container {
                             Column {
-                                if (status.isGrid) {
+                                if (status.isExtendedListItem) {
                                     Container(
                                         modifier = LayoutPadding(
                                             top = 8.dp,

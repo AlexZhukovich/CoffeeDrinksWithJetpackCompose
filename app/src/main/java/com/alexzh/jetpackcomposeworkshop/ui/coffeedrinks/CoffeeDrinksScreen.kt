@@ -12,6 +12,7 @@ import androidx.ui.material.AppBarIcon
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.TopAppBar
 import androidx.ui.res.imageResource
+import androidx.ui.text.TextStyle
 import androidx.ui.tooling.preview.Preview
 import com.alexzh.jetpackcomposeworkshop.R
 import com.alexzh.jetpackcomposeworkshop.data.RuntimeCoffeeDrinkRepository
@@ -25,10 +26,10 @@ private var coffeeDrinks = CoffeeDrinksModel.coffeeDrinks
 
 @Model
 data class Status(
-    var isGrid: Boolean
+    var isExtendedListItem: Boolean
 )
 
-val status = Status(true)
+val status = Status(false)
 
 @Composable
 fun CoffeeDrinksScreen() {
@@ -52,13 +53,14 @@ fun CoffeeDrinksScreen() {
 @Composable
 fun CoffeeDrinkAppBar(status: Status) {
     TopAppBar<MenuAction>(
-        title = { Text("Test app") },
-        color = Color.White,
+        title = { Text("Coffee Drinks", style = TextStyle(color = Color.White)) },
+        color = Color(0xFF855446),
         actionData = listOf(MenuAction.Share),
         action = { menuAction ->
-            val painter: Painter = ImagePainter(image = imageResource(id = if (status.isGrid) menuAction.iconList else menuAction.iconGrid))
+            val painter: Painter = ImagePainter(
+                image = imageResource(id = if (status.isExtendedListItem) menuAction.iconList else menuAction.iconGrid))
             AppBarIcon(painter) {
-                status.isGrid = !status.isGrid
+                status.isExtendedListItem = !status.isExtendedListItem
             }
         }
     )
@@ -69,7 +71,7 @@ sealed class MenuAction(
     @DrawableRes val iconGrid: Int,
     @DrawableRes val iconList: Int
 ) {
-    object Share : MenuAction("Share", R.drawable.ic_action_name, R.drawable.ic_action_list)
+    object Share : MenuAction("Share", R.drawable.ic_extended_list_white, R.drawable.ic_list_white)
 }
 
 @Preview
