@@ -27,6 +27,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 1L,
                 name = "Americano",
                 imageUrl = R.drawable.americano_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "Americano is a type of coffee drink prepared by diluting an espresso with hot water, giving it a similar strength to, but different flavour from, traditionally brewed coffee. ",
                 ingredients = "Espresso, Water",
                 isFavourite = false
@@ -35,6 +36,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 2L,
                 name = "Cappuccino",
                 imageUrl = R.drawable.cappuccino_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "A cappuccino is an espresso-based coffee drink that originated in Italy, and is traditionally prepared with steamed milk foam.",
                 ingredients = "Espresso, Steamed milk foam",
                 isFavourite = false
@@ -43,6 +45,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 3L,
                 name = "Espresso",
                 imageUrl = R.drawable.espresso_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "Espresso is coffee of Italian origin, brewed by forcing a small amount of nearly boiling water under pressure (expressing) through finely-ground coffee beans.",
                 ingredients = "Ground coffee, Water",
                 isFavourite = false
@@ -51,6 +54,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 4L,
                 name = "Espresso Macchiato",
                 imageUrl = R.drawable.espresso_macchiato_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "Espresso Macchiato is a coffee beverage (a single or double espresso topped with a dollop of heated, foamed milk).",
                 ingredients = "Espresso, Foamed milk",
                 isFavourite = false
@@ -59,6 +63,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 5L,
                 name = "Frappino",
                 imageUrl = R.drawable.frappino_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "Frappino is a blended coffee drinks. It consists of coffee base, blended with ice and other various ingredients, usually topped with whipped cream.",
                 ingredients = "Espresso, Cold milk, Sugar, Ice cubes, Irish Cream flavoured syrup, Whipped cream, Chocolate sauce",
                 isFavourite = false
@@ -67,6 +72,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 6L,
                 name = "Iced Mocha",
                 imageUrl = R.drawable.iced_mocha_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "Iced Mocha is a coffee beverage. It based on Espresso and chocolate syrup with cold milk, foam and whipped cream or ice cream.",
                 ingredients = "Cold coffee, Milk, Chocolate syrup, Whipped cream, Ice cream",
                 isFavourite = false
@@ -75,6 +81,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 7L,
                 name = "Irish coffee",
                 imageUrl = R.drawable.irish_coffee_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "Irish coffee is a cocktail consisting of hot coffee, Irish whiskey, and sugar stirred, and topped with cream.",
                 ingredients = "Irish whiskey, Hot strong brewed coffee, Heavy whipping cream, Sugar, Creme de menthe liqueur",
                 isFavourite = false
@@ -83,6 +90,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 8L,
                 name = "Latte",
                 imageUrl = R.drawable.latte_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "A latte is a coffee drink made with espresso and steamed milk.",
                 ingredients = "Espresso, Steamed milk",
                 isFavourite = false
@@ -91,6 +99,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 9L,
                 name = "Latte Macchiato",
                 imageUrl = R.drawable.latte_macchiato_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "Latte Macchiato is a coffee beverage; the name literally means stained milk.",
                 ingredients = "Espresso, Milk, Milk foam, Flavoured coffee syrup",
                 isFavourite = false
@@ -99,6 +108,7 @@ class RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
                 id = 10L,
                 name = "Mocha",
                 imageUrl = R.drawable.mocha_small,
+                backgroundImage = R.drawable.bg_coffee_bean_2,
                 description = "A Mocha, also called mocaccino, is a chocolate-flavored variant of a Latte.",
                 ingredients = "Espresso, Chocolate flavoring",
                 isFavourite = false
