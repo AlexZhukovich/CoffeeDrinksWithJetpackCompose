@@ -70,7 +70,7 @@ fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
                 contentColor = Color.White,
                 navigationIcon = {
                     AppBarIcon(
-                        icon = ImagePainter(image = imageResource(id = R.drawable.ic_action_name)),
+                        icon = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
                         onClick = { navigateTo(Screen.CoffeeDrinks)}
                     )
                 }
@@ -95,9 +95,10 @@ fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
         ) {
             FloatingActionButton(
                 modifier = LayoutPadding(top = (-28).dp),
-                icon = imageResource(id = R.drawable.ic_action_list),
+                icon = imageResource(id = if (coffeeDrink.isFavourite) { R.drawable.ic_favorite_white } else { R.drawable.ic_favorite_border_white }) ,
                 shape = CircleShape,
-                color = Color(0xFF663E34)
+                color = Color(0xFF663E34),
+                onClick = { coffeeDrink.isFavourite = !coffeeDrink.isFavourite }
             )
         }
 
