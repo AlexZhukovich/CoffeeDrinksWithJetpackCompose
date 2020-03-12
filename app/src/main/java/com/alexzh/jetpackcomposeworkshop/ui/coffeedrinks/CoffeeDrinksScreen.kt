@@ -55,12 +55,20 @@ fun CoffeeDrinkAppBar(status: Status) {
     TopAppBar<MenuAction>(
         title = { Text("Coffee Drinks", style = TextStyle(color = Color.White)) },
         color = Color(0xFF855446),
-        actionData = listOf(MenuAction.Share),
+        actionData = listOf(MenuAction.OrderCoffeeDrink, MenuAction.CardType),
         action = { menuAction ->
-            val painter: Painter = ImagePainter(
-                image = imageResource(id = if (status.isExtendedListItem) menuAction.iconList else menuAction.iconGrid))
-            AppBarIcon(painter) {
-                status.isExtendedListItem = !status.isExtendedListItem
+            if (menuAction is MenuAction.CardType) {
+                val painter: Painter = ImagePainter(
+                    image = imageResource(id = if (status.isExtendedListItem) menuAction.additionalIcon!! else menuAction.icon)
+                )
+                AppBarIcon(painter) {
+                    status.isExtendedListItem = !status.isExtendedListItem
+                }
+            }
+            if (menuAction is MenuAction.OrderCoffeeDrink) {
+                AppBarIcon(ImagePainter(imageResource(id = menuAction.icon))) {
+                    navigateTo(Screen.OrderCoffeeDrinks)
+                }
             }
         }
     )
@@ -68,10 +76,11 @@ fun CoffeeDrinkAppBar(status: Status) {
 
 sealed class MenuAction(
     val label: String,
-    @DrawableRes val iconGrid: Int,
-    @DrawableRes val iconList: Int
+    @DrawableRes val icon: Int,
+    @DrawableRes val additionalIcon: Int? = null
 ) {
-    object Share : MenuAction("Share", R.drawable.ic_extended_list_white, R.drawable.ic_list_white)
+    object CardType : MenuAction("Share", R.drawable.ic_extended_list_white, R.drawable.ic_list_white)
+    object OrderCoffeeDrink : MenuAction("Order", R.drawable.ic_order_white)
 }
 
 @Preview
