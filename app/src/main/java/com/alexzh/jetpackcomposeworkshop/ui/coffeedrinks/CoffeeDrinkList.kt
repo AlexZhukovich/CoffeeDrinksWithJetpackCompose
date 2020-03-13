@@ -29,14 +29,7 @@ fun CoffeeDrinkList(
                         Container {
                             Column {
                                 if (status.isExtendedListItem) {
-                                    Container(
-                                        modifier = LayoutPadding(
-                                            top = 8.dp,
-                                            left = 8.dp,
-                                            right = 8.dp,
-                                            bottom = 8.dp
-                                        )
-                                    ) {
+                                    Container(modifier = LayoutPadding(8.dp)) {
                                         CoffeeDrinkGridCard(
                                             coffeeDrink = coffee,
                                             onFavouriteStateChanged = {
@@ -65,6 +58,6 @@ fun CoffeeDrinkList(
 @Composable
 private fun CoffeeDrinkDivider() {
     Opacity(0.08f) {
-        Divider(modifier = LayoutPadding(left = 88.dp), color = Color.Black)
+        Divider(modifier = LayoutPadding(start = 88.dp), color = Color.Black)
     }
 }

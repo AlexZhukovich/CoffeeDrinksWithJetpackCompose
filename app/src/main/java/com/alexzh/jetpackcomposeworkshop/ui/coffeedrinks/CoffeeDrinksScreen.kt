@@ -1,14 +1,13 @@
 package com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks
 
-import androidx.annotation.DrawableRes
 import androidx.compose.Composable
 import androidx.compose.Model
 import androidx.ui.core.Text
+import androidx.ui.foundation.Icon
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ImagePainter
-import androidx.ui.graphics.painter.Painter
 import androidx.ui.layout.Column
-import androidx.ui.material.AppBarIcon
+import androidx.ui.material.IconButton
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.TopAppBar
 import androidx.ui.res.imageResource
@@ -44,43 +43,36 @@ fun CoffeeDrinksScreen() {
         CoffeeDrinkList(
             status = status,
             coffeeDrinks = coffeeDrinks,
-            onCoffeeDrinkClicked = ::onCoffeeDrinkClicked,
-            onFavouriteStateChanged = ::onCoffeeFavouriteStateChanged
+            onCoffeeDrinkClicked = { onCoffeeDrinkClicked(it) },
+            onFavouriteStateChanged = { onCoffeeFavouriteStateChanged(it) }
         )
     }
 }
 
 @Composable
 fun CoffeeDrinkAppBar(status: Status) {
-    TopAppBar<MenuAction>(
+    TopAppBar(
         title = { Text("Coffee Drinks", style = TextStyle(color = Color.White)) },
         color = Color(0xFF855446),
-        actionData = listOf(MenuAction.OrderCoffeeDrink, MenuAction.CardType),
-        action = { menuAction ->
-            if (menuAction is MenuAction.CardType) {
-                val painter: Painter = ImagePainter(
-                    image = imageResource(id = if (status.isExtendedListItem) menuAction.additionalIcon!! else menuAction.icon)
+        actions = {
+            IconButton(
+                onClick = { status.isExtendedListItem = !status.isExtendedListItem }
+            ) {
+                Icon(
+                    icon = ImagePainter(
+                        imageResource(id = if (status.isExtendedListItem) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
+                    ),
+                    tint = Color.White
                 )
-                AppBarIcon(painter) {
-                    status.isExtendedListItem = !status.isExtendedListItem
-                }
             }
-            if (menuAction is MenuAction.OrderCoffeeDrink) {
-                AppBarIcon(ImagePainter(imageResource(id = menuAction.icon))) {
-                    navigateTo(Screen.OrderCoffeeDrinks)
-                }
+            IconButton(onClick = { navigateTo(Screen.OrderCoffeeDrinks) }) {
+                Icon(
+                    icon = ImagePainter(imageResource(id = R.drawable.ic_order_white)),
+                    tint = Color.White
+                )
             }
         }
     )
-}
-
-sealed class MenuAction(
-    val label: String,
-    @DrawableRes val icon: Int,
-    @DrawableRes val additionalIcon: Int? = null
-) {
-    object CardType : MenuAction("Share", R.drawable.ic_extended_list_white, R.drawable.ic_list_white)
-    object OrderCoffeeDrink : MenuAction("Order", R.drawable.ic_order_white)
 }
 
 @Preview

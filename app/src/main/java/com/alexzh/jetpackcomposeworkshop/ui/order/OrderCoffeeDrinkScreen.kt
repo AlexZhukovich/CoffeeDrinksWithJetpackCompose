@@ -6,19 +6,18 @@ import androidx.compose.Model
 import androidx.compose.frames.ModelList
 import androidx.ui.core.Alignment
 import androidx.ui.core.Text
-import androidx.ui.foundation.Border
-import androidx.ui.foundation.Clickable
-import androidx.ui.foundation.DrawImage
-import androidx.ui.foundation.VerticalScroller
+import androidx.ui.core.toModifier
+import androidx.ui.foundation.*
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
-import androidx.ui.material.AppBarIcon
 import androidx.ui.material.Button
+import androidx.ui.material.IconButton
 import androidx.ui.material.TopAppBar
 import androidx.ui.material.surface.Surface
 import androidx.ui.res.imageResource
+import androidx.ui.res.loadImageResource
 import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextAlign
 import androidx.ui.tooling.preview.Preview
@@ -58,8 +57,11 @@ fun OrderCoffeeDrinkScreen() {
             title = { Text(text = "Order coffee drinks", style = TextStyle(color = Color.White)) },
             color = Color(0xFF855446),
             navigationIcon = {
-                AppBarIcon(icon = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white))) {
-                    navigateTo(Screen.CoffeeDrinks)
+                IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
+                    Icon(
+                        icon = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white)),
+                        tint = Color.White
+                    )
                 }
             }
         )
@@ -68,9 +70,9 @@ fun OrderCoffeeDrinkScreen() {
             Column {
                 for (coffeeDrink in coffeeDrinks) {
                     OrderCoffeeDrinkCard(
-                        coffeeDrink,
-                        ::addCoffeeDrink,
-                        ::removeCoffeeDrink
+                        orderCoffeeDrink = coffeeDrink,
+                        onAddCoffeeDrink = { addCoffeeDrink(it) },
+                        onRemoveCoffeeDrink = { removeCoffeeDrink(it) }
                     )
                 }
             }
@@ -88,8 +90,8 @@ fun OrderCoffeeDrinkCard(
         Row {
             Logo(orderCoffeeDrink)
             Container(
-                modifier = LayoutFlexible(1f) + LayoutPadding(left = 8.dp),
-                alignment = Alignment.CenterLeft
+                modifier = LayoutFlexible(1f) + LayoutPadding(start = 8.dp),
+                alignment = Alignment.CenterStart
             ) {
                 Column {
                     Text(
@@ -124,7 +126,11 @@ fun OrderCoffeeDrinkCard(
 @Composable
 private fun Logo(orderCoffeeDrink: OrderCoffeeDrink) {
     Container(modifier = LayoutSize(64.dp)) {
-        DrawImage(image = imageResource(orderCoffeeDrink.imageRes))
+        loadImageResource(id = orderCoffeeDrink.imageRes).resource.resource?.let {
+            Box(
+                modifier = LayoutHeight.Fill + LayoutWidth.Fill + ImagePainter(it).toModifier()
+            )
+        }
     }
 }
 
