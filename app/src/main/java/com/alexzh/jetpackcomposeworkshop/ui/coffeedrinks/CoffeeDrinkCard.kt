@@ -1,23 +1,22 @@
 package com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks
 
-import android.widget.Space
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable
 import androidx.ui.core.Alignment
-import androidx.ui.core.Opacity
-import androidx.ui.core.RepaintBoundary
 import androidx.ui.core.Text
+import androidx.ui.core.toModifier
 import androidx.ui.foundation.Border
-import androidx.ui.foundation.DrawImage
+import androidx.ui.foundation.Box
 import androidx.ui.foundation.shape.corner.CircleShape
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
+import androidx.ui.graphics.painter.ColorPainter
+import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
 import androidx.ui.material.Button
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.ripple.Ripple
 import androidx.ui.material.surface.Surface
-import androidx.ui.res.imageResource
 import androidx.ui.res.loadImageResource
 import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextOverflow
@@ -58,7 +57,7 @@ fun CoffeeDrinkListCard(
             Row {
                 CoffeeDrinkLogo(id = coffeeDrink.imageUrl)
                 Container(
-                    alignment = Alignment.TopLeft,
+                    alignment = Alignment.TopStart,
                     modifier = LayoutFlexible(1f)
                 ) {
                     Column {
@@ -80,19 +79,6 @@ fun CoffeeDrinkListCard(
 }
 
 @Composable
-fun CoffeeDrinkGridBackground(resId: Int) {
-    RepaintBoundary {
-        Container(
-            modifier = LayoutHeight(160.dp) + LayoutWidth.Fill
-        ) {
-            Opacity(opacity = 0.75f) {
-                    DrawImage(imageResource(resId))
-            }
-        }
-    }
-}
-
-@Composable
 fun CoffeeDrinkGridCard(
     coffeeDrink: CoffeeDrinkModel,
     onFavouriteStateChanged: (CoffeeDrinkModel) -> Unit
@@ -106,19 +92,21 @@ fun CoffeeDrinkGridCard(
                 Container(
                     modifier = LayoutHeight(160.dp) + LayoutWidth.Fill
                 ) {
-                    Opacity(opacity = 0.75f) {
-                        loadImageResource(R.drawable.bg_coffee_bean_2).resource.resource?.let {
-                            DrawImage(it)
-                        }
-                    }
+                    Box(
+                        modifier = LayoutHeight.Fill + LayoutWidth.Fill + ColorPainter(
+                            Color(
+                                0xFF855446
+                            )
+                        ).toModifier()
+                    )
                 }
 
                 Container(
                     modifier = LayoutHeight(160.dp) + LayoutWidth.Fill,
-                    alignment = Alignment.BottomLeft
+                    alignment = Alignment.BottomStart
                 ) {
                     Text(
-                        modifier = LayoutPadding(left = 8.dp, bottom = 8.dp),
+                        modifier = LayoutPadding(start = 8.dp, bottom = 8.dp),
                         text = coffeeDrink.name,
                         style = TextStyle(color = Color.White, fontSize = 24.sp)
                     )
@@ -127,7 +115,7 @@ fun CoffeeDrinkGridCard(
                 // favourite icon
                 Container(
                     modifier = LayoutWidth.Fill,
-                    alignment = Alignment.TopRight
+                    alignment = Alignment.TopEnd
                 ) {
                     CoffeeDrinkFavouriteIcon(
                         favouriteState = coffeeDrink.isFavourite,
@@ -150,15 +138,24 @@ fun CoffeeDrinkGridCard(
                             alignment = Alignment.Center
                         ) {
                             loadImageResource(coffeeDrink.imageUrl).resource.resource?.let {
-                                DrawImage(it)
+                                Box(
+                                    modifier = LayoutHeight.Fill + LayoutWidth.Fill + ImagePainter(
+                                        it
+                                    ).toModifier()
+                                )
                             }
                         }
                     }
                 }
 
                 Container(
-                    alignment = Alignment.BottomLeft,
-                    modifier = LayoutWidth.Fill + LayoutHeight.Fill + LayoutPadding(left = 8.dp, right = 8.dp, top = 8.dp, bottom = 36.dp)
+                    alignment = Alignment.BottomStart,
+                    modifier = LayoutWidth.Fill + LayoutHeight.Fill + LayoutPadding(
+                        start = 8.dp,
+                        end = 8.dp,
+                        top = 8.dp,
+                        bottom = 36.dp
+                    )
                 ) {
                     Text(
                         text = coffeeDrink.description,
@@ -169,7 +166,7 @@ fun CoffeeDrinkGridCard(
                 }
 
                 Container(
-                    alignment = Alignment.BottomRight,
+                    alignment = Alignment.BottomEnd,
                     modifier = LayoutWidth.Fill + LayoutHeight.Fill
                 ) {
                     Button(
@@ -181,41 +178,18 @@ fun CoffeeDrinkGridCard(
                 }
             }
         }
-
-
-//        Column {
-//            Row {
-////                CoffeeDrinkFavouriteIcon(
-////                    favouriteState = coffeeDrink.isFavourite,
-////                    onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
-////                )
-//                Container(
-//                    alignment = Alignment.TopLeft,
-//                    modifier = LayoutHeight(140.dp) + LayoutWidth.Fill
-//                    modifier = LayoutFlexible(1f)
-//                ) {
-//                    DrawImage(
-//                        imageResource(R.drawable.bg_coffee_beans)
-//                    )
-////                    Column {
-////                        CoffeeDrinkTitle(title = coffeeDrink.name)
-////                        CoffeeDrinkIngredient(ingredients = coffeeDrink.ingredients)
-////                    }
-//                }
-////                CoffeeDrinkLogo(id = coffeeDrink.imageUrl)
-//            }
-//        }
-//        CoffeeDrinkDescription(
-//            description = coffeeDrink.description,
-//            show = coffeeDrink.isExtended
-//        )
     }
 }
 
 @Composable
 fun CoffeeDrinkLogo(@DrawableRes id: Int) {
     Container(modifier = LayoutSize(80.dp), alignment = Alignment.Center) {
-        DrawImage(image = imageResource(id))
+        val image = loadImageResource(id = id)
+        image.resource.resource?.let {
+            Box(
+                modifier = LayoutHeight.Fill + LayoutWidth.Fill + ImagePainter(it).toModifier()
+            )
+        }
     }
 }
 
@@ -242,12 +216,7 @@ fun CoffeeDrinkFavouriteIcon(
 fun CoffeeDrinkTitle(title: String) {
     Text(
         text = title,
-        modifier = LayoutPadding(
-            left = 8.dp,
-            right = 8.dp,
-            top = 8.dp,
-            bottom = 8.dp
-        ),
+        modifier = LayoutPadding(8.dp),
         style = TextStyle(fontSize = 24.sp),
         maxLines = 1
     )
@@ -257,7 +226,7 @@ fun CoffeeDrinkTitle(title: String) {
 fun CoffeeDrinkIngredient(ingredients: String) {
     Text(
         text = ingredients,
-        modifier = LayoutPadding(left = 8.dp, right = 8.dp),
+        modifier = LayoutPadding(start = 8.dp, end = 8.dp),
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
@@ -268,7 +237,7 @@ fun CoffeeDrinkDescription(description: String, show: Boolean) {
     if (show) {
         Text(
             text = description,
-            modifier = LayoutPadding(left = 88.dp, right = 8.dp, bottom = 8.dp)
+            modifier = LayoutPadding(start = 88.dp, end = 8.dp, bottom = 8.dp)
         )
     }
 }

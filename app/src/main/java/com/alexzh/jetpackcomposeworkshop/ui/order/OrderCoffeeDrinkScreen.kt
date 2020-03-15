@@ -6,16 +6,14 @@ import androidx.compose.Model
 import androidx.compose.frames.ModelList
 import androidx.ui.core.Alignment
 import androidx.ui.core.Text
-import androidx.ui.foundation.Border
-import androidx.ui.foundation.Clickable
-import androidx.ui.foundation.DrawImage
-import androidx.ui.foundation.VerticalScroller
+import androidx.ui.core.toModifier
+import androidx.ui.foundation.*
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
-import androidx.ui.material.AppBarIcon
 import androidx.ui.material.Button
+import androidx.ui.material.IconButton
 import androidx.ui.material.TopAppBar
 import androidx.ui.material.surface.Surface
 import androidx.ui.res.imageResource
@@ -32,8 +30,8 @@ private val coffeeDrinks = ModelList<OrderCoffeeDrink>().apply {
     addAll(
         listOf(
             OrderCoffeeDrink("Americano", R.drawable.americano_small, "150 ml", 7.0, 0),
-            OrderCoffeeDrink("Cappuccino", R.drawable.cappuccino_small, "250 ml", 6.0, 1),
-            OrderCoffeeDrink("Espresso", R.drawable.espresso_small, "200 ml", 5.0, 1),
+            OrderCoffeeDrink("Cappuccino", R.drawable.cappuccino_small, "250 ml", 6.0, 0),
+            OrderCoffeeDrink("Espresso", R.drawable.espresso_small, "200 ml", 5.0, 0),
             OrderCoffeeDrink("Espresso Macchiato", R.drawable.espresso_macchiato_small, "300 ml", 8.0, 0),
             OrderCoffeeDrink("Frappino", R.drawable.frappino_small, "400 ml", 8.0, 0),
             OrderCoffeeDrink("Iced Mocha", R.drawable.iced_mocha_small, "400 ml", 9.0, 0),
@@ -58,21 +56,22 @@ fun OrderCoffeeDrinkScreen() {
             title = { Text(text = "Order coffee drinks", style = TextStyle(color = Color.White)) },
             color = Color(0xFF855446),
             navigationIcon = {
-                AppBarIcon(icon = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white))) {
-                    navigateTo(Screen.CoffeeDrinks)
+                IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
+                    Icon(
+                        icon = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white)),
+                        tint = Color.White
+                    )
                 }
             }
         )
         OrderSummary(coffeeDrinkOrder.totalPrice)
-        VerticalScroller {
-            Column {
-                for (coffeeDrink in coffeeDrinks) {
-                    OrderCoffeeDrinkCard(
-                        coffeeDrink,
-                        ::addCoffeeDrink,
-                        ::removeCoffeeDrink
-                    )
-                }
+        Container {
+            AdapterList(data = coffeeDrinks) { coffeeDrink ->
+                OrderCoffeeDrinkCard(
+                    orderCoffeeDrink = coffeeDrink,
+                    onAddCoffeeDrink = { addCoffeeDrink(it) },
+                    onRemoveCoffeeDrink = { removeCoffeeDrink(it) }
+                )
             }
         }
     }
@@ -88,8 +87,8 @@ fun OrderCoffeeDrinkCard(
         Row {
             Logo(orderCoffeeDrink)
             Container(
-                modifier = LayoutFlexible(1f) + LayoutPadding(left = 8.dp),
-                alignment = Alignment.CenterLeft
+                modifier = LayoutFlexible(1f) + LayoutPadding(start = 8.dp),
+                alignment = Alignment.CenterStart
             ) {
                 Column {
                     Text(
@@ -124,7 +123,9 @@ fun OrderCoffeeDrinkCard(
 @Composable
 private fun Logo(orderCoffeeDrink: OrderCoffeeDrink) {
     Container(modifier = LayoutSize(64.dp)) {
-        DrawImage(image = imageResource(orderCoffeeDrink.imageRes))
+        Box(
+            modifier = ImagePainter(imageResource(id = orderCoffeeDrink.imageRes)).toModifier()
+        )
     }
 }
 

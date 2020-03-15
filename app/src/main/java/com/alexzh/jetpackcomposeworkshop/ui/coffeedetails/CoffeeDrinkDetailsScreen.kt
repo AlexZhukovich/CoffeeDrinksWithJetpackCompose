@@ -2,18 +2,19 @@ package com.alexzh.jetpackcomposeworkshop.ui.coffeedetails
 
 import androidx.compose.Composable
 import androidx.ui.core.Alignment
-import androidx.ui.core.Opacity
 import androidx.ui.core.Text
-import androidx.ui.foundation.DrawImage
+import androidx.ui.core.toModifier
+import androidx.ui.foundation.Box
+import androidx.ui.foundation.Icon
 import androidx.ui.foundation.shape.corner.CircleShape
 import androidx.ui.graphics.Color
+import androidx.ui.graphics.painter.ColorPainter
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
-import androidx.ui.material.AppBarIcon
 import androidx.ui.material.Divider
 import androidx.ui.material.FloatingActionButton
+import androidx.ui.material.IconButton
 import androidx.ui.material.TopAppBar
-import androidx.ui.material.surface.Surface
 import androidx.ui.res.imageResource
 import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextOverflow
@@ -41,20 +42,15 @@ fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
         Stack(
             modifier = LayoutHeight(240.dp) + LayoutWidth.Fill
         ) {
-            Surface(
-                color = Color(0xAAFFFFFF)
+            Container(
+                modifier = LayoutWidth.Fill + LayoutHeight.Fill,
+                alignment = Alignment.TopCenter
             ) {
-                Container(
-                    modifier = LayoutWidth.Fill + LayoutHeight.Fill,
-                    alignment = Alignment.TopCenter
-                ) {
-                    // background
-                    Opacity(opacity = 0.6f) {
-                        DrawImage(
-                            image = imageResource(id = R.drawable.bg_coffee_bean_2)
-                        )
-                    }
-                }
+                Box(
+                    modifier = LayoutWidth.Fill + LayoutHeight.Fill + ColorPainter(
+                        Color(0xFF855446)
+                    ).toModifier()
+                )
             }
 
             TopAppBar(
@@ -69,10 +65,9 @@ fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
                 elevation = 0.dp,
                 contentColor = Color.White,
                 navigationIcon = {
-                    AppBarIcon(
-                        icon = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
-                        onClick = { navigateTo(Screen.CoffeeDrinks)}
-                    )
+                    IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
+                        Icon(icon = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)))
+                    }
                 }
             )
 
@@ -80,22 +75,27 @@ fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
                 modifier = LayoutHeight.Fill + LayoutWidth.Fill,
                 alignment = Alignment.Center
             ) {
-                Container(
-                    modifier = LayoutSize(180.dp) + LayoutPadding(top = 20.dp),
-                    alignment = Alignment.Center
-                ) {
-                    DrawImage(image = imageResource(id = coffeeDrink.imageUrl))
-                }
+                Box(
+                    modifier = LayoutSize(180.dp) + LayoutPadding(top = 20.dp) + ImagePainter(
+                        imageResource(coffeeDrink.imageUrl)
+                    ).toModifier()
+                )
             }
         }
 
         Container(
-            modifier = LayoutPadding(right = 16.dp) + LayoutWidth.Fill,
-            alignment = Alignment.CenterRight
+            modifier = LayoutPadding(end = 16.dp) + LayoutWidth.Fill,
+            alignment = Alignment.CenterEnd
         ) {
             FloatingActionButton(
                 modifier = LayoutPadding(top = (-28).dp),
-                icon = imageResource(id = if (coffeeDrink.isFavourite) { R.drawable.ic_favorite_white } else { R.drawable.ic_favorite_border_white }) ,
+                icon = imageResource(
+                    id = if (coffeeDrink.isFavourite) {
+                        R.drawable.ic_favorite_white
+                    } else {
+                        R.drawable.ic_favorite_border_white
+                    }
+                ),
                 shape = CircleShape,
                 color = Color(0xFF663E34),
                 onClick = { coffeeDrink.isFavourite = !coffeeDrink.isFavourite }
@@ -103,7 +103,7 @@ fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
         }
 
         Container(
-            modifier = LayoutPadding(left = 16.dp, top = 8.dp, right = 16.dp, bottom = 8.dp)
+            modifier = LayoutPadding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)
         ) {
             Column {
                 Text(text = coffeeDrink.description, style = TextStyle(fontSize = 18.sp))
