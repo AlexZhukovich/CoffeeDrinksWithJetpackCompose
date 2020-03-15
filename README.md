@@ -1,1 +1,1 @@
-# JetpackComposeWorkshop
+# Coffee drinks app with Jetpack Compose
