@@ -12,14 +12,14 @@ import androidx.ui.layout.LayoutPadding
 import androidx.ui.material.Divider
 import androidx.ui.material.ripple.Ripple
 import androidx.ui.unit.dp
-import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinkModel
+import com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks.model.CoffeeDrinkItem
 
 @Composable
 fun CoffeeDrinkList(
     status: Status,
-    coffeeDrinks: ModelList<CoffeeDrinkModel>,
-    onCoffeeDrinkClicked: (CoffeeDrinkModel) -> Unit,
-    onFavouriteStateChanged: (CoffeeDrinkModel) -> Unit
+    coffeeDrinks: ModelList<CoffeeDrinkItem>,
+    onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit,
+    onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     AdapterList(
         data = coffeeDrinks

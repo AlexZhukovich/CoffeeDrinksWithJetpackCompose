@@ -1,7 +1,6 @@
 package com.alexzh.jetpackcomposeworkshop.ui
 
 import androidx.compose.Model
-import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinkModel
 
 @Model
 object AppState {
@@ -10,7 +9,7 @@ object AppState {
 
 sealed class Screen {
     object CoffeeDrinks : Screen()
-    data class CoffeeDrinkDetails(val coffeeDrink: CoffeeDrinkModel) : Screen()
+    data class CoffeeDrinkDetails(val coffeeDrinkId: Long) : Screen()
     object OrderCoffeeDrinks : Screen()
 }
 
