@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='JetpackComposeWorkshop'
+rootProject.name='CoffeeDrinksWithJetpackCompose'
