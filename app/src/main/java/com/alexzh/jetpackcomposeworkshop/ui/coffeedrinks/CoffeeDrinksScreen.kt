@@ -15,11 +15,11 @@ import androidx.ui.res.imageResource
 import androidx.ui.text.TextStyle
 import androidx.ui.tooling.preview.Preview
 import com.alexzh.jetpackcomposeworkshop.R
-import com.alexzh.jetpackcomposeworkshop.data.RuntimeCoffeeDrinkRepository
+import com.alexzh.jetpackcomposeworkshop.data.CoffeeDrinkRepository
 import com.alexzh.jetpackcomposeworkshop.ui.Screen
-import com.alexzh.jetpackcomposeworkshop.ui.mapper.CoffeeDrinkMapper
-import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinkModel
-import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinksModel
+import com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks.mapper.CoffeeDrinkItemMapper
+import com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks.model.CoffeeDrinkItem
+import com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks.model.CoffeeDrinksModel
 import com.alexzh.jetpackcomposeworkshop.ui.navigateTo
 
 private var coffeeDrinks = CoffeeDrinksModel.coffeeDrinks
@@ -32,12 +32,14 @@ data class Status(
 val status = Status(false)
 
 @Composable
-fun CoffeeDrinksScreen() {
-    val mapper = CoffeeDrinkMapper()
-
-    RuntimeCoffeeDrinkRepository().getCoffeeDrinks().forEach {
-        coffeeDrinks.add(mapper.map(it))
-    }
+fun CoffeeDrinksScreen(
+    repository: CoffeeDrinkRepository,
+    mapper: CoffeeDrinkItemMapper
+) {
+    coffeeDrinks.clear()
+    coffeeDrinks.addAll(
+        repository.getCoffeeDrinks().map { mapper.map(it) }
+    )
 
     Column {
         CoffeeDrinkAppBar(status)
@@ -46,7 +48,7 @@ fun CoffeeDrinksScreen() {
                 status = status,
                 coffeeDrinks = coffeeDrinks,
                 onCoffeeDrinkClicked = { onCoffeeDrinkClicked(it) },
-                onFavouriteStateChanged = { onCoffeeFavouriteStateChanged(it) }
+                onFavouriteStateChanged = { onCoffeeFavouriteStateChanged(repository, it) }
             )
         }
     }
@@ -86,11 +88,19 @@ fun DefaultPreview() {
     }
 }
 
-private fun onCoffeeFavouriteStateChanged(coffee: CoffeeDrinkModel) {
+private fun onCoffeeFavouriteStateChanged(repository: CoffeeDrinkRepository, coffee: CoffeeDrinkItem) {
+    val newFavouriteState = !coffee.isFavourite
+
     val index = coffeeDrinks.indexOf(coffee)
-    coffeeDrinks[index].isFavourite = !coffee.isFavourite
+    coffeeDrinks[index].isFavourite = newFavouriteState
+
+    repository.getCoffeeDrink(coffee.id)?.copy(isFavourite = newFavouriteState)?.let {
+        repository.updateCoffeeDrink(
+            it
+        )
+    }
 }
 
-private fun onCoffeeDrinkClicked(coffee: CoffeeDrinkModel) {
-    navigateTo(Screen.CoffeeDrinkDetails(coffee))
+private fun onCoffeeDrinkClicked(coffee: CoffeeDrinkItem) {
+    navigateTo(Screen.CoffeeDrinkDetails(coffee.id))
 }

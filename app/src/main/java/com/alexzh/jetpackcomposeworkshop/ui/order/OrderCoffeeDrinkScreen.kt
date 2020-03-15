@@ -1,8 +1,6 @@
 package com.alexzh.jetpackcomposeworkshop.ui.order
 
-import androidx.annotation.DrawableRes
 import androidx.compose.Composable
-import androidx.compose.Model
 import androidx.compose.frames.ModelList
 import androidx.ui.core.Alignment
 import androidx.ui.core.Text
@@ -23,34 +21,32 @@ import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import androidx.ui.unit.sp
 import com.alexzh.jetpackcomposeworkshop.R
+import com.alexzh.jetpackcomposeworkshop.data.CoffeeDrinkRepository
+import com.alexzh.jetpackcomposeworkshop.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.jetpackcomposeworkshop.ui.Screen
 import com.alexzh.jetpackcomposeworkshop.ui.navigateTo
+import com.alexzh.jetpackcomposeworkshop.ui.order.mapper.OrderCoffeeDrinkMapper
+import com.alexzh.jetpackcomposeworkshop.ui.order.model.OrderCoffeeDrink
+import com.alexzh.jetpackcomposeworkshop.ui.order.model.OrderCoffeeDrinkData
 
-private val coffeeDrinks = ModelList<OrderCoffeeDrink>().apply {
-    addAll(
-        listOf(
-            OrderCoffeeDrink("Americano", R.drawable.americano_small, "150 ml", 7.0, 0),
-            OrderCoffeeDrink("Cappuccino", R.drawable.cappuccino_small, "250 ml", 6.0, 0),
-            OrderCoffeeDrink("Espresso", R.drawable.espresso_small, "200 ml", 5.0, 0),
-            OrderCoffeeDrink("Espresso Macchiato", R.drawable.espresso_macchiato_small, "300 ml", 8.0, 0),
-            OrderCoffeeDrink("Frappino", R.drawable.frappino_small, "400 ml", 8.0, 0),
-            OrderCoffeeDrink("Iced Mocha", R.drawable.iced_mocha_small, "400 ml", 9.0, 0),
-            OrderCoffeeDrink("Irish coffee", R.drawable.irish_coffee_small, "250 ml", 11.0, 0),
-            OrderCoffeeDrink("Latte", R.drawable.latte_small, "300 ml", 6.0, 0),
-            OrderCoffeeDrink("Latte Macchiato", R.drawable.latte_macchiato_small, "300 ml", 7.0, 0)
-        )
-    )
-}
+private val coffeeDrinks = ModelList<OrderCoffeeDrink>()
 
 @Preview
 @Composable
 fun cardPreview() {
-    OrderCoffeeDrinkScreen()
+    val repository = RuntimeCoffeeDrinkRepository
+    val mapper = OrderCoffeeDrinkMapper()
+    OrderCoffeeDrinkScreen(repository, mapper)
 }
 
 @Composable
-fun OrderCoffeeDrinkScreen() {
+fun OrderCoffeeDrinkScreen(
+    repository: CoffeeDrinkRepository,
+    mapper: OrderCoffeeDrinkMapper
+) {
+    coffeeDrinks.addAll((repository.getCoffeeDrinks().map { mapper.map(it) }))
     val coffeeDrinkOrder = OrderCoffeeDrinkData(coffeeDrinks)
+
     Column {
         TopAppBar(
             title = { Text(text = "Order coffee drinks", style = TextStyle(color = Color.White)) },
@@ -202,23 +198,4 @@ private fun removeCoffeeDrink(orderCoffeeDrink: OrderCoffeeDrink) {
     if (orderCoffeeDrink.count > 0) {
         orderCoffeeDrink.count--
     }
-}
-
-@Model
-data class OrderCoffeeDrink(
-    val name: String,
-    @DrawableRes val imageRes: Int,
-    val description: String,
-    val price: Double,
-    var count: Int = 0
-)
-
-@Model
-data class OrderCoffeeDrinkData(
-    val orderCoffeeDrinks: ModelList<OrderCoffeeDrink>
-) {
-    val totalPrice: Double = orderCoffeeDrinks.asSequence()
-            .filter { it.count != 0 }
-            .map { it.count * it.price }
-            .sum()
 }

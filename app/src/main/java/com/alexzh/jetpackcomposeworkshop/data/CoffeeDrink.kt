@@ -9,5 +9,7 @@ data class CoffeeDrink(
     @DrawableRes val backgroundImage: Int,
     val description: String,
     val ingredients: String,
-    val isFavourite: Boolean
+    val orderDescription: String,
+    val price: Double,
+    var isFavourite: Boolean
 )

@@ -22,22 +22,35 @@ import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import androidx.ui.unit.sp
 import com.alexzh.jetpackcomposeworkshop.R
+import com.alexzh.jetpackcomposeworkshop.data.CoffeeDrinkRepository
 import com.alexzh.jetpackcomposeworkshop.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.jetpackcomposeworkshop.ui.Screen
-import com.alexzh.jetpackcomposeworkshop.ui.mapper.CoffeeDrinkMapper
-import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinkModel
+import com.alexzh.jetpackcomposeworkshop.ui.coffeedetails.mapper.CoffeeDrinkDetailMapper
+import com.alexzh.jetpackcomposeworkshop.ui.coffeedetails.model.CoffeeDrinkDetail
 import com.alexzh.jetpackcomposeworkshop.ui.navigateTo
 
 @Preview
 @Composable
 fun previewScreen() {
-    val coffeeDrink = RuntimeCoffeeDrinkRepository().getCoffeeDrinks().first()
-    val mapper = CoffeeDrinkMapper()
-    CoffeeDrinkDetailsScreen(mapper.map(coffeeDrink))
+    val coffeeDrinkId = 1L
+    val repository = RuntimeCoffeeDrinkRepository
+    val mapper = CoffeeDrinkDetailMapper()
+    CoffeeDrinkDetailsScreen(repository, mapper, coffeeDrinkId)
 }
 
 @Composable
-fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
+fun CoffeeDrinkDetailsScreen(
+    repository: CoffeeDrinkRepository,
+    mapper: CoffeeDrinkDetailMapper,
+    coffeeDrinkId: Long
+) {
+    val coffeeDrink = mapper.map(repository.getCoffeeDrink(coffeeDrinkId))
+
+    if (coffeeDrink == null) {
+        navigateTo(Screen.CoffeeDrinks)
+        return
+    }
+
     Column {
         Stack(
             modifier = LayoutHeight(240.dp) + LayoutWidth.Fill
@@ -98,7 +111,9 @@ fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
                 ),
                 shape = CircleShape,
                 color = Color(0xFF663E34),
-                onClick = { coffeeDrink.isFavourite = !coffeeDrink.isFavourite }
+                onClick = {
+                    onFavouriteStateChanged(repository, coffeeDrink)
+                }
             )
         }
 
@@ -111,5 +126,17 @@ fun CoffeeDrinkDetailsScreen(coffeeDrink: CoffeeDrinkModel) {
                 Text(text = coffeeDrink.ingredients, style = TextStyle(fontSize = 18.sp))
             }
         }
+    }
+}
+
+private fun onFavouriteStateChanged(
+    repository: CoffeeDrinkRepository,
+    coffeeDrink: CoffeeDrinkDetail
+) {
+    val newFavouriteState = !coffeeDrink.isFavourite
+    coffeeDrink.isFavourite = newFavouriteState
+
+    repository.getCoffeeDrink(coffeeDrink.id)?.copy(isFavourite = newFavouriteState)?.let {
+        repository.updateCoffeeDrink(it)
     }
 }

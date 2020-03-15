@@ -26,14 +26,16 @@ import androidx.ui.unit.sp
 import com.alexzh.jetpackcomposeworkshop.R
 import com.alexzh.jetpackcomposeworkshop.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.jetpackcomposeworkshop.ui.components.Favourite
-import com.alexzh.jetpackcomposeworkshop.ui.mapper.CoffeeDrinkMapper
-import com.alexzh.jetpackcomposeworkshop.ui.model.CoffeeDrinkModel
+import com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks.mapper.CoffeeDrinkItemMapper
+import com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks.model.CoffeeDrinkItem
+
+private val repository = RuntimeCoffeeDrinkRepository
 
 @Preview
 @Composable
 fun previewListCard() {
     CoffeeDrinkListCard(
-        coffeeDrink = CoffeeDrinkMapper().map(RuntimeCoffeeDrinkRepository().getCoffeeDrinks()[2]),
+        coffeeDrink = CoffeeDrinkItemMapper().map(repository.getCoffeeDrinks()[2]),
         onFavouriteStateChanged = {}
     )
 }
@@ -42,15 +44,15 @@ fun previewListCard() {
 @Composable
 fun previewGridCard() {
     CoffeeDrinkGridCard(
-        coffeeDrink = CoffeeDrinkMapper().map(RuntimeCoffeeDrinkRepository().getCoffeeDrinks()[2]),
+        coffeeDrink = CoffeeDrinkItemMapper().map(repository.getCoffeeDrinks()[2]),
         onFavouriteStateChanged = {}
     )
 }
 
 @Composable
 fun CoffeeDrinkListCard(
-    coffeeDrink: CoffeeDrinkModel,
-    onFavouriteStateChanged: (CoffeeDrinkModel) -> Unit
+    coffeeDrink: CoffeeDrinkItem,
+    onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     MaterialTheme {
         Column {
@@ -71,17 +73,13 @@ fun CoffeeDrinkListCard(
                 )
             }
         }
-        CoffeeDrinkDescription(
-            description = coffeeDrink.description,
-            show = coffeeDrink.isExtended
-        )
     }
 }
 
 @Composable
 fun CoffeeDrinkGridCard(
-    coffeeDrink: CoffeeDrinkModel,
-    onFavouriteStateChanged: (CoffeeDrinkModel) -> Unit
+    coffeeDrink: CoffeeDrinkItem,
+    onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     MaterialTheme {
         Surface(color = Color.White, shape = RoundedCornerShape(8.dp), elevation = 1.dp) {
@@ -230,14 +228,4 @@ fun CoffeeDrinkIngredient(ingredients: String) {
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
-}
-
-@Composable
-fun CoffeeDrinkDescription(description: String, show: Boolean) {
-    if (show) {
-        Text(
-            text = description,
-            modifier = LayoutPadding(start = 88.dp, end = 8.dp, bottom = 8.dp)
-        )
-    }
 }
