@@ -3,8 +3,8 @@ package com.alexzh.jetpackcomposeworkshop.ui.coffeedrinks
 import androidx.compose.Composable
 import androidx.compose.frames.ModelList
 import androidx.ui.core.Opacity
+import androidx.ui.foundation.AdapterList
 import androidx.ui.foundation.Clickable
-import androidx.ui.foundation.VerticalScroller
 import androidx.ui.graphics.Color
 import androidx.ui.layout.Column
 import androidx.ui.layout.Container
@@ -21,33 +21,29 @@ fun CoffeeDrinkList(
     onCoffeeDrinkClicked: (CoffeeDrinkModel) -> Unit,
     onFavouriteStateChanged: (CoffeeDrinkModel) -> Unit
 ) {
-    VerticalScroller {
-        Column {
-            for (coffee in coffeeDrinks) {
-                Ripple(bounded = true) {
-                    Clickable(onClick = { onCoffeeDrinkClicked(coffee) }) {
-                        Container {
-                            Column {
-                                if (status.isExtendedListItem) {
-                                    Container(modifier = LayoutPadding(8.dp)) {
-                                        CoffeeDrinkGridCard(
-                                            coffeeDrink = coffee,
-                                            onFavouriteStateChanged = {
-                                                onFavouriteStateChanged(
-                                                    it
-                                                )
-                                            }
-                                        )
-                                    }
-                                } else {
-                                    CoffeeDrinkListCard(
-                                        coffeeDrink = coffee,
-                                        onFavouriteStateChanged = { onFavouriteStateChanged(it) }
+    AdapterList(
+        data = coffeeDrinks
+    ) { coffeeDrink ->
+        Ripple(bounded = true) {
+            Clickable(onClick = { onCoffeeDrinkClicked(coffeeDrink) }) {
+                Column {
+                    if (status.isExtendedListItem) {
+                        Container(modifier = LayoutPadding(8.dp)) {
+                            CoffeeDrinkGridCard(
+                                coffeeDrink = coffeeDrink,
+                                onFavouriteStateChanged = {
+                                    onFavouriteStateChanged(
+                                        it
                                     )
-                                    CoffeeDrinkDivider()
                                 }
-                            }
+                            )
                         }
+                    } else {
+                        CoffeeDrinkListCard(
+                            coffeeDrink = coffeeDrink,
+                            onFavouriteStateChanged = { onFavouriteStateChanged(it) }
+                        )
+                        CoffeeDrinkDivider()
                     }
                 }
             }

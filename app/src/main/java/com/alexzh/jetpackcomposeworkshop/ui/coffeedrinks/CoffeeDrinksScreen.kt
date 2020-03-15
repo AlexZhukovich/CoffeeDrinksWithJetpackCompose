@@ -7,6 +7,7 @@ import androidx.ui.foundation.Icon
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.Column
+import androidx.ui.layout.Container
 import androidx.ui.material.IconButton
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.TopAppBar
@@ -40,12 +41,14 @@ fun CoffeeDrinksScreen() {
 
     Column {
         CoffeeDrinkAppBar(status)
-        CoffeeDrinkList(
-            status = status,
-            coffeeDrinks = coffeeDrinks,
-            onCoffeeDrinkClicked = { onCoffeeDrinkClicked(it) },
-            onFavouriteStateChanged = { onCoffeeFavouriteStateChanged(it) }
-        )
+        Container {
+            CoffeeDrinkList(
+                status = status,
+                coffeeDrinks = coffeeDrinks,
+                onCoffeeDrinkClicked = { onCoffeeDrinkClicked(it) },
+                onFavouriteStateChanged = { onCoffeeFavouriteStateChanged(it) }
+            )
+        }
     }
 }
 

@@ -17,7 +17,6 @@ import androidx.ui.material.IconButton
 import androidx.ui.material.TopAppBar
 import androidx.ui.material.surface.Surface
 import androidx.ui.res.imageResource
-import androidx.ui.res.loadImageResource
 import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextAlign
 import androidx.ui.tooling.preview.Preview
@@ -31,8 +30,8 @@ private val coffeeDrinks = ModelList<OrderCoffeeDrink>().apply {
     addAll(
         listOf(
             OrderCoffeeDrink("Americano", R.drawable.americano_small, "150 ml", 7.0, 0),
-            OrderCoffeeDrink("Cappuccino", R.drawable.cappuccino_small, "250 ml", 6.0, 1),
-            OrderCoffeeDrink("Espresso", R.drawable.espresso_small, "200 ml", 5.0, 1),
+            OrderCoffeeDrink("Cappuccino", R.drawable.cappuccino_small, "250 ml", 6.0, 0),
+            OrderCoffeeDrink("Espresso", R.drawable.espresso_small, "200 ml", 5.0, 0),
             OrderCoffeeDrink("Espresso Macchiato", R.drawable.espresso_macchiato_small, "300 ml", 8.0, 0),
             OrderCoffeeDrink("Frappino", R.drawable.frappino_small, "400 ml", 8.0, 0),
             OrderCoffeeDrink("Iced Mocha", R.drawable.iced_mocha_small, "400 ml", 9.0, 0),
@@ -66,15 +65,13 @@ fun OrderCoffeeDrinkScreen() {
             }
         )
         OrderSummary(coffeeDrinkOrder.totalPrice)
-        VerticalScroller {
-            Column {
-                for (coffeeDrink in coffeeDrinks) {
-                    OrderCoffeeDrinkCard(
-                        orderCoffeeDrink = coffeeDrink,
-                        onAddCoffeeDrink = { addCoffeeDrink(it) },
-                        onRemoveCoffeeDrink = { removeCoffeeDrink(it) }
-                    )
-                }
+        Container {
+            AdapterList(data = coffeeDrinks) { coffeeDrink ->
+                OrderCoffeeDrinkCard(
+                    orderCoffeeDrink = coffeeDrink,
+                    onAddCoffeeDrink = { addCoffeeDrink(it) },
+                    onRemoveCoffeeDrink = { removeCoffeeDrink(it) }
+                )
             }
         }
     }
@@ -126,11 +123,9 @@ fun OrderCoffeeDrinkCard(
 @Composable
 private fun Logo(orderCoffeeDrink: OrderCoffeeDrink) {
     Container(modifier = LayoutSize(64.dp)) {
-        loadImageResource(id = orderCoffeeDrink.imageRes).resource.resource?.let {
-            Box(
-                modifier = LayoutHeight.Fill + LayoutWidth.Fill + ImagePainter(it).toModifier()
-            )
-        }
+        Box(
+            modifier = ImagePainter(imageResource(id = orderCoffeeDrink.imageRes)).toModifier()
+        )
     }
 }
 
