@@ -1,4 +1,4 @@
-package com.alexzh.coffeedrinks.ui.components
+package com.alexzh.coffeedrinks.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable

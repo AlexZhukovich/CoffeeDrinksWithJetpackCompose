@@ -1,4 +1,4 @@
-package com.alexzh.coffeedrinks.ui.order
+package com.alexzh.coffeedrinks.ui.screen.order
 
 import androidx.compose.Composable
 import androidx.compose.frames.ModelList
@@ -25,9 +25,9 @@ import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.Screen
 import com.alexzh.coffeedrinks.ui.navigateTo
-import com.alexzh.coffeedrinks.ui.order.mapper.OrderCoffeeDrinkMapper
-import com.alexzh.coffeedrinks.ui.order.model.OrderCoffeeDrink
-import com.alexzh.coffeedrinks.ui.order.model.OrderCoffeeDrinkData
+import com.alexzh.coffeedrinks.ui.screen.order.mapper.OrderCoffeeDrinkMapper
+import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrink
+import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrinkData
 
 private val coffeeDrinks = ModelList<OrderCoffeeDrink>()
 

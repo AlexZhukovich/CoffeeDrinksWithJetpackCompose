@@ -1,8 +1,7 @@
-package com.alexzh.coffeedrinks.ui.coffeedrinks.model
+package com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model
 
 import androidx.compose.Model
 import androidx.compose.frames.ModelList
-import com.alexzh.coffeedrinks.ui.coffeedrinks.model.CoffeeDrinkItem
 
 @Model
 object CoffeeDrinksModel {

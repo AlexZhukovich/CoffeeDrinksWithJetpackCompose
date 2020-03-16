@@ -1,4 +1,4 @@
-package com.alexzh.coffeedrinks.ui.coffeedrinks
+package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.compose.Composable
 import androidx.compose.frames.ModelList
@@ -12,7 +12,7 @@ import androidx.ui.layout.LayoutPadding
 import androidx.ui.material.Divider
 import androidx.ui.material.ripple.Ripple
 import androidx.ui.unit.dp
-import com.alexzh.coffeedrinks.ui.coffeedrinks.model.CoffeeDrinkItem
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 
 @Composable
 fun CoffeeDrinkList(

@@ -1,4 +1,4 @@
-package com.alexzh.coffeedrinks.ui.coffeedrinks
+package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable
@@ -25,9 +25,9 @@ import androidx.ui.unit.dp
 import androidx.ui.unit.sp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
-import com.alexzh.coffeedrinks.ui.components.Favourite
-import com.alexzh.coffeedrinks.ui.coffeedrinks.mapper.CoffeeDrinkItemMapper
-import com.alexzh.coffeedrinks.ui.coffeedrinks.model.CoffeeDrinkItem
+import com.alexzh.coffeedrinks.ui.component.Favourite
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 
 private val repository = RuntimeCoffeeDrinkRepository
 

@@ -7,12 +7,12 @@ import androidx.ui.animation.Crossfade
 import androidx.ui.core.setContent
 import androidx.ui.material.MaterialTheme
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
-import com.alexzh.coffeedrinks.ui.coffeedetails.CoffeeDrinkDetailsScreen
-import com.alexzh.coffeedrinks.ui.coffeedetails.mapper.CoffeeDrinkDetailMapper
-import com.alexzh.coffeedrinks.ui.coffeedrinks.CoffeeDrinksScreen
-import com.alexzh.coffeedrinks.ui.coffeedrinks.mapper.CoffeeDrinkItemMapper
-import com.alexzh.coffeedrinks.ui.order.OrderCoffeeDrinkScreen
-import com.alexzh.coffeedrinks.ui.order.mapper.OrderCoffeeDrinkMapper
+import com.alexzh.coffeedrinks.ui.screen.coffeedetails.CoffeeDrinkDetailsScreen
+import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksScreen
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
+import com.alexzh.coffeedrinks.ui.screen.order.OrderCoffeeDrinkScreen
+import com.alexzh.coffeedrinks.ui.screen.order.mapper.OrderCoffeeDrinkMapper
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
