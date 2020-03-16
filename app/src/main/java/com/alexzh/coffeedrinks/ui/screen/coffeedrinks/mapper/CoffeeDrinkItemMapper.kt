@@ -1,7 +1,7 @@
-package com.alexzh.coffeedrinks.ui.coffeedrinks.mapper
+package com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper
 
 import com.alexzh.coffeedrinks.data.CoffeeDrink
-import com.alexzh.coffeedrinks.ui.coffeedrinks.model.CoffeeDrinkItem
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 
 class CoffeeDrinkItemMapper {
 

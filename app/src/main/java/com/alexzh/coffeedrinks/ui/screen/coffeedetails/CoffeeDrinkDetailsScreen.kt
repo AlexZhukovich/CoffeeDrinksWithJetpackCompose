@@ -1,4 +1,4 @@
-package com.alexzh.coffeedrinks.ui.coffeedetails
+package com.alexzh.coffeedrinks.ui.screen.coffeedetails
 
 import androidx.compose.Composable
 import androidx.ui.core.Alignment
@@ -25,8 +25,8 @@ import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.Screen
-import com.alexzh.coffeedrinks.ui.coffeedetails.mapper.CoffeeDrinkDetailMapper
-import com.alexzh.coffeedrinks.ui.coffeedetails.model.CoffeeDrinkDetail
+import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
+import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetail
 import com.alexzh.coffeedrinks.ui.navigateTo
 
 @Preview

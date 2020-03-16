@@ -1,7 +1,7 @@
-package com.alexzh.coffeedrinks.ui.order.mapper
+package com.alexzh.coffeedrinks.ui.screen.order.mapper
 
 import com.alexzh.coffeedrinks.data.CoffeeDrink
-import com.alexzh.coffeedrinks.ui.order.model.OrderCoffeeDrink
+import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrink
 
 class OrderCoffeeDrinkMapper {
 

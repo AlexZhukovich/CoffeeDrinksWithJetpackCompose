@@ -1,9 +1,9 @@
-package com.alexzh.coffeedrinks.ui.coffeedrinks.model
+package com.alexzh.coffeedrinks.ui.screen.coffeedetails.model
 
 import androidx.compose.Model
 
 @Model
-data class CoffeeDrinkItem(
+data class CoffeeDrinkDetail(
     val id: Long,
     val name: String,
     val imageUrl: Int,

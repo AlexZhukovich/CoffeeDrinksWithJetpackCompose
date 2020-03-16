@@ -1,4 +1,4 @@
-package com.alexzh.coffeedrinks.ui.order.model
+package com.alexzh.coffeedrinks.ui.screen.order.model
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Model

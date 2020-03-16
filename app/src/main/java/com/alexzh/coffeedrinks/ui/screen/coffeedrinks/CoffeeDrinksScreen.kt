@@ -1,4 +1,4 @@
-package com.alexzh.coffeedrinks.ui.coffeedrinks
+package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.compose.Composable
 import androidx.compose.Model
@@ -17,9 +17,9 @@ import androidx.ui.tooling.preview.Preview
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.Screen
-import com.alexzh.coffeedrinks.ui.coffeedrinks.mapper.CoffeeDrinkItemMapper
-import com.alexzh.coffeedrinks.ui.coffeedrinks.model.CoffeeDrinkItem
-import com.alexzh.coffeedrinks.ui.coffeedrinks.model.CoffeeDrinksModel
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinksModel
 import com.alexzh.coffeedrinks.ui.navigateTo
 
 private var coffeeDrinks = CoffeeDrinksModel.coffeeDrinks
