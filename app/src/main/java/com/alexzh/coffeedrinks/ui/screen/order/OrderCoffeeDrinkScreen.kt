@@ -48,22 +48,13 @@ fun OrderCoffeeDrinkScreen(
     val coffeeDrinkOrder = OrderCoffeeDrinkData(coffeeDrinks)
 
     Column {
-        TopAppBar(
-            title = { Text(text = "Order coffee drinks", style = TextStyle(color = Color.White)) },
-            color = Color(0xFF855446),
-            navigationIcon = {
-                IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
-                    Icon(
-                        icon = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white)),
-                        tint = Color.White
-                    )
-                }
-            }
-        )
+        AppBar(title = "Order coffee drinks") {
+            navigateTo(Screen.CoffeeDrinks)
+        }
         OrderSummary(coffeeDrinkOrder.totalPrice)
         Container {
             AdapterList(data = coffeeDrinks) { coffeeDrink ->
-                OrderCoffeeDrinkCard(
+                OrderCoffeeDrinkItem(
                     orderCoffeeDrink = coffeeDrink,
                     onAddCoffeeDrink = { addCoffeeDrink(it) },
                     onRemoveCoffeeDrink = { removeCoffeeDrink(it) }
@@ -74,7 +65,26 @@ fun OrderCoffeeDrinkScreen(
 }
 
 @Composable
-fun OrderCoffeeDrinkCard(
+private fun AppBar(
+    title: String,
+    onBackClick: () -> Unit
+) {
+    TopAppBar(
+        title = { Text(text = title, style = TextStyle(color = Color.White)) },
+        color = Color(0xFF855446),
+        navigationIcon = {
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    icon = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white)),
+                    tint = Color.White
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun OrderCoffeeDrinkItem(
     orderCoffeeDrink: OrderCoffeeDrink,
     onAddCoffeeDrink: (OrderCoffeeDrink) -> Unit,
     onRemoveCoffeeDrink: (OrderCoffeeDrink) -> Unit
@@ -126,7 +136,7 @@ private fun Logo(orderCoffeeDrink: OrderCoffeeDrink) {
 }
 
 @Composable
-fun Counter(
+private fun Counter(
     orderCoffeeDrink: OrderCoffeeDrink,
     onAddCoffeeDrink: (OrderCoffeeDrink) -> Unit,
     onRemoveCoffeeDrink: (OrderCoffeeDrink) -> Unit
@@ -172,7 +182,7 @@ fun Counter(
 }
 
 @Composable
-fun OrderSummary(totalPrice: Double) {
+private fun OrderSummary(totalPrice: Double) {
     Surface(color = Color(0xFF855446)) {
         Row(modifier = LayoutPadding(16.dp)) {
             Text(
