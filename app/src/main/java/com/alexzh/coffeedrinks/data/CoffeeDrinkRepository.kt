@@ -1,7 +1,5 @@
 package com.alexzh.coffeedrinks.data
 
-import com.alexzh.coffeedrinks.data.CoffeeDrink
-
 interface CoffeeDrinkRepository {
 
     fun getCoffeeDrinks(): List<CoffeeDrink>

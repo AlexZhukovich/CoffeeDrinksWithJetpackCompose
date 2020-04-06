@@ -2,21 +2,21 @@ package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable
-import androidx.ui.core.Alignment
-import androidx.ui.core.Text
-import androidx.ui.core.toModifier
+import androidx.ui.core.Modifier
+import androidx.ui.core.paint
 import androidx.ui.foundation.Border
 import androidx.ui.foundation.Box
+import androidx.ui.foundation.ContentGravity
+import androidx.ui.foundation.Text
 import androidx.ui.foundation.shape.corner.CircleShape
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ColorPainter
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
-import androidx.ui.material.Button
 import androidx.ui.material.MaterialTheme
-import androidx.ui.material.ripple.Ripple
-import androidx.ui.material.surface.Surface
+import androidx.ui.material.Surface
+import androidx.ui.res.imageResource
 import androidx.ui.res.loadImageResource
 import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextOverflow
@@ -58,9 +58,9 @@ fun CoffeeDrinkListCard(
         Column {
             Row {
                 CoffeeDrinkLogo(id = coffeeDrink.imageUrl)
-                Container(
-                    alignment = Alignment.TopStart,
-                    modifier = LayoutFlexible(1f)
+                Box(
+                    modifier = Modifier.weight(1f),
+                    gravity = ContentGravity.TopStart
                 ) {
                     Column {
                         CoffeeDrinkTitle(title = coffeeDrink.name)
@@ -84,36 +84,32 @@ fun CoffeeDrinkGridCard(
     MaterialTheme {
         Surface(color = Color.White, shape = RoundedCornerShape(8.dp), elevation = 1.dp) {
             Stack(
-                modifier = LayoutHeight(260.dp) + LayoutWidth.Fill
+                modifier = Modifier.preferredHeight(260.dp) + Modifier.fillMaxWidth()
             ) {
                 // background
-                Container(
-                    modifier = LayoutHeight(160.dp) + LayoutWidth.Fill
+                Box(
+                    modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth()
                 ) {
                     Box(
-                        modifier = LayoutHeight.Fill + LayoutWidth.Fill + ColorPainter(
-                            Color(
-                                0xFF855446
-                            )
-                        ).toModifier()
+                        modifier = Modifier.fillMaxSize() + Modifier.paint(ColorPainter(Color(0xFF855446)))
                     )
                 }
 
-                Container(
-                    modifier = LayoutHeight(160.dp) + LayoutWidth.Fill,
-                    alignment = Alignment.BottomStart
+                Box(
+                    modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth(),
+                    gravity = ContentGravity.BottomStart
                 ) {
                     Text(
-                        modifier = LayoutPadding(start = 8.dp, bottom = 8.dp),
+                        modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
                         text = coffeeDrink.name,
                         style = TextStyle(color = Color.White, fontSize = 24.sp)
                     )
                 }
 
                 // favourite icon
-                Container(
-                    modifier = LayoutWidth.Fill,
-                    alignment = Alignment.TopEnd
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    gravity = ContentGravity.TopEnd
                 ) {
                     CoffeeDrinkFavouriteIcon(
                         favouriteState = coffeeDrink.isFavourite,
@@ -122,38 +118,34 @@ fun CoffeeDrinkGridCard(
                 }
 
                 // coffee drink
-                Container(
-                    modifier = LayoutHeight(140.dp) + LayoutWidth.Fill,
-                    alignment = Alignment.Center
+                Box(
+                    modifier = Modifier.preferredHeight(140.dp) + Modifier.fillMaxWidth(),
+                    gravity = ContentGravity.Center
                 ) {
                     Surface(
                         color = Color(0xBBFFFFFF),
                         border = Border(size = 1.dp, color = Color.White),
                         shape = CircleShape
                     ) {
-                        Container(
-                            modifier = LayoutSize(96.dp),
-                            alignment = Alignment.Center
+                        Box(
+                            modifier = Modifier.preferredSize(96.dp),
+                            gravity = ContentGravity.Center
                         ) {
-                            loadImageResource(coffeeDrink.imageUrl).resource.resource?.let {
-                                Box(
-                                    modifier = LayoutHeight.Fill + LayoutWidth.Fill + ImagePainter(
-                                        it
-                                    ).toModifier()
-                                )
-                            }
+                            Box(
+                                modifier = Modifier.fillMaxSize() + Modifier.paint(ImagePainter(imageResource(id = coffeeDrink.imageUrl)))
+                            )
                         }
                     }
                 }
 
-                Container(
-                    alignment = Alignment.BottomStart,
-                    modifier = LayoutWidth.Fill + LayoutHeight.Fill + LayoutPadding(
+                Box(
+                    modifier = Modifier.fillMaxSize() + Modifier.padding(
                         start = 8.dp,
                         end = 8.dp,
                         top = 8.dp,
                         bottom = 36.dp
-                    )
+                    ),
+                    gravity = ContentGravity.BottomStart
                 ) {
                     Text(
                         text = coffeeDrink.description,
@@ -163,17 +155,17 @@ fun CoffeeDrinkGridCard(
                     )
                 }
 
-                Container(
-                    alignment = Alignment.BottomEnd,
-                    modifier = LayoutWidth.Fill + LayoutHeight.Fill
-                ) {
-                    Button(
-                        backgroundColor = Color.Transparent,
-                        elevation = 0.dp
-                    ) {
-                        Text(text = "Read more", style = TextStyle(Color.Blue))
-                    }
-                }
+//                Container(
+//                    alignment = Alignment.BottomEnd,
+//                    modifier = LayoutWidth.Fill + LayoutHeight.Fill
+//                ) {
+//                    Button(
+//                        backgroundColor = Color.Transparent,
+//                        elevation = 0.dp
+//                    ) {
+//                        Text(text = "Read more", style = TextStyle(Color.Blue))
+//                    }
+//                }
             }
         }
     }
@@ -181,11 +173,11 @@ fun CoffeeDrinkGridCard(
 
 @Composable
 fun CoffeeDrinkLogo(@DrawableRes id: Int) {
-    Container(modifier = LayoutSize(80.dp), alignment = Alignment.Center) {
+    Box(modifier = Modifier.preferredSize(80.dp), gravity = ContentGravity.Center) {
         val image = loadImageResource(id = id)
         image.resource.resource?.let {
             Box(
-                modifier = LayoutHeight.Fill + LayoutWidth.Fill + ImagePainter(it).toModifier()
+                modifier = Modifier.fillMaxSize() + Modifier.paint(ImagePainter(imageResource(id = id)))
             )
         }
     }
@@ -196,25 +188,20 @@ fun CoffeeDrinkFavouriteIcon(
     favouriteState: Boolean,
     onValueChanged: (Boolean) -> Unit
 ) {
-    Ripple(
-        bounded = false,
-        radius = 24.dp
-    ) {
-        Favourite(
-            state = favouriteState,
-            onValueChanged = onValueChanged,
-            favouriteVectorId = R.drawable.ic_baseline_favorite_24,
-            nonFavouriteVectorId = R.drawable.ic_baseline_favorite_border_24,
-            tint = Color.Red
-        )
-    }
+    Favourite(
+        state = favouriteState,
+        onValueChanged = onValueChanged,
+        favouriteVectorId = R.drawable.ic_baseline_favorite_24,
+        nonFavouriteVectorId = R.drawable.ic_baseline_favorite_border_24,
+        tint = Color.Red
+    )
 }
 
 @Composable
 fun CoffeeDrinkTitle(title: String) {
     Text(
         text = title,
-        modifier = LayoutPadding(8.dp),
+        modifier = Modifier.padding(8.dp),
         style = TextStyle(fontSize = 24.sp),
         maxLines = 1
     )
@@ -224,7 +211,7 @@ fun CoffeeDrinkTitle(title: String) {
 fun CoffeeDrinkIngredient(ingredients: String) {
     Text(
         text = ingredients,
-        modifier = LayoutPadding(start = 8.dp, end = 8.dp),
+        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
