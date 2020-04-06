@@ -2,10 +2,12 @@ package com.alexzh.coffeedrinks.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable
+import androidx.ui.core.Modifier
+import androidx.ui.foundation.Box
 import androidx.ui.foundation.selection.Toggleable
 import androidx.ui.graphics.Color
-import androidx.ui.layout.Container
-import androidx.ui.layout.LayoutSize
+import androidx.ui.layout.preferredSize
+import androidx.ui.material.ripple.ripple
 import androidx.ui.unit.dp
 
 @Composable
@@ -18,9 +20,10 @@ fun Favourite(
 ) {
     Toggleable(
         value = state,
-        onValueChange = onValueChanged
+        onValueChange = onValueChanged,
+        modifier = Modifier.ripple(radius = 24.dp)
     ) {
-        Container(modifier = LayoutSize(48.dp)) {
+        Box(modifier = Modifier.preferredSize(48.dp)) {
             if (state) {
                 VectorImage(
                     id = favouriteVectorId,

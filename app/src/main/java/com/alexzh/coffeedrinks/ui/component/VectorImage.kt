@@ -2,24 +2,27 @@ package com.alexzh.coffeedrinks.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable
-import androidx.ui.core.DensityAmbient
 import androidx.ui.core.Modifier
+import androidx.ui.core.paint
+import androidx.ui.foundation.Box
 import androidx.ui.graphics.Color
-import androidx.ui.graphics.vector.DrawVector
-import androidx.ui.layout.Container
-import androidx.ui.layout.LayoutSize
+import androidx.ui.graphics.ColorFilter
+import androidx.ui.graphics.vector.VectorPainter
+import androidx.ui.layout.preferredSize
 import androidx.ui.res.vectorResource
+import androidx.ui.unit.dp
 
 @Composable
 fun VectorImage(
     @DrawableRes id: Int,
-    modifier: Modifier = Modifier.None,
+    modifier: Modifier = Modifier.preferredSize(48.dp),
     tint: Color = Color.Transparent
 ) {
-    val vector = vectorResource(id)
-    DensityAmbient.current.run {
-        Container(modifier = LayoutSize(vector.defaultWidth, vector.defaultHeight) + modifier) {
-            DrawVector(vector, tint)
-        }
-    }
+    Box(
+        modifier = modifier +
+                Modifier.paint(
+                    VectorPainter(asset = vectorResource(id = id)),
+                    colorFilter = ColorFilter.tint(tint)
+                )
+    )
 }

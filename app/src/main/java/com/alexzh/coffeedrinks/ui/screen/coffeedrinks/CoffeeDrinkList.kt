@@ -2,15 +2,15 @@ package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.compose.Composable
 import androidx.compose.frames.ModelList
-import androidx.ui.core.Opacity
+import androidx.ui.core.Modifier
 import androidx.ui.foundation.AdapterList
+import androidx.ui.foundation.Box
 import androidx.ui.foundation.Clickable
 import androidx.ui.graphics.Color
 import androidx.ui.layout.Column
-import androidx.ui.layout.Container
-import androidx.ui.layout.LayoutPadding
+import androidx.ui.layout.padding
 import androidx.ui.material.Divider
-import androidx.ui.material.ripple.Ripple
+import androidx.ui.material.ripple.ripple
 import androidx.ui.unit.dp
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 
@@ -24,27 +24,27 @@ fun CoffeeDrinkList(
     AdapterList(
         data = coffeeDrinks
     ) { coffeeDrink ->
-        Ripple(bounded = true) {
-            Clickable(onClick = { onCoffeeDrinkClicked(coffeeDrink) }) {
-                Column {
-                    if (status.isExtendedListItem) {
-                        Container(modifier = LayoutPadding(8.dp)) {
-                            CoffeeDrinkGridCard(
-                                coffeeDrink = coffeeDrink,
-                                onFavouriteStateChanged = {
-                                    onFavouriteStateChanged(
-                                        it
-                                    )
-                                }
-                            )
-                        }
-                    } else {
-                        CoffeeDrinkListCard(
+        Clickable(
+                onClick = { onCoffeeDrinkClicked(coffeeDrink) },
+                modifier = Modifier.ripple(bounded = true)) {
+            Column {
+                if (status.isExtendedListItem) {
+                    Box(modifier = Modifier.padding(8.dp)) {
+                        CoffeeDrinkGridCard(
                             coffeeDrink = coffeeDrink,
-                            onFavouriteStateChanged = { onFavouriteStateChanged(it) }
+                            onFavouriteStateChanged = {
+                                onFavouriteStateChanged(
+                                    it
+                                )
+                            }
                         )
-                        CoffeeDrinkDivider()
                     }
+                } else {
+                    CoffeeDrinkListCard(
+                        coffeeDrink = coffeeDrink,
+                        onFavouriteStateChanged = { onFavouriteStateChanged(it) }
+                    )
+                    CoffeeDrinkDivider()
                 }
             }
         }
@@ -53,7 +53,5 @@ fun CoffeeDrinkList(
 
 @Composable
 private fun CoffeeDrinkDivider() {
-    Opacity(0.08f) {
-        Divider(modifier = LayoutPadding(start = 88.dp), color = Color.Black)
-    }
+    Divider(modifier = Modifier.padding(start = 88.dp), color = Color.LightGray)
 }
