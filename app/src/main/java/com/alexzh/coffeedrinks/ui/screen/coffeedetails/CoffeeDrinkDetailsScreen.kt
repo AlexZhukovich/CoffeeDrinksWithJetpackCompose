@@ -19,6 +19,8 @@ import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.Screen
+import com.alexzh.coffeedrinks.ui.appTypography
+import com.alexzh.coffeedrinks.ui.lightThemeColors
 import com.alexzh.coffeedrinks.ui.navigateTo
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetail
@@ -29,7 +31,9 @@ fun previewScreen() {
     val coffeeDrinkId = 1L
     val repository = RuntimeCoffeeDrinkRepository
     val mapper = CoffeeDrinkDetailMapper()
-    CoffeeDrinkDetailsScreen(repository, mapper, coffeeDrinkId)
+    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
+        CoffeeDrinkDetailsScreen(repository, mapper, coffeeDrinkId)
+    }
 }
 
 @Composable
@@ -52,7 +56,7 @@ fun CoffeeDrinkDetailsScreen(
                 modifier = Modifier.preferredHeight(headerHeight) + Modifier.fillMaxWidth()
             ) {
                 Box(
-                    modifier = Modifier.fillMaxSize() + Modifier.paint(ColorPainter(Color(0xFF855446)))
+                    modifier = Modifier.fillMaxSize() + Modifier.paint(ColorPainter(MaterialTheme.colors.primaryVariant))
                 )
 
                 TopAppBar(
@@ -61,17 +65,18 @@ fun CoffeeDrinkDetailsScreen(
                             text = coffeeDrink.name,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
-                            style = MaterialTheme.typography.h6.copy(color = Color.White)
+                            style = MaterialTheme.typography.h6.copy(
+                                color = MaterialTheme.colors.onPrimary
+                            )
                         )
                     },
-                    color = Color.Transparent,
+                    color = MaterialTheme.colors.primaryVariant,
                     elevation = 0.dp,
-                    contentColor = Color.White,
                     navigationIcon = {
                         IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
                             Icon(
                                 painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
-                                tint = Color.White
+                                tint = MaterialTheme.colors.onPrimary
                             )
                         }
                     }
@@ -97,7 +102,7 @@ fun CoffeeDrinkDetailsScreen(
                 FloatingActionButton(
                     modifier = Modifier.padding(top = headerHeight - 28.dp),
                     shape = CircleShape,
-                    backgroundColor = Color(0xFF663E34),
+                    backgroundColor = MaterialTheme.colors.secondary,
                     onClick = {
                         onFavouriteStateChanged(repository, coffeeDrink)
                     }
@@ -110,7 +115,7 @@ fun CoffeeDrinkDetailsScreen(
                                 R.drawable.ic_favorite_border_white
                             }
                         )),
-                        tint = Color.White
+                        tint = MaterialTheme.colors.onSecondary
                     )
                 }
             }

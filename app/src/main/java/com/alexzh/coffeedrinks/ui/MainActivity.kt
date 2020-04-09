@@ -24,15 +24,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                AppContent()
-            }
+            AppContent()
         }
     }
 
     @Composable
     fun AppContent() {
-        MaterialTheme(typography = appTypography) {
+        MaterialTheme(colors = lightThemeColors, typography = appTypography) {
             Crossfade(current = AppState.currentScreen) { screen ->
                 when (screen) {
                     is Screen.CoffeeDrinks -> CoffeeDrinksScreen(repository, coffeeDrinkItemMapper)

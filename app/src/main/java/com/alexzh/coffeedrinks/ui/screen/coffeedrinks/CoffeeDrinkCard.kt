@@ -23,7 +23,9 @@ import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
+import com.alexzh.coffeedrinks.ui.appTypography
 import com.alexzh.coffeedrinks.ui.component.Favourite
+import com.alexzh.coffeedrinks.ui.lightThemeColors
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 
@@ -32,19 +34,23 @@ private val repository = RuntimeCoffeeDrinkRepository
 @Preview
 @Composable
 fun previewListCard() {
-    CoffeeDrinkListCard(
-        coffeeDrink = CoffeeDrinkItemMapper().map(repository.getCoffeeDrinks()[2]),
-        onFavouriteStateChanged = {}
-    )
+    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
+        CoffeeDrinkListCard(
+            coffeeDrink = CoffeeDrinkItemMapper().map(repository.getCoffeeDrinks()[2]),
+            onFavouriteStateChanged = {}
+        )
+    }
 }
 
 @Preview
 @Composable
 fun previewGridCard() {
-    CoffeeDrinkGridCard(
-        coffeeDrink = CoffeeDrinkItemMapper().map(repository.getCoffeeDrinks()[2]),
-        onFavouriteStateChanged = {}
-    )
+    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
+        CoffeeDrinkGridCard(
+            coffeeDrink = CoffeeDrinkItemMapper().map(repository.getCoffeeDrinks()[2]),
+            onFavouriteStateChanged = {}
+        )
+    }
 }
 
 @Composable
@@ -52,7 +58,7 @@ fun CoffeeDrinkListCard(
     coffeeDrink: CoffeeDrinkItem,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
-    MaterialTheme {
+    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
         Column {
             Row {
                 CoffeeDrinkLogo(id = coffeeDrink.imageUrl)
@@ -79,79 +85,79 @@ fun CoffeeDrinkGridCard(
     coffeeDrink: CoffeeDrinkItem,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
-    MaterialTheme {
-        Surface(color = Color.White, shape = RoundedCornerShape(8.dp), elevation = 1.dp) {
-            Stack(
-                modifier = Modifier.preferredHeight(260.dp) + Modifier.fillMaxWidth()
+    Surface(color = MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp), elevation = 1.dp) {
+        Stack(
+            modifier = Modifier.preferredHeight(260.dp) + Modifier.fillMaxWidth()
+        ) {
+            // background
+            Box(
+                modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth()
             ) {
-                // background
                 Box(
-                    modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxSize() + Modifier.paint(ColorPainter(MaterialTheme.colors.primaryVariant))
+                )
+            }
+
+            Box(
+                modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth(),
+                gravity = ContentGravity.BottomStart
+            ) {
+                Text(
+                    modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
+                    text = coffeeDrink.name,
+                    style = MaterialTheme.typography.h5.copy(
+                        color = MaterialTheme.colors.onPrimary
+                    )
+                )
+            }
+
+            // favourite icon
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                gravity = ContentGravity.TopEnd
+            ) {
+                CoffeeDrinkFavouriteIcon(
+                    favouriteState = coffeeDrink.isFavourite,
+                    onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
+                )
+            }
+
+            // coffee drink
+            Box(
+                modifier = Modifier.preferredHeight(140.dp) + Modifier.fillMaxWidth(),
+                gravity = ContentGravity.Center
+            ) {
+                Surface(
+                    color = Color(0xBBFFFFFF),
+                    border = Border(size = 1.dp, color = MaterialTheme.colors.surface),
+                    shape = CircleShape
                 ) {
                     Box(
-                        modifier = Modifier.fillMaxSize() + Modifier.paint(ColorPainter(Color(0xFF855446)))
-                    )
-                }
-
-                Box(
-                    modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth(),
-                    gravity = ContentGravity.BottomStart
-                ) {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
-                        text = coffeeDrink.name,
-                        style = MaterialTheme.typography.h5.copy(color = Color.White)
-                    )
-                }
-
-                // favourite icon
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    gravity = ContentGravity.TopEnd
-                ) {
-                    CoffeeDrinkFavouriteIcon(
-                        favouriteState = coffeeDrink.isFavourite,
-                        onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
-                    )
-                }
-
-                // coffee drink
-                Box(
-                    modifier = Modifier.preferredHeight(140.dp) + Modifier.fillMaxWidth(),
-                    gravity = ContentGravity.Center
-                ) {
-                    Surface(
-                        color = Color(0xBBFFFFFF),
-                        border = Border(size = 1.dp, color = Color.White),
-                        shape = CircleShape
+                        modifier = Modifier.preferredSize(96.dp) + Modifier,
+                        gravity = ContentGravity.Center
                     ) {
                         Box(
-                            modifier = Modifier.preferredSize(96.dp),
-                            gravity = ContentGravity.Center
-                        ) {
-                            Box(
-                                modifier = Modifier.fillMaxSize() + Modifier.paint(ImagePainter(imageResource(id = coffeeDrink.imageUrl)))
-                            )
-                        }
+                            modifier = Modifier.fillMaxSize() + Modifier.paint(ImagePainter(imageResource(id = coffeeDrink.imageUrl)))
+                        )
                     }
                 }
+            }
 
-                Box(
-                    modifier = Modifier.fillMaxSize() + Modifier.padding(
-                        start = 8.dp,
-                        end = 8.dp,
-                        top = 8.dp,
-                        bottom = 36.dp
-                    ),
-                    gravity = ContentGravity.BottomStart
-                ) {
-                    Text(
-                        text = coffeeDrink.description,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 3,
-                        style = MaterialTheme.typography.body1
-                    )
-                }
+            Box(
+                modifier = Modifier.fillMaxSize() + Modifier.padding(
+                    start = 8.dp,
+                    end = 8.dp,
+                    top = 8.dp,
+                    bottom = 36.dp
+                ),
+                gravity = ContentGravity.BottomStart
+            ) {
+                Text(
+                    text = coffeeDrink.description,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 3,
+                    style = MaterialTheme.typography.body1
+                )
             }
         }
     }
@@ -179,7 +185,7 @@ fun CoffeeDrinkFavouriteIcon(
         onValueChanged = onValueChanged,
         favouriteVectorId = R.drawable.ic_baseline_favorite_24,
         nonFavouriteVectorId = R.drawable.ic_baseline_favorite_border_24,
-        tint = Color.Red
+        tint = MaterialTheme.colors.secondaryVariant
     )
 }
 
