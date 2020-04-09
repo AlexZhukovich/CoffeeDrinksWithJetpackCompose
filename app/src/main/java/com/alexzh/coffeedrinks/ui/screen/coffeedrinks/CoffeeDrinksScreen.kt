@@ -12,9 +12,7 @@ import androidx.ui.material.IconButton
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.TopAppBar
 import androidx.ui.res.imageResource
-import androidx.ui.text.TextStyle
 import androidx.ui.tooling.preview.Preview
-import androidx.ui.unit.sp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
@@ -59,7 +57,7 @@ fun CoffeeDrinksScreen(
 @Composable
 fun CoffeeDrinkAppBar(status: Status) {
     TopAppBar(
-        title = { Text("Coffee Drinks", style = TextStyle(color = Color.White, fontSize = 18.sp)) },
+        title = { Text("Coffee Drinks", style = MaterialTheme.typography.h6.copy(color = Color.White)) },
         color = Color(0xFF855446),
         actions = {
             IconButton(
