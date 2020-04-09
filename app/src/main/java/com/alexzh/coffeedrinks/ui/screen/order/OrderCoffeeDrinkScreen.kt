@@ -17,6 +17,8 @@ import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.Screen
+import com.alexzh.coffeedrinks.ui.appTypography
+import com.alexzh.coffeedrinks.ui.lightThemeColors
 import com.alexzh.coffeedrinks.ui.navigateTo
 import com.alexzh.coffeedrinks.ui.screen.order.mapper.OrderCoffeeDrinkMapper
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrink
@@ -29,7 +31,9 @@ private val coffeeDrinks = ModelList<OrderCoffeeDrink>()
 fun cardPreview() {
     val repository = RuntimeCoffeeDrinkRepository
     val mapper = OrderCoffeeDrinkMapper()
-    OrderCoffeeDrinkScreen(repository, mapper)
+    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
+        OrderCoffeeDrinkScreen(repository, mapper)
+    }
 }
 
 @Composable
@@ -62,13 +66,20 @@ private fun AppBar(
     onBackClick: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(text = "Order coffee drinks", style = MaterialTheme.typography.h6.copy(color = Color.White)) },
-        color = Color(0xFF855446),
+        title = {
+            Text(
+                text = "Order coffee drinks",
+                style = MaterialTheme.typography.h6.copy(
+                    color = MaterialTheme.colors.onPrimary
+                )
+            )
+        },
+        color = MaterialTheme.colors.primaryVariant,
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
                     painter = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white)),
-                    tint = Color.White
+                    tint = MaterialTheme.colors.onPrimary
                 )
             }
         }
@@ -171,18 +182,22 @@ private fun Counter(
 @Composable
 private fun OrderSummary(totalPrice: Double) {
     Surface(
-        color = Color(0xFF855446),
+        color = MaterialTheme.colors.primaryVariant,
         elevation = 4.dp
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = "Total cost",
                 modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.subtitle1.copy(color = Color.White)
+                style = MaterialTheme.typography.subtitle1.copy(
+                    color = MaterialTheme.colors.onPrimary
+                )
             )
             Text(
                 text = "€ $totalPrice",
-                style = MaterialTheme.typography.subtitle1.copy(color = Color.White)
+                style = MaterialTheme.typography.subtitle1.copy(
+                    color = MaterialTheme.colors.onPrimary
+                )
             )
         }
     }

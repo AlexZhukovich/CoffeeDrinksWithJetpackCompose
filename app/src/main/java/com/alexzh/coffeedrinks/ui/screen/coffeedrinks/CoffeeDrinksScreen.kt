@@ -17,6 +17,8 @@ import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.Screen
+import com.alexzh.coffeedrinks.ui.appTypography
+import com.alexzh.coffeedrinks.ui.lightThemeColors
 import com.alexzh.coffeedrinks.ui.navigateTo
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
@@ -57,8 +59,15 @@ fun CoffeeDrinksScreen(
 @Composable
 fun CoffeeDrinkAppBar(status: Status) {
     TopAppBar(
-        title = { Text("Coffee Drinks", style = MaterialTheme.typography.h6.copy(color = Color.White)) },
-        color = Color(0xFF855446),
+        title = {
+            Text(
+                text = "Coffee Drinks",
+                style = MaterialTheme.typography.h6.copy(
+                    color = MaterialTheme.colors.onPrimary
+                )
+            )
+        },
+        color = MaterialTheme.colors.primaryVariant,
         actions = {
             IconButton(
                 onClick = { status.isExtendedListItem = !status.isExtendedListItem }
@@ -67,13 +76,13 @@ fun CoffeeDrinkAppBar(status: Status) {
                     painter = ImagePainter(
                         imageResource(id = if (status.isExtendedListItem) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
                     ),
-                    tint = Color.White
+                    tint = MaterialTheme.colors.onPrimary
                 )
             }
             IconButton(onClick = { navigateTo(Screen.OrderCoffeeDrinks) }) {
                 Icon(
                     painter = ImagePainter(imageResource(id = R.drawable.ic_order_white)),
-                    tint = Color.White
+                    tint = MaterialTheme.colors.onPrimary
                 )
             }
         }
@@ -83,7 +92,7 @@ fun CoffeeDrinkAppBar(status: Status) {
 @Preview
 @Composable
 fun DefaultPreview() {
-    MaterialTheme {
+    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
         CoffeeDrinksScreen(
             repository = RuntimeCoffeeDrinkRepository,
             mapper = CoffeeDrinkItemMapper()
