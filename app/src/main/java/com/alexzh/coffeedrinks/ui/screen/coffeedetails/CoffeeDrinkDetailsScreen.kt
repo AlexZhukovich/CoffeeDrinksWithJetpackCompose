@@ -10,16 +10,11 @@ import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ColorPainter
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
-import androidx.ui.material.Divider
-import androidx.ui.material.FloatingActionButton
-import androidx.ui.material.IconButton
-import androidx.ui.material.TopAppBar
+import androidx.ui.material.*
 import androidx.ui.res.imageResource
-import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextOverflow
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
-import androidx.ui.unit.sp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
@@ -65,7 +60,8 @@ fun CoffeeDrinkDetailsScreen(
                         Text(
                             text = coffeeDrink.name,
                             overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
+                            maxLines = 1,
+                            style = MaterialTheme.typography.h6.copy(color = Color.White)
                         )
                     },
                     color = Color.Transparent,
@@ -129,12 +125,12 @@ fun CoffeeDrinkDetailsScreen(
                 Column {
                     Text(
                         text = coffeeDrink.description,
-                        style = TextStyle(fontSize = 18.sp)
+                        style = MaterialTheme.typography.body1
                     )
                     Divider(height = 8.dp, color = Color.Transparent)
                     Text(
                         text = coffeeDrink.ingredients,
-                        style = TextStyle(fontSize = 18.sp)
+                        style = MaterialTheme.typography.body1
                     )
                 }
             }

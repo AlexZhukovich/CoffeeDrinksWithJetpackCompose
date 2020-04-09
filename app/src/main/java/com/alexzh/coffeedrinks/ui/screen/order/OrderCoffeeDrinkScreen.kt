@@ -8,17 +8,11 @@ import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
-import androidx.ui.material.Button
-import androidx.ui.material.IconButton
-import androidx.ui.material.Surface
-import androidx.ui.material.TopAppBar
+import androidx.ui.material.*
 import androidx.ui.res.imageResource
-import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextAlign
 import androidx.ui.tooling.preview.Preview
-import androidx.ui.unit.TextUnit
 import androidx.ui.unit.dp
-import androidx.ui.unit.sp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
@@ -68,7 +62,7 @@ private fun AppBar(
     onBackClick: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(text = "Order coffee drinks", style = TextStyle(color = Color.White, fontSize = 18.sp)) },
+        title = { Text(text = "Order coffee drinks", style = MaterialTheme.typography.h6.copy(color = Color.White)) },
         color = Color(0xFF855446),
         navigationIcon = {
             IconButton(onClick = onBackClick) {
@@ -97,12 +91,12 @@ fun OrderCoffeeDrinkItem(
                 Column {
                     Text(
                         text = orderCoffeeDrink.name,
-                        style = TextStyle(fontSize = 24.sp),
+                        style = MaterialTheme.typography.h5,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
                         text = orderCoffeeDrink.description,
-                        style = TextStyle(fontSize = 14.sp)
+                        style = MaterialTheme.typography.body2
                     )
                 }
             }
@@ -111,7 +105,7 @@ fun OrderCoffeeDrinkItem(
                     Text(
                         modifier = Modifier.padding(bottom = 4.dp) + Modifier.fillMaxWidth(),
                         text = "€ ${orderCoffeeDrink.price}",
-                        style = TextStyle(fontSize = 18.sp, textAlign = TextAlign.Right)
+                        style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Right)
                     )
                     Counter(
                         orderCoffeeDrink,
@@ -154,12 +148,12 @@ private fun Counter(
                         elevation = 0.dp,
                         onClick = { onRemoveCoffeeDrink(orderCoffeeDrink) }
                     ) {
-                        Text(text = "—", style = TextStyle(fontSize = 14.sp))
+                        Text(text = "—", style = MaterialTheme.typography.body1)
                     }
                 Text(
-                    modifier = Modifier.weight(1f) + Modifier.padding(top = 6.dp, bottom = 8.dp),
+                    modifier = Modifier.weight(1f) + Modifier.padding(top = 8.dp, bottom = 8.dp),
                     text = orderCoffeeDrink.count.toString(),
-                    style = TextStyle(fontSize = 18.sp, textAlign = TextAlign.Center)
+                    style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Center)
                 )
                     Button(
                         modifier = Modifier.preferredWidth(40.dp),
@@ -167,7 +161,7 @@ private fun Counter(
                         elevation = 0.dp,
                         onClick = { onAddCoffeeDrink(orderCoffeeDrink) }
                     ) {
-                        Text(text = "＋", style = TextStyle(fontSize = 14.sp))
+                        Text(text = "＋", style = MaterialTheme.typography.body1)
                     }
             }
         }
@@ -184,11 +178,11 @@ private fun OrderSummary(totalPrice: Double) {
             Text(
                 text = "Total cost",
                 modifier = Modifier.weight(1f),
-                style = TextStyle(fontSize = 18.sp, color = Color.White)
+                style = MaterialTheme.typography.subtitle1.copy(color = Color.White)
             )
             Text(
                 text = "€ $totalPrice",
-                style = TextStyle(fontSize = 18.sp, color = Color.White)
+                style = MaterialTheme.typography.subtitle1.copy(color = Color.White)
             )
         }
     }

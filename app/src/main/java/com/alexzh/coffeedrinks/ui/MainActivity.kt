@@ -32,11 +32,13 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun AppContent() {
-        Crossfade(current = AppState.currentScreen) { screen ->
-            when (screen) {
-                is Screen.CoffeeDrinks -> CoffeeDrinksScreen(repository, coffeeDrinkItemMapper)
-                is Screen.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(repository, coffeeDrinkDetailMapper, screen.coffeeDrinkId)
-                is Screen.OrderCoffeeDrinks -> OrderCoffeeDrinkScreen(repository, orderCoffeeDrinkMapper)
+        MaterialTheme(typography = appTypography) {
+            Crossfade(current = AppState.currentScreen) { screen ->
+                when (screen) {
+                    is Screen.CoffeeDrinks -> CoffeeDrinksScreen(repository, coffeeDrinkItemMapper)
+                    is Screen.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(repository, coffeeDrinkDetailMapper, screen.coffeeDrinkId)
+                    is Screen.OrderCoffeeDrinks -> OrderCoffeeDrinkScreen(repository, orderCoffeeDrinkMapper)
+                }
             }
         }
     }

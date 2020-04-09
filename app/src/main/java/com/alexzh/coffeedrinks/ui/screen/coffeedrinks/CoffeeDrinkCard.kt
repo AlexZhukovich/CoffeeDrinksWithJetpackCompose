@@ -18,11 +18,9 @@ import androidx.ui.material.MaterialTheme
 import androidx.ui.material.Surface
 import androidx.ui.res.imageResource
 import androidx.ui.res.loadImageResource
-import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextOverflow
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
-import androidx.ui.unit.sp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.component.Favourite
@@ -102,7 +100,7 @@ fun CoffeeDrinkGridCard(
                     Text(
                         modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
                         text = coffeeDrink.name,
-                        style = TextStyle(color = Color.White, fontSize = 24.sp)
+                        style = MaterialTheme.typography.h5.copy(color = Color.White)
                     )
                 }
 
@@ -151,21 +149,9 @@ fun CoffeeDrinkGridCard(
                         text = coffeeDrink.description,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 3,
-                        style = TextStyle(color = Color.Black)
+                        style = MaterialTheme.typography.body1
                     )
                 }
-
-//                Container(
-//                    alignment = Alignment.BottomEnd,
-//                    modifier = LayoutWidth.Fill + LayoutHeight.Fill
-//                ) {
-//                    Button(
-//                        backgroundColor = Color.Transparent,
-//                        elevation = 0.dp
-//                    ) {
-//                        Text(text = "Read more", style = TextStyle(Color.Blue))
-//                    }
-//                }
             }
         }
     }
@@ -202,7 +188,7 @@ fun CoffeeDrinkTitle(title: String) {
     Text(
         text = title,
         modifier = Modifier.padding(8.dp),
-        style = TextStyle(fontSize = 24.sp),
+        style = MaterialTheme.typography.h5,
         maxLines = 1
     )
 }
@@ -213,6 +199,7 @@ fun CoffeeDrinkIngredient(ingredients: String) {
         text = ingredients,
         modifier = Modifier.padding(start = 8.dp, end = 8.dp),
         maxLines = 1,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        style = MaterialTheme.typography.body1
     )
 }
