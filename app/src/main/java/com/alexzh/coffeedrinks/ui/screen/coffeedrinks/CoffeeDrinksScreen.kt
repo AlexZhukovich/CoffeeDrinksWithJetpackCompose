@@ -67,7 +67,7 @@ fun CoffeeDrinkAppBar(status: Status) {
                 )
             )
         },
-        color = MaterialTheme.colors.primaryVariant,
+        backgroundColor = MaterialTheme.colors.primaryVariant,
         actions = {
             IconButton(
                 onClick = { status.isExtendedListItem = !status.isExtendedListItem }

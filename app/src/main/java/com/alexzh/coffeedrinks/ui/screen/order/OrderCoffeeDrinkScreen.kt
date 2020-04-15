@@ -74,7 +74,8 @@ private fun AppBar(
                 )
             )
         },
-        color = MaterialTheme.colors.primaryVariant,
+        backgroundColor = MaterialTheme.colors.primaryVariant,
+        elevation = 0.dp,
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(

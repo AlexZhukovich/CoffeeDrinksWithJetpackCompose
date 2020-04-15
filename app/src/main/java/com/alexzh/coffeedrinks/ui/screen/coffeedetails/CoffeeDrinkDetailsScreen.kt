@@ -70,7 +70,7 @@ fun CoffeeDrinkDetailsScreen(
                             )
                         )
                     },
-                    color = MaterialTheme.colors.primaryVariant,
+                    backgroundColor = MaterialTheme.colors.primaryVariant,
                     elevation = 0.dp,
                     navigationIcon = {
                         IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
@@ -132,7 +132,7 @@ fun CoffeeDrinkDetailsScreen(
                         text = coffeeDrink.description,
                         style = MaterialTheme.typography.body1
                     )
-                    Divider(height = 8.dp, color = Color.Transparent)
+                    Spacer(modifier = Modifier.preferredHeight(8.dp))
                     Text(
                         text = coffeeDrink.ingredients,
                         style = MaterialTheme.typography.body1
