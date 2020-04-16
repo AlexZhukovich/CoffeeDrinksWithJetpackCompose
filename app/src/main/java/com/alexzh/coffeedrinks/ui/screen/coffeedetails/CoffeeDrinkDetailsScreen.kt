@@ -1,18 +1,24 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedetails
 
 import androidx.compose.Composable
-import androidx.ui.core.Alignment
 import androidx.ui.core.Modifier
 import androidx.ui.core.paint
-import androidx.ui.foundation.*
+import androidx.ui.core.tag
+import androidx.ui.foundation.Box
+import androidx.ui.foundation.Icon
+import androidx.ui.foundation.Image
+import androidx.ui.foundation.Text
 import androidx.ui.foundation.shape.corner.CircleShape
-import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ColorPainter
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
-import androidx.ui.material.*
+import androidx.ui.material.FloatingActionButton
+import androidx.ui.material.IconButton
+import androidx.ui.material.MaterialTheme
+import androidx.ui.material.TopAppBar
 import androidx.ui.res.imageResource
-import androidx.ui.text.style.TextOverflow
+import androidx.ui.text.TextStyle
+import androidx.ui.text.style.TextAlign
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import com.alexzh.coffeedrinks.R
@@ -24,6 +30,14 @@ import com.alexzh.coffeedrinks.ui.lightThemeColors
 import com.alexzh.coffeedrinks.ui.navigateTo
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetail
+
+private const val HEADER_TAG = "header"
+private const val APP_BAR_TAG = "app_bar"
+private const val FAB_TAG = "fab"
+private const val DRINK_NAME_TAG = "drink_name"
+private const val DRINK_IMAGE_TAG = "drink_image"
+private const val DRINK_DESCRIPTION_TAG = "drink_description"
+private const val DRINK_INGREDIENTS_TAG = "drink_ingredients"
 
 @Preview
 @Composable
@@ -38,11 +52,10 @@ fun previewScreen() {
 
 @Composable
 fun CoffeeDrinkDetailsScreen(
-    repository: CoffeeDrinkRepository,
-    mapper: CoffeeDrinkDetailMapper,
-    coffeeDrinkId: Long
+        repository: CoffeeDrinkRepository,
+        mapper: CoffeeDrinkDetailMapper,
+        coffeeDrinkId: Long
 ) {
-    val headerHeight = 240.dp
     val coffeeDrink = mapper.map(repository.getCoffeeDrink(coffeeDrinkId))
 
     if (coffeeDrink == null) {
@@ -50,102 +63,125 @@ fun CoffeeDrinkDetailsScreen(
         return
     }
 
-    Stack {
-        Column {
-            Stack(
-                modifier = Modifier.preferredHeight(headerHeight) + Modifier.fillMaxWidth()
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize() + Modifier.paint(ColorPainter(MaterialTheme.colors.primaryVariant))
-                )
+    ConstraintLayout(
+            constraintSet = ConstraintSet {
+                val header = tag(HEADER_TAG)
+                val appBar = tag(APP_BAR_TAG)
+                val fab = tag(FAB_TAG)
+                val name = tag(DRINK_NAME_TAG)
+                val logo = tag(DRINK_IMAGE_TAG)
+                val description = tag(DRINK_DESCRIPTION_TAG)
+                val ingredients = tag(DRINK_INGREDIENTS_TAG)
 
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = coffeeDrink.name,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1,
-                            style = MaterialTheme.typography.h6.copy(
-                                color = MaterialTheme.colors.onPrimary
-                            )
-                        )
-                    },
-                    backgroundColor = MaterialTheme.colors.primaryVariant,
-                    elevation = 0.dp,
-                    navigationIcon = {
-                        IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
-                            Icon(
+                appBar.apply {
+                    top constrainTo parent.top
+                    left constrainTo parent.left
+                    right constrainTo parent.right
+                }
+
+                logo.apply {
+                    top constrainTo parent.top
+                    bottom constrainTo header.bottom
+                    left constrainTo parent.left
+                    right constrainTo parent.right
+                }
+
+                name.apply {
+                    top constrainTo header.bottom
+                }
+
+                description.apply {
+                    top constrainTo name.bottom
+                    left constrainTo parent.left
+                    right constrainTo parent.right
+                }
+
+                ingredients.apply {
+                    top constrainTo description.bottom
+                    left constrainTo parent.left
+                    right constrainTo parent.right
+                }
+
+                fab.apply {
+                    top constrainTo header.bottom
+                    bottom constrainTo header.bottom
+                    right constrainTo parent.right
+                }
+            }) {
+        Box(
+                modifier = Modifier.tag(HEADER_TAG) +
+                        Modifier.fillMaxWidth() +
+                        Modifier.preferredHeight(220.dp) +
+                        Modifier.paint(ColorPainter(MaterialTheme.colors.primaryVariant))
+        )
+
+        TopAppBar(
+                title = { },
+                backgroundColor = MaterialTheme.colors.primaryVariant,
+                elevation = 0.dp,
+                modifier = Modifier.tag(APP_BAR_TAG),
+                navigationIcon = {
+                    IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
+                        Icon(
                                 painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
                                 tint = MaterialTheme.colors.onPrimary
+                        )
+                    }
+                }
+        )
+
+        FloatingActionButton(
+                modifier = Modifier.padding(end = 16.dp) + Modifier.tag(FAB_TAG),
+                shape = CircleShape,
+                backgroundColor = MaterialTheme.colors.secondary,
+                onClick = { onFavouriteStateChanged(repository, coffeeDrink) }
+        ) {
+            Icon(
+                    painter = ImagePainter(
+                            imageResource(
+                                    if (coffeeDrink.isFavourite) {
+                                        R.drawable.ic_favorite_white
+                                    } else {
+                                        R.drawable.ic_favorite_border_white
+                                    }
                             )
-                        }
-                    }
-                )
-
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    gravity = ContentGravity.Center
-                ) {
-                    Image(
-                            painter = ImagePainter(imageResource(coffeeDrink.imageUrl)),
-                            modifier = Modifier.preferredSize(180.dp)
-                    )
-                }
-            }
+                    ),
+                    tint = MaterialTheme.colors.onSecondary
+            )
         }
 
-        Column {
-            Box(
-                modifier = Modifier.padding(end = 16.dp) + Modifier.fillMaxWidth(),
-                gravity = Alignment.CenterEnd
-            ) {
-                FloatingActionButton(
-                    modifier = Modifier.padding(top = headerHeight - 28.dp),
-                    shape = CircleShape,
-                    backgroundColor = MaterialTheme.colors.secondary,
-                    onClick = {
-                        onFavouriteStateChanged(repository, coffeeDrink)
-                    }
-                ) {
-                    Icon(
-                        painter = ImagePainter(imageResource(
-                            if (coffeeDrink.isFavourite) {
-                                R.drawable.ic_favorite_white
-                            } else {
-                                R.drawable.ic_favorite_border_white
-                            }
-                        )),
-                        tint = MaterialTheme.colors.onSecondary
-                    )
-                }
-            }
-            Box(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    top = 8.dp,
-                    end = 16.dp,
-                    bottom = 8.dp
-                )
-            ) {
-                Column {
-                    Text(
-                        text = coffeeDrink.description,
-                        style = MaterialTheme.typography.body1
-                    )
-                    Spacer(modifier = Modifier.preferredHeight(8.dp))
-                    Text(
-                        text = coffeeDrink.ingredients,
-                        style = MaterialTheme.typography.body1
-                    )
-                }
-            }
-        }
+        Image(
+                painter = ImagePainter(imageResource(id = R.drawable.americano_small)),
+                modifier = Modifier.tag(DRINK_IMAGE_TAG)
+        )
+
+        Text(
+                text = coffeeDrink.name,
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp) +
+                        Modifier.tag(DRINK_NAME_TAG)
+        )
+
+        Text(
+                text = coffeeDrink.description,
+                style = TextStyle(textAlign = TextAlign.Justify),
+                modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp) +
+                        Modifier.tag(DRINK_DESCRIPTION_TAG)
+        )
+
+        Text(
+                text = coffeeDrink.ingredients,
+                style = TextStyle(textAlign = TextAlign.Justify),
+                modifier = Modifier.fillMaxWidth() +
+                        Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp) +
+                        Modifier.tag(DRINK_INGREDIENTS_TAG)
+        )
     }
 }
 
 private fun onFavouriteStateChanged(
-    repository: CoffeeDrinkRepository,
-    coffeeDrink: CoffeeDrinkDetail
+        repository: CoffeeDrinkRepository,
+        coffeeDrink: CoffeeDrinkDetail
 ) {
     val newFavouriteState = !coffeeDrink.isFavourite
     coffeeDrink.isFavourite = newFavouriteState
