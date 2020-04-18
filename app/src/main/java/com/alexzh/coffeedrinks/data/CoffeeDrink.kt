@@ -6,7 +6,6 @@ data class CoffeeDrink(
     val id: Long,
     val name: String,
     @DrawableRes val imageUrl: Int,
-    @DrawableRes val backgroundImage: Int,
     val description: String,
     val ingredients: String,
     val orderDescription: String,
