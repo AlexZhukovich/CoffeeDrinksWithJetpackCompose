@@ -13,6 +13,7 @@ import androidx.ui.unit.dp
 @Composable
 fun Favourite(
     state: Boolean,
+    modifier: Modifier = Modifier,
     onValueChanged: (Boolean) -> Unit,
     @DrawableRes favouriteVectorId: Int,
     @DrawableRes nonFavouriteVectorId: Int,
@@ -23,7 +24,7 @@ fun Favourite(
         onValueChange = onValueChanged,
         modifier = Modifier.ripple(radius = 24.dp)
     ) {
-        Box(modifier = Modifier.preferredSize(48.dp)) {
+        Box(modifier = Modifier.preferredSize(48.dp) + modifier) {
             if (state) {
                 VectorImage(
                     id = favouriteVectorId,
