@@ -1,18 +1,20 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.compose.Composable
-import androidx.compose.Model
-import androidx.ui.foundation.Box
-import androidx.ui.foundation.Icon
-import androidx.ui.foundation.Text
-import androidx.ui.graphics.Color
+import androidx.compose.frames.ModelList
+import androidx.ui.core.Modifier
+import androidx.ui.foundation.*
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.Column
+import androidx.ui.layout.padding
 import androidx.ui.material.IconButton
 import androidx.ui.material.MaterialTheme
+import androidx.ui.material.Surface
 import androidx.ui.material.TopAppBar
+import androidx.ui.material.ripple.ripple
 import androidx.ui.res.imageResource
 import androidx.ui.tooling.preview.Preview
+import androidx.ui.unit.dp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
@@ -21,17 +23,23 @@ import com.alexzh.coffeedrinks.ui.appTypography
 import com.alexzh.coffeedrinks.ui.lightThemeColors
 import com.alexzh.coffeedrinks.ui.navigateTo
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CardType
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
-import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinksModel
 
-private var coffeeDrinks = CoffeeDrinksModel.coffeeDrinks
+private val coffeeDrinks = ModelList<CoffeeDrinkItem>()
 
-@Model
-data class Status(
-    var isExtendedListItem: Boolean
-)
+val cardType = CardType(isDetailedCard = false)
 
-val status = Status(false)
+@Preview
+@Composable
+fun previewCoffeeDrinksScreen() {
+    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
+        CoffeeDrinksScreen(
+            repository = RuntimeCoffeeDrinkRepository,
+            mapper = CoffeeDrinkItemMapper()
+        )
+    }
+}
 
 @Composable
 fun CoffeeDrinksScreen(
@@ -43,11 +51,11 @@ fun CoffeeDrinksScreen(
         repository.getCoffeeDrinks().map { mapper.map(it) }
     )
 
-    Column {
-        CoffeeDrinkAppBar(status)
-        Box {
+    Surface {
+        Column {
+            CoffeeDrinkAppBar(cardType)
             CoffeeDrinkList(
-                status = status,
+                cardType = cardType,
                 coffeeDrinks = coffeeDrinks,
                 onCoffeeDrinkClicked = { onCoffeeDrinkClicked(it) },
                 onFavouriteStateChanged = { onCoffeeFavouriteStateChanged(repository, it) }
@@ -57,7 +65,7 @@ fun CoffeeDrinksScreen(
 }
 
 @Composable
-fun CoffeeDrinkAppBar(status: Status) {
+fun CoffeeDrinkAppBar(cardType: CardType) {
     TopAppBar(
         title = {
             Text(
@@ -70,11 +78,11 @@ fun CoffeeDrinkAppBar(status: Status) {
         backgroundColor = MaterialTheme.colors.primaryVariant,
         actions = {
             IconButton(
-                onClick = { status.isExtendedListItem = !status.isExtendedListItem }
+                onClick = { cardType.isDetailedCard = !cardType.isDetailedCard }
             ) {
                 Icon(
                     painter = ImagePainter(
-                        imageResource(id = if (status.isExtendedListItem) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
+                        imageResource(id = if (cardType.isDetailedCard) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
                     ),
                     tint = MaterialTheme.colors.onPrimary
                 )
@@ -89,14 +97,34 @@ fun CoffeeDrinkAppBar(status: Status) {
     )
 }
 
-@Preview
 @Composable
-fun DefaultPreview() {
-    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
-        CoffeeDrinksScreen(
-            repository = RuntimeCoffeeDrinkRepository,
-            mapper = CoffeeDrinkItemMapper()
-        )
+fun CoffeeDrinkList(
+    cardType: CardType,
+    coffeeDrinks: ModelList<CoffeeDrinkItem>,
+    onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit,
+    onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
+) {
+    AdapterList(
+        data = coffeeDrinks
+    ) { coffeeDrink ->
+        Clickable(
+            onClick = { onCoffeeDrinkClicked(coffeeDrink) },
+            modifier = Modifier.ripple(bounded = true)
+        ) {
+            if (cardType.isDetailedCard) {
+                Box(modifier = Modifier.padding(8.dp)) {
+                    CoffeeDrinkDetailedItem(
+                        coffeeDrink = coffeeDrink,
+                        onFavouriteStateChanged = { onFavouriteStateChanged(it) }
+                    )
+                }
+            } else {
+                CoffeeDrinkListItemWithDivider(
+                    coffeeDrink = coffeeDrink,
+                    onFavouriteStateChanged = { onFavouriteStateChanged(it) }
+                )
+            }
+        }
     }
 }
 
