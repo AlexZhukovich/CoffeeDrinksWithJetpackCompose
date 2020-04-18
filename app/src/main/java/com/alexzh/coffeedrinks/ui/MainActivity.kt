@@ -30,7 +30,13 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun AppContent() {
-        MaterialTheme(colors = lightThemeColors, typography = appTypography) {
+        val colorPalette = if (isSystemInDarkTheme()) {
+            darkThemeColors
+        } else {
+            lightThemeColors
+        }
+
+        MaterialTheme(colors = colorPalette, typography = appTypography) {
             Crossfade(current = AppState.currentScreen) { screen ->
                 when (screen) {
                     is Screen.CoffeeDrinks -> CoffeeDrinksScreen(repository, coffeeDrinkItemMapper)
