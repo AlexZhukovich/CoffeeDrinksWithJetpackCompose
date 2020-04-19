@@ -8,8 +8,9 @@ buildscript {
     ext.androidx_core_version = '1.2.0'
     ext.koin_version = '2.0.1'
     ext.junit_version = '4.13'
-    ext.test_runner = '1.1.1'
-    ext.espresso_version = '3.2.0'
+    ext.test_junit_runner = '1.1.1'
+    ext.test_runner = '1.2.0'
+    ext.test_rules = '1.2.0'
 
     repositories {
         google()
