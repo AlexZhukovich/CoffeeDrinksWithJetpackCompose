@@ -64,6 +64,9 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
 
     // Instrumentation testing dependencies
-    androidTestImplementation "androidx.test.ext:junit:$test_runner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.ext:junit:$test_junit_runner"
+    androidTestImplementation("androidx.test:rules:$test_rules")
+    androidTestImplementation("androidx.test:runner:$test_runner")
+    androidTestImplementation("androidx.ui:ui-platform:$compose_version")
+    androidTestImplementation("androidx.ui:ui-test:$compose_version")
 }
