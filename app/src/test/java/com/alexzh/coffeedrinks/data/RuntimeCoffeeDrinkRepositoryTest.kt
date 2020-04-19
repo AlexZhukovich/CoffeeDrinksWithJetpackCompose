@@ -6,7 +6,7 @@ import org.junit.Test
 
 class RuntimeCoffeeDrinkRepositoryTest {
 
-    private val repository = RuntimeCoffeeDrinkRepository()
+    private val repository = RuntimeCoffeeDrinkRepository
 
     @Test
     fun `should first call of getCoffeeDrinks() returns 10 items`() {

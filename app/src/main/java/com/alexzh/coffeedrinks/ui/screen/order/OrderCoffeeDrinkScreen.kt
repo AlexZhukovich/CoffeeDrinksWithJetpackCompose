@@ -3,7 +3,9 @@ package com.alexzh.coffeedrinks.ui.screen.order
 import androidx.compose.Composable
 import androidx.compose.frames.ModelList
 import androidx.ui.core.Modifier
+import androidx.ui.core.drawOpacity
 import androidx.ui.foundation.*
+import androidx.ui.foundation.shape.corner.CircleShape
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ImagePainter
@@ -11,14 +13,10 @@ import androidx.ui.layout.*
 import androidx.ui.material.*
 import androidx.ui.res.imageResource
 import androidx.ui.text.style.TextAlign
-import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
-import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.Screen
-import com.alexzh.coffeedrinks.ui.appTypography
-import com.alexzh.coffeedrinks.ui.lightThemeColors
 import com.alexzh.coffeedrinks.ui.navigateTo
 import com.alexzh.coffeedrinks.ui.screen.order.mapper.OrderCoffeeDrinkMapper
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrink
@@ -26,36 +24,33 @@ import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrinkData
 
 private val coffeeDrinks = ModelList<OrderCoffeeDrink>()
 
-@Preview
-@Composable
-fun cardPreview() {
-    val repository = RuntimeCoffeeDrinkRepository
-    val mapper = OrderCoffeeDrinkMapper()
-    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
-        OrderCoffeeDrinkScreen(repository, mapper)
-    }
-}
-
 @Composable
 fun OrderCoffeeDrinkScreen(
     repository: CoffeeDrinkRepository,
     mapper: OrderCoffeeDrinkMapper
 ) {
-    coffeeDrinks.addAll((repository.getCoffeeDrinks().map { mapper.map(it) }))
+    repository.getCoffeeDrinks()
+        .map { mapper.map(it) }
+        .forEach {
+            if (!coffeeDrinks.contains(it)) {
+                coffeeDrinks.add(it)
+            }
+        }
+
     val coffeeDrinkOrder = OrderCoffeeDrinkData(coffeeDrinks)
 
     Column {
-        AppBar {
-            navigateTo(Screen.CoffeeDrinks)
-        }
-        OrderSummary(coffeeDrinkOrder.totalPrice)
-        Box {
+        AppBarWithOrderSummary(coffeeDrinkOrder.totalPrice)
+        Surface {
             AdapterList(data = coffeeDrinks) { coffeeDrink ->
-                OrderCoffeeDrinkItem(
-                    orderCoffeeDrink = coffeeDrink,
-                    onAddCoffeeDrink = { addCoffeeDrink(it) },
-                    onRemoveCoffeeDrink = { removeCoffeeDrink(it) }
-                )
+                Column {
+                    OrderCoffeeDrinkItem(
+                        orderCoffeeDrink = coffeeDrink,
+                        onAddCoffeeDrink = { addCoffeeDrink(it) },
+                        onRemoveCoffeeDrink = { removeCoffeeDrink(it) }
+                    )
+                    CoffeeDrinkDivider()
+                }
             }
         }
     }
@@ -93,7 +88,7 @@ fun OrderCoffeeDrinkItem(
     onAddCoffeeDrink: (OrderCoffeeDrink) -> Unit,
     onRemoveCoffeeDrink: (OrderCoffeeDrink) -> Unit
 ) {
-    Box(modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)) {
+    Box(modifier = Modifier.padding(top = 16.dp, end = 16.dp)) {
         Row {
             Logo(orderCoffeeDrink)
             Box(
@@ -103,7 +98,7 @@ fun OrderCoffeeDrinkItem(
                 Column {
                     Text(
                         text = orderCoffeeDrink.name,
-                        style = MaterialTheme.typography.h5,
+                        style = MaterialTheme.typography.h6,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
@@ -132,10 +127,16 @@ fun OrderCoffeeDrinkItem(
 
 @Composable
 private fun Logo(orderCoffeeDrink: OrderCoffeeDrink) {
-    Image(
-        modifier = Modifier.preferredSize(64.dp),
-        painter = ImagePainter(imageResource(id = orderCoffeeDrink.imageRes))
-    )
+    Surface(
+        modifier = Modifier.preferredSize(72.dp) + Modifier.padding(16.dp),
+        shape = CircleShape,
+        color = Color(0xFFFAFAFA)
+    ) {
+        Image(
+            modifier = Modifier.preferredSize(64.dp),
+            painter = ImagePainter(imageResource(id = orderCoffeeDrink.imageRes))
+        )
+    }
 }
 
 @Composable
@@ -154,54 +155,71 @@ private fun Counter(
             gravity = ContentGravity.Center
         ) {
             Row {
-                    Button(
-                        modifier = Modifier.preferredWidth(40.dp) + Modifier.fillMaxHeight(),
-                        backgroundColor = Color.Transparent,
-                        elevation = 0.dp,
-                        onClick = { onRemoveCoffeeDrink(orderCoffeeDrink) }
-                    ) {
-                        Text(text = "—", style = MaterialTheme.typography.body1)
-                    }
+                Button(
+                    modifier = Modifier.preferredWidth(40.dp) + Modifier.fillMaxHeight(),
+                    backgroundColor = Color.Transparent,
+                    elevation = 0.dp,
+                    onClick = { onRemoveCoffeeDrink(orderCoffeeDrink) }
+                ) {
+                    Text(text = "—", style = MaterialTheme.typography.body1)
+                }
                 Text(
                     modifier = Modifier.weight(1f) + Modifier.padding(top = 8.dp, bottom = 8.dp),
                     text = orderCoffeeDrink.count.toString(),
                     style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Center)
                 )
-                    Button(
-                        modifier = Modifier.preferredWidth(40.dp),
-                        backgroundColor = Color.Transparent,
-                        elevation = 0.dp,
-                        onClick = { onAddCoffeeDrink(orderCoffeeDrink) }
-                    ) {
-                        Text(text = "＋", style = MaterialTheme.typography.body1)
-                    }
+                Button(
+                    modifier = Modifier.preferredWidth(40.dp),
+                    backgroundColor = Color.Transparent,
+                    elevation = 0.dp,
+                    onClick = { onAddCoffeeDrink(orderCoffeeDrink) }
+                ) {
+                    Text(text = "＋", style = MaterialTheme.typography.body1)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun OrderSummary(totalPrice: Double) {
+private fun AppBarWithOrderSummary(totalPrice: Double) {
     Surface(
         color = MaterialTheme.colors.primaryVariant,
         elevation = 4.dp
     ) {
-        Row(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Total cost",
-                modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.subtitle1.copy(
-                    color = MaterialTheme.colors.onPrimary
+        Column {
+            AppBar {
+                navigateTo(Screen.CoffeeDrinks)
+            }
+            Row(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "Total cost",
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.subtitle1.copy(
+                        color = MaterialTheme.colors.onPrimary
+                    )
                 )
-            )
-            Text(
-                text = "€ $totalPrice",
-                style = MaterialTheme.typography.subtitle1.copy(
-                    color = MaterialTheme.colors.onPrimary
+                Text(
+                    text = "€ $totalPrice",
+                    style = MaterialTheme.typography.subtitle1.copy(
+                        color = MaterialTheme.colors.onPrimary
+                    )
                 )
-            )
+            }
         }
     }
+}
+
+@Composable
+private fun CoffeeDrinkDivider() {
+    Divider(
+        modifier = Modifier.padding(start = 72.dp) + Modifier.drawOpacity(0.12f),
+        color = if (isSystemInDarkTheme()) {
+            Color.White
+        } else {
+            Color.Black
+        }
+    )
 }
 
 private fun addCoffeeDrink(orderCoffeeDrink: OrderCoffeeDrink) {

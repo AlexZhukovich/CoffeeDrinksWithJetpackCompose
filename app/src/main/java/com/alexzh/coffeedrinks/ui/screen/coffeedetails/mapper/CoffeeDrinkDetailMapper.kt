@@ -14,7 +14,6 @@ class CoffeeDrinkDetailMapper {
             id = coffeeDrink.id,
             name = coffeeDrink.name,
             imageUrl = coffeeDrink.imageUrl,
-            backgroundImage = coffeeDrink.backgroundImage,
             ingredients = coffeeDrink.ingredients,
             description = coffeeDrink.description,
             isFavourite = coffeeDrink.isFavourite

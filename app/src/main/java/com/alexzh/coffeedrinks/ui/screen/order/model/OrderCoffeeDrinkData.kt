@@ -5,9 +5,9 @@ import androidx.compose.frames.ModelList
 
 @Model
 data class OrderCoffeeDrinkData(
-    val orderCoffeeDrinks: ModelList<OrderCoffeeDrink>
+    val drinks: ModelList<OrderCoffeeDrink>
 ) {
-    val totalPrice: Double = orderCoffeeDrinks.asSequence()
+    val totalPrice: Double = drinks.asSequence()
         .filter { it.count != 0 }
         .map { it.count * it.price }
         .sum()
