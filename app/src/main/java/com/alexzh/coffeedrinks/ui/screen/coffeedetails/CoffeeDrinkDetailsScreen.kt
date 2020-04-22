@@ -130,7 +130,7 @@ fun CoffeeDrinkDetailsScreen(
 
         TopAppBar(
             title = { },
-            backgroundColor = MaterialTheme.colors.secondary,
+            backgroundColor = MaterialTheme.colors.primary,
             elevation = 0.dp,
             modifier = Modifier.tag(APP_BAR_TAG),
             navigationIcon = {
@@ -146,7 +146,7 @@ fun CoffeeDrinkDetailsScreen(
         FloatingActionButton(
             modifier = Modifier.padding(end = 16.dp) + Modifier.tag(FAB_TAG),
             shape = CircleShape,
-            backgroundColor = MaterialTheme.colors.primaryVariant,
+            backgroundColor = MaterialTheme.colors.secondary,
             onClick = { onFavouriteStateChanged(repository, coffeeDrink) }
         ) {
             Icon(
@@ -159,7 +159,7 @@ fun CoffeeDrinkDetailsScreen(
                         }
                     )
                 ),
-                tint = MaterialTheme.colors.onPrimary
+                tint = MaterialTheme.colors.onSecondary
             )
         }
 

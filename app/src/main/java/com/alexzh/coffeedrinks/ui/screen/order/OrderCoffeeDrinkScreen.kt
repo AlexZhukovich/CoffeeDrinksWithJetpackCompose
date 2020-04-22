@@ -69,7 +69,7 @@ private fun AppBar(
                 )
             )
         },
-        backgroundColor = MaterialTheme.colors.primaryVariant,
+        backgroundColor = MaterialTheme.colors.primary,
         elevation = 0.dp,
         navigationIcon = {
             IconButton(onClick = onBackClick) {
@@ -184,7 +184,7 @@ private fun Counter(
 @Composable
 private fun AppBarWithOrderSummary(totalPrice: Double) {
     Surface(
-        color = MaterialTheme.colors.primaryVariant,
+        color = MaterialTheme.colors.primary,
         elevation = 4.dp
     ) {
         Column {
