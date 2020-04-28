@@ -7,6 +7,7 @@ import androidx.ui.core.paint
 import androidx.ui.core.tag
 import androidx.ui.foundation.*
 import androidx.ui.foundation.shape.corner.CircleShape
+import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ColorPainter
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.*
@@ -15,9 +16,15 @@ import androidx.ui.material.IconButton
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.TopAppBar
 import androidx.ui.res.imageResource
+import androidx.ui.text.AnnotatedString
+import androidx.ui.text.SpanStyle
+import androidx.ui.text.font.FontStyle
+import androidx.ui.text.font.FontWeight
 import androidx.ui.text.style.TextAlign
+import androidx.ui.text.style.TextDecoration
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
+import androidx.ui.unit.sp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
@@ -115,6 +122,43 @@ fun CoffeeDrinkDetailsScreen(
             }
         }
     ) {
+        val coffeeDictionary = repository.getCoffeeDrinks()
+            .map { it.name.toLowerCase() }
+            .filter { it != coffeeDrink.name.toLowerCase() }
+
+        val firstCoffeeDrinkPos = coffeeDrink.description
+            .indexOf(string = coffeeDrink.name, ignoreCase = true)
+
+        val includedCoffeeDrinks = mutableListOf<Substring>()
+        coffeeDictionary.forEach { name ->
+            var index = coffeeDrink.description.indexOf(string = name, ignoreCase = true)
+
+            while (index > -1) {
+                includedCoffeeDrinks.add(Substring(name, index))
+                index = coffeeDrink.description.indexOf(
+                    string = coffeeDrink.name,
+                    startIndex = index + 1,
+                    ignoreCase = true
+                )
+            }
+        }
+
+        val description = AnnotatedString {
+            append(coffeeDrink.description)
+            if (firstCoffeeDrinkPos > -1 ) {
+                addStyle(
+                    style = SpanStyle(color = Color(0xFF562a1f), fontWeight = FontWeight.Bold, fontSize = 18.sp),
+                    start = firstCoffeeDrinkPos, end = firstCoffeeDrinkPos + coffeeDrink.name.length
+                )
+            }
+            includedCoffeeDrinks.forEach {
+                addStyle(
+                    style = SpanStyle(fontStyle = FontStyle.Italic, textDecoration = TextDecoration.Underline),
+                    start = it.startPosition, end = it.endPosition
+                )
+            }
+        }
+
         Box(
             modifier = Modifier.fillMaxSize() +
                     Modifier.drawBackground(color = MaterialTheme.colors.surface) +
@@ -125,19 +169,26 @@ fun CoffeeDrinkDetailsScreen(
             modifier = Modifier.tag(HEADER_TAG) +
                     Modifier.fillMaxWidth() +
                     Modifier.preferredHeight(220.dp) +
-                    Modifier.paint(ColorPainter(MaterialTheme.colors.secondary))
+                    Modifier.paint(
+                        painter = if (isSystemInDarkTheme()) {
+                            ColorPainter(Color.White)
+                        } else {
+                            ColorPainter(MaterialTheme.colors.primary)
+                        },
+                        alpha = 0.95f
+                    )
         )
 
         TopAppBar(
             title = { },
-            backgroundColor = MaterialTheme.colors.primary,
+            backgroundColor = Color.Transparent,
             elevation = 0.dp,
             modifier = Modifier.tag(APP_BAR_TAG),
             navigationIcon = {
                 IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
                     Icon(
                         painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
-                        tint = MaterialTheme.colors.onPrimary
+                        tint = if (isSystemInDarkTheme()) { Color.Black } else { MaterialTheme.colors.onPrimary }
                     )
                 }
             }
@@ -176,6 +227,7 @@ fun CoffeeDrinkDetailsScreen(
         )
 
         Text(
+//            text = description,
             text = coffeeDrink.description,
             style = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface,
@@ -199,6 +251,13 @@ fun CoffeeDrinkDetailsScreen(
                     Modifier.tag(DRINK_INGREDIENTS_TAG)
         )
     }
+}
+
+private data class Substring(
+    val string: String,
+    val startPosition: Int
+) {
+    val endPosition = startPosition + string.length
 }
 
 private fun onFavouriteStateChanged(
