@@ -35,7 +35,6 @@ fun previewDetailedListItem() {
         )
 
         CoffeeDrinkGridCard {
-            addBackground()
             addFavouriteIcon(coffeeDrink = coffeeDrink, onFavouriteStateChanged = {})
             addTitle(title = coffeeDrink.name)
             addLogo(imageUrl = coffeeDrink.imageUrl)
@@ -50,7 +49,6 @@ fun CoffeeDrinkDetailedItem(
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     CoffeeDrinkGridCard {
-        addBackground()
         addFavouriteIcon(coffeeDrink = coffeeDrink, onFavouriteStateChanged = onFavouriteStateChanged)
         addTitle(title = coffeeDrink.name)
         addLogo(imageUrl = coffeeDrink.imageUrl)
@@ -77,7 +75,7 @@ private fun CoffeeDrinkGridCard(
 private fun addBackground() {
     Box(
         modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth() + Modifier.paint(
-            ColorPainter(MaterialTheme.colors.secondary)
+            ColorPainter(MaterialTheme.colors.primary)
         )
     )
 }
@@ -114,7 +112,7 @@ private fun addTitle(title: String) {
             modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
             text = title,
             style = MaterialTheme.typography.h5.copy(
-                color = MaterialTheme.colors.onSurface
+                color = MaterialTheme.colors.onPrimary
             )
         )
     }

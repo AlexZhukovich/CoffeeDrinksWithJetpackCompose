@@ -134,7 +134,6 @@ private fun CoffeeDrinkFavouriteIcon(
 ) {
     Favourite(
         state = favouriteState,
-        modifier = Modifier.drawOpacity(0.78f),
         onValueChanged = onValueChanged,
         favouriteVectorId = R.drawable.ic_baseline_favorite_24,
         nonFavouriteVectorId = R.drawable.ic_baseline_favorite_border_24,

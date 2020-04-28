@@ -75,7 +75,7 @@ fun CoffeeDrinkAppBar(cardType: CardType) {
                 )
             )
         },
-        backgroundColor = MaterialTheme.colors.primaryVariant,
+        backgroundColor = MaterialTheme.colors.primary,
         actions = {
             IconButton(
                 onClick = { cardType.isDetailedCard = !cardType.isDetailedCard }
