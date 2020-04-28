@@ -2,20 +2,18 @@
 
 The **Coffee Drinks** is an Android application created for playing with Jetpack Compose framework.
 
-**Coffee drinks**, **Coffee drink details** and **Order coffee drinks** screens
-
 Light Color Palette
 <p align="center">
-  <img src="/screenshots/coffee-drinks-screen-light.png" height="350" />
-  <img src="/screenshots/coffee-drink-details-screen-light.png" height="350" />
-  <img src="/screenshots/order-coffee-drinks-screen-light.png" height="350" />
+  <img src="/screenshots/coffee-drinks-screen-light.png" height="400" />
+  <img src="/screenshots/coffee-drink-details-screen-light.png" height="400" />
+  <img src="/screenshots/order-coffee-drinks-screen-light.png" height="400" />
 </p>
 
 Dark Color Palette
 <p align="center">
-  <img src="/screenshots/coffee-drinks-screen-dark.png" height="350" />
-  <img src="/screenshots/coffee-drink-details-screen-dark.png" height="350" />
-  <img src="/screenshots/order-coffee-drinks-screen.png-dark" height="350" />
+  <img src="/screenshots/coffee-drinks-screen-dark.png" height="400" />
+  <img src="/screenshots/coffee-drink-details-screen-dark.png" height="400" />
+  <img src="/screenshots/order-coffee-drinks-screen-dark.png" height="400" />
 </p>
 
 ## Articles 
