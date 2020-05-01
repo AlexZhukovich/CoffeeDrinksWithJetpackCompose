@@ -10,10 +10,9 @@ on:
       - '*'
 
 jobs:
-  test:
+  unit-tests:
     name: Run Unit tests
     runs-on: ubuntu-18.04
-
     steps:
       - uses: actions/checkout@v2
       - name: set up JDK 1.8
@@ -45,3 +44,15 @@ jobs:
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
+
+  instrumentation-test:
+    name: Run Instrumentation tests
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
