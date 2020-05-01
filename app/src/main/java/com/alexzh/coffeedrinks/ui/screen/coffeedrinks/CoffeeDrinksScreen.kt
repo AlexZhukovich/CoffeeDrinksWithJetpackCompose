@@ -3,7 +3,11 @@ package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 import androidx.compose.Composable
 import androidx.compose.frames.ModelList
 import androidx.ui.core.Modifier
-import androidx.ui.foundation.*
+import androidx.ui.foundation.AdapterList
+import androidx.ui.foundation.Box
+import androidx.ui.foundation.Clickable
+import androidx.ui.foundation.Icon
+import androidx.ui.foundation.Text
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.Column
 import androidx.ui.layout.padding
@@ -128,7 +132,10 @@ fun CoffeeDrinkList(
     }
 }
 
-private fun onCoffeeFavouriteStateChanged(repository: CoffeeDrinkRepository, coffee: CoffeeDrinkItem) {
+private fun onCoffeeFavouriteStateChanged(
+    repository: CoffeeDrinkRepository,
+    coffee: CoffeeDrinkItem
+) {
     val newFavouriteState = !coffee.isFavourite
 
     val index = coffeeDrinks.indexOf(coffee)

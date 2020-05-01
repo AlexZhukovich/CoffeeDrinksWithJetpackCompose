@@ -4,12 +4,22 @@ import androidx.compose.Composable
 import androidx.ui.core.Modifier
 import androidx.ui.core.drawOpacity
 import androidx.ui.core.paint
-import androidx.ui.foundation.*
+import androidx.ui.foundation.Box
+import androidx.ui.foundation.ContentGravity
+import androidx.ui.foundation.Image
+import androidx.ui.foundation.Text
+import androidx.ui.foundation.isSystemInDarkTheme
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ColorPainter
 import androidx.ui.graphics.painter.ImagePainter
-import androidx.ui.layout.*
+import androidx.ui.layout.Stack
+import androidx.ui.layout.StackScope
+import androidx.ui.layout.fillMaxSize
+import androidx.ui.layout.fillMaxWidth
+import androidx.ui.layout.padding
+import androidx.ui.layout.preferredHeight
+import androidx.ui.layout.preferredSize
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.Surface
 import androidx.ui.res.imageResource
@@ -49,19 +59,25 @@ fun CoffeeDrinkDetailedItem(
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     CoffeeDrinkGridCard {
-        addFavouriteIcon(coffeeDrink = coffeeDrink, onFavouriteStateChanged = onFavouriteStateChanged)
+        addFavouriteIcon(
+            coffeeDrink = coffeeDrink,
+            onFavouriteStateChanged = onFavouriteStateChanged
+        )
         addTitle(title = coffeeDrink.name)
         addLogo(imageUrl = coffeeDrink.imageUrl)
         addDescription(description = coffeeDrink.description)
     }
 }
 
-
 @Composable
 private fun CoffeeDrinkGridCard(
-    children: @Composable() StackScope.() -> Unit
+    children: @Composable StackScope.() -> Unit
 ) {
-    Surface(color = MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp), elevation = 1.dp) {
+    Surface(
+        color = MaterialTheme.colors.surface,
+        shape = RoundedCornerShape(8.dp),
+        elevation = 1.dp
+    ) {
         Stack(
             modifier = Modifier.preferredHeight(240.dp) + Modifier.fillMaxWidth()
         ) {
@@ -94,7 +110,6 @@ private fun addFavouriteIcon(
                 MaterialTheme.colors.onPrimary
             } else {
                 MaterialTheme.colors.onPrimary
-
             },
             favouriteState = coffeeDrink.isFavourite,
             onValueChanged = { onFavouriteStateChanged(coffeeDrink) }

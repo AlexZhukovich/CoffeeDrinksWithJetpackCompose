@@ -1,7 +1,6 @@
 package com.alexzh.jetpackcomposeworkshop.data
 
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
-import org.junit.Assert.*
 import org.junit.Test
 
 class RuntimeCoffeeDrinkRepositoryTest {
