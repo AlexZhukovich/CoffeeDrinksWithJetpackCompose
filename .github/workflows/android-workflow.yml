@@ -22,6 +22,11 @@ jobs:
           java-version: 1.8
       - name: Unit tests
         run: bash ./gradlew test --stacktrace
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: report
+          path: app/build/reports/tests/
 
   apk:
     name: Generate APK
