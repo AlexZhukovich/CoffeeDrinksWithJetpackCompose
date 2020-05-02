@@ -66,4 +66,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: KtLint verification
-        uses: bash ./gradlew ktlint
+        run: bash ./gradlew ktlint
