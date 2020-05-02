@@ -5,7 +5,7 @@ import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetail
 
 class CoffeeDrinkDetailMapper {
 
-    fun map(coffeeDrink: CoffeeDrink?) : CoffeeDrinkDetail? {
+    fun map(coffeeDrink: CoffeeDrink?): CoffeeDrinkDetail? {
         if (coffeeDrink == null) {
             return null
         }

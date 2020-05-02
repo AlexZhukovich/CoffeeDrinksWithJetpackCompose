@@ -41,8 +41,15 @@ class MainActivity : AppCompatActivity() {
             Crossfade(current = AppState.currentScreen) { screen ->
                 when (screen) {
                     is Screen.CoffeeDrinks -> CoffeeDrinksScreen(repository, coffeeDrinkItemMapper)
-                    is Screen.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(repository, coffeeDrinkDetailMapper, screen.coffeeDrinkId)
-                    is Screen.OrderCoffeeDrinks -> OrderCoffeeDrinkScreen(repository, orderCoffeeDrinkMapper)
+                    is Screen.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(
+                        repository,
+                        coffeeDrinkDetailMapper,
+                        screen.coffeeDrinkId
+                    )
+                    is Screen.OrderCoffeeDrinks -> OrderCoffeeDrinkScreen(
+                        repository,
+                        orderCoffeeDrinkMapper
+                    )
                 }
             }
         }
