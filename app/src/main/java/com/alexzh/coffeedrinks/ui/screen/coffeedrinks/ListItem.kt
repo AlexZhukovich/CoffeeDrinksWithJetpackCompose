@@ -11,7 +11,11 @@ import androidx.ui.foundation.isSystemInDarkTheme
 import androidx.ui.foundation.shape.corner.CircleShape
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.painter.ImagePainter
-import androidx.ui.layout.*
+import androidx.ui.layout.Column
+import androidx.ui.layout.Row
+import androidx.ui.layout.fillMaxSize
+import androidx.ui.layout.padding
+import androidx.ui.layout.preferredSize
 import androidx.ui.material.Divider
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.Surface
