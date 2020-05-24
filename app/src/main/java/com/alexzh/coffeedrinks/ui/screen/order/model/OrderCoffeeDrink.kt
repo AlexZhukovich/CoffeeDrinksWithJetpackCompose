@@ -1,9 +1,7 @@
 package com.alexzh.coffeedrinks.ui.screen.order.model
 
 import androidx.annotation.DrawableRes
-import androidx.compose.Model
 
-@Model
 data class OrderCoffeeDrink(
     val id: Long,
     val name: String,

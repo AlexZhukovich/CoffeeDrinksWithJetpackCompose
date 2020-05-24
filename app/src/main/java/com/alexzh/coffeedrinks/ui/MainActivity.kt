@@ -3,11 +3,14 @@ package com.alexzh.coffeedrinks.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
+import androidx.compose.collectAsState
 import androidx.ui.animation.Crossfade
 import androidx.ui.core.setContent
 import androidx.ui.foundation.isSystemInDarkTheme
 import androidx.ui.material.MaterialTheme
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
+import com.alexzh.coffeedrinks.ui.router.Router
+import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.CoffeeDrinkDetailsScreen
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksScreen
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val coffeeDrinkItemMapper: CoffeeDrinkItemMapper by inject()
     private val coffeeDrinkDetailMapper: CoffeeDrinkDetailMapper by inject()
     private val orderCoffeeDrinkMapper: OrderCoffeeDrinkMapper by inject()
+    private val router: Router by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,15 +42,26 @@ class MainActivity : AppCompatActivity() {
         }
 
         MaterialTheme(colors = colorPalette, typography = appTypography) {
-            Crossfade(current = AppState.currentScreen) { screen ->
+            val currentScreen = router
+                .observeCurrentDestination
+                .collectAsState(initial = router.currentDestination)
+                .value
+
+            Crossfade(current = currentScreen) { screen ->
                 when (screen) {
-                    is Screen.CoffeeDrinks -> CoffeeDrinksScreen(repository, coffeeDrinkItemMapper)
-                    is Screen.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(
+                    is RouterDestination.CoffeeDrinks -> CoffeeDrinksScreen(
+                        router,
+                        repository,
+                        coffeeDrinkItemMapper
+                    )
+                    is RouterDestination.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(
+                        router,
                         repository,
                         coffeeDrinkDetailMapper,
                         screen.coffeeDrinkId
                     )
-                    is Screen.OrderCoffeeDrinks -> OrderCoffeeDrinkScreen(
+                    is RouterDestination.OrderCoffeeDrinks -> OrderCoffeeDrinkScreen(
+                        router,
                         repository,
                         orderCoffeeDrinkMapper
                     )

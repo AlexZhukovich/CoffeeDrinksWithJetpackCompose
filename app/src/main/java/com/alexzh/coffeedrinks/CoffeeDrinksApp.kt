@@ -3,6 +3,7 @@ package com.alexzh.coffeedrinks
 import android.app.Application
 import com.alexzh.coffeedrinks.di.dataModule
 import com.alexzh.coffeedrinks.di.mapperModule
+import com.alexzh.coffeedrinks.di.routerModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -22,7 +23,8 @@ class CoffeeDrinksApp : Application() {
             modules(
                 listOf(
                     dataModule,
-                    mapperModule
+                    mapperModule,
+                    routerModule
                 )
             )
         }

@@ -5,6 +5,7 @@ import androidx.ui.test.createComposeRule
 import androidx.ui.test.findBySubstring
 import androidx.ui.test.findByText
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
+import com.alexzh.coffeedrinks.ui.router.AppRouter
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import org.junit.Before
 import org.junit.Rule
@@ -20,10 +21,11 @@ class CoffeeDrinksScreenTest {
 
     private val repository = RuntimeCoffeeDrinkRepository
     private val mapper = CoffeeDrinkItemMapper()
+    private val router = AppRouter()
 
     @Before
     fun setUp() {
-        composeTestRule.launchCoffeeDrinksScreen(repository, mapper)
+        composeTestRule.launchCoffeeDrinksScreen(router, repository, mapper)
     }
 
     @Test

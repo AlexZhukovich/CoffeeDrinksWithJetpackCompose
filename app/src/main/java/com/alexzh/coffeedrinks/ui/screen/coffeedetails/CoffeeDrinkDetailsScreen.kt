@@ -1,6 +1,8 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedetails
 
 import androidx.compose.Composable
+import androidx.compose.MutableState
+import androidx.compose.state
 import androidx.ui.core.Modifier
 import androidx.ui.core.drawOpacity
 import androidx.ui.core.paint
@@ -32,10 +34,11 @@ import androidx.ui.unit.dp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
-import com.alexzh.coffeedrinks.ui.Screen
 import com.alexzh.coffeedrinks.ui.appTypography
 import com.alexzh.coffeedrinks.ui.lightThemeColors
-import com.alexzh.coffeedrinks.ui.navigateTo
+import com.alexzh.coffeedrinks.ui.router.AppRouter
+import com.alexzh.coffeedrinks.ui.router.Router
+import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetail
 
@@ -54,24 +57,36 @@ fun previewScreen() {
     val coffeeDrinkId = 1L
     val repository = RuntimeCoffeeDrinkRepository
     val mapper = CoffeeDrinkDetailMapper()
+    val router = AppRouter()
     MaterialTheme(colors = lightThemeColors, typography = appTypography) {
-        CoffeeDrinkDetailsScreen(repository, mapper, coffeeDrinkId)
+        CoffeeDrinkDetailsScreen(router, repository, mapper, coffeeDrinkId)
     }
 }
 
 @Composable
 fun CoffeeDrinkDetailsScreen(
+    router: Router,
     repository: CoffeeDrinkRepository,
     mapper: CoffeeDrinkDetailMapper,
     coffeeDrinkId: Long
 ) {
     val coffeeDrink = mapper.map(repository.getCoffeeDrink(coffeeDrinkId))
 
-    if (coffeeDrink == null) {
-        navigateTo(Screen.CoffeeDrinks)
-        return
+    if (coffeeDrink != null) {
+        CoffeeDrinkDetailsScreenUI(
+            router,
+            repository,
+            state<CoffeeDrinkDetail> { coffeeDrink }
+        )
     }
+}
 
+@Composable
+private fun CoffeeDrinkDetailsScreenUI(
+    router: Router,
+    repository: CoffeeDrinkRepository,
+    coffeeDrink: MutableState<CoffeeDrinkDetail>
+) {
     ConstraintLayout(
         constraintSet = ConstraintSet {
             val surface = tag(SURFACE_TAG)
@@ -153,7 +168,7 @@ fun CoffeeDrinkDetailsScreen(
             elevation = 0.dp,
             modifier = Modifier.tag(APP_BAR_TAG),
             navigationIcon = {
-                IconButton(onClick = { navigateTo(Screen.CoffeeDrinks) }) {
+                IconButton(onClick = { router.navigateTo(RouterDestination.CoffeeDrinks) }) {
                     Icon(
                         painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
                         tint = if (isSystemInDarkTheme()) {
@@ -170,12 +185,14 @@ fun CoffeeDrinkDetailsScreen(
             modifier = Modifier.padding(end = 16.dp) + Modifier.tag(FAB_TAG),
             shape = CircleShape,
             backgroundColor = MaterialTheme.colors.secondary,
-            onClick = { onFavouriteStateChanged(repository, coffeeDrink) }
+            onClick = {
+                onFavouriteStateChanged(repository, coffeeDrink)
+            }
         ) {
             Icon(
                 painter = ImagePainter(
                     imageResource(
-                        if (coffeeDrink.isFavourite) {
+                        if (coffeeDrink.value.isFavourite) {
                             R.drawable.ic_favorite_white
                         } else {
                             R.drawable.ic_favorite_border_white
@@ -192,14 +209,14 @@ fun CoffeeDrinkDetailsScreen(
         )
 
         Text(
-            text = coffeeDrink.name,
+            text = coffeeDrink.value.name,
             style = MaterialTheme.typography.h4.copy(MaterialTheme.colors.onSurface),
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp) +
                     Modifier.tag(DRINK_NAME_TAG)
         )
 
         Text(
-            text = coffeeDrink.description,
+            text = coffeeDrink.value.description,
             style = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.Justify
@@ -211,7 +228,7 @@ fun CoffeeDrinkDetailsScreen(
         )
 
         Text(
-            text = coffeeDrink.ingredients,
+            text = coffeeDrink.value.ingredients,
             style = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.Justify
@@ -226,12 +243,12 @@ fun CoffeeDrinkDetailsScreen(
 
 private fun onFavouriteStateChanged(
     repository: CoffeeDrinkRepository,
-    coffeeDrink: CoffeeDrinkDetail
+    coffeeDrink: MutableState<CoffeeDrinkDetail>
 ) {
-    val newFavouriteState = !coffeeDrink.isFavourite
-    coffeeDrink.isFavourite = newFavouriteState
+    val currentFavState = coffeeDrink.value.isFavourite
+    coffeeDrink.value = coffeeDrink.value.copy(isFavourite = !currentFavState)
 
-    repository.getCoffeeDrink(coffeeDrink.id)?.copy(isFavourite = newFavouriteState)?.let {
-        repository.updateCoffeeDrink(it)
+    repository.getCoffeeDrink(coffeeDrink.value.id)?.copy(isFavourite = currentFavState)?.let {
+        repository.updateFavouriteState(it.id, !currentFavState)
     }
 }

@@ -2,6 +2,8 @@ package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.annotation.DrawableRes
 import androidx.compose.Composable
+import androidx.compose.MutableState
+import androidx.compose.state
 import androidx.ui.core.Modifier
 import androidx.ui.core.drawOpacity
 import androidx.ui.foundation.Box
@@ -46,7 +48,7 @@ fun previewListItem() {
 
     MaterialTheme(colors = lightThemeColors, typography = appTypography) {
         CoffeeDrinkListItem(
-            coffeeDrink = coffeeDrink,
+            coffeeDrink = state { coffeeDrink },
             onFavouriteStateChanged = {}
         )
     }
@@ -54,8 +56,8 @@ fun previewListItem() {
 
 @Composable
 fun CoffeeDrinkListItemWithDivider(
-    coffeeDrink: CoffeeDrinkItem,
-    onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
+    coffeeDrink: MutableState<CoffeeDrinkItem>,
+    onFavouriteStateChanged: (MutableState<CoffeeDrinkItem>) -> Unit
 ) {
     Column {
         CoffeeDrinkListItem(
@@ -68,17 +70,17 @@ fun CoffeeDrinkListItemWithDivider(
 
 @Composable
 fun CoffeeDrinkListItem(
-    coffeeDrink: CoffeeDrinkItem,
-    onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
+    coffeeDrink: MutableState<CoffeeDrinkItem>,
+    onFavouriteStateChanged: (MutableState<CoffeeDrinkItem>) -> Unit
 ) {
     Row {
-        CoffeeDrinkLogo(id = coffeeDrink.imageUrl)
+        CoffeeDrinkLogo(id = coffeeDrink.value.imageUrl)
         Box(
             modifier = Modifier.weight(1f)
         ) {
             Column {
-                CoffeeDrinkTitle(title = coffeeDrink.name)
-                CoffeeDrinkIngredient(ingredients = coffeeDrink.ingredients)
+                CoffeeDrinkTitle(title = coffeeDrink.value.name)
+                CoffeeDrinkIngredient(ingredients = coffeeDrink.value.ingredients)
             }
         }
         CoffeeDrinkFavouriteIcon(
@@ -87,7 +89,7 @@ fun CoffeeDrinkListItem(
             } else {
                 MaterialTheme.colors.primaryVariant
             },
-            favouriteState = coffeeDrink.isFavourite,
+            favouriteState = coffeeDrink.value.isFavourite,
             onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
         )
     }
