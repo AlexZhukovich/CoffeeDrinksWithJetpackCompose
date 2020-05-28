@@ -1,15 +1,13 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.compose.Composable
-import androidx.compose.MutableState
 import androidx.compose.frames.ModelList
-import androidx.compose.state
 import androidx.ui.core.Modifier
 import androidx.ui.foundation.AdapterList
 import androidx.ui.foundation.Box
-import androidx.ui.foundation.Clickable
 import androidx.ui.foundation.Icon
 import androidx.ui.foundation.Text
+import androidx.ui.foundation.clickable
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.Column
 import androidx.ui.layout.padding
@@ -34,8 +32,7 @@ import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CardType
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 
 private val coffeeDrinks = ModelList<CoffeeDrinkItem>()
-
-val cardType = CardType(isDetailedCard = false)
+val cardType = CardType()
 
 @Preview
 @Composable
@@ -63,7 +60,7 @@ fun CoffeeDrinksScreen(
     CoffeeDrinksScreenUI(
         router = router,
         repository = repository,
-        coffeeDrinks = state { coffeeDrinks }
+        coffeeDrinks = coffeeDrinks
     )
 }
 
@@ -71,15 +68,13 @@ fun CoffeeDrinksScreen(
 fun CoffeeDrinksScreenUI(
     router: Router,
     repository: CoffeeDrinkRepository,
-    coffeeDrinks: MutableState<ModelList<CoffeeDrinkItem>>
+    coffeeDrinks: ModelList<CoffeeDrinkItem>
 ) {
-    val cardTypeState = state { cardType }
-
     Surface {
         Column {
-            CoffeeDrinkAppBar(router, cardTypeState)
+            CoffeeDrinkAppBar(router, cardType)
             CoffeeDrinkList(
-                cardType = cardTypeState,
+                cardType = cardType,
                 coffeeDrinks = coffeeDrinks,
                 onCoffeeDrinkClicked = { onCoffeeDrinkClicked(router, it) },
                 onFavouriteStateChanged = {
@@ -96,7 +91,7 @@ fun CoffeeDrinksScreenUI(
 @Composable
 fun CoffeeDrinkAppBar(
     router: Router,
-    cardType: MutableState<CardType>
+    cardType: CardType
 ) {
     TopAppBar(
         title = {
@@ -111,14 +106,12 @@ fun CoffeeDrinkAppBar(
         actions = {
             IconButton(
                 onClick = {
-                    cardType.value = cardType.value.copy(
-                        isDetailedCard = !cardType.value.isDetailedCard
-                    )
+                    cardType.isDetailedCard.value = !cardType.isDetailedCard.value
                 }
             ) {
                 Icon(
                     painter = ImagePainter(
-                        imageResource(id = if (cardType.value.isDetailedCard) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
+                        imageResource(id = if (cardType.isDetailedCard.value) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
                     ),
                     tint = MaterialTheme.colors.onPrimary
                 )
@@ -135,29 +128,32 @@ fun CoffeeDrinkAppBar(
 
 @Composable
 fun CoffeeDrinkList(
-    cardType: MutableState<CardType>,
-    coffeeDrinks: MutableState<ModelList<CoffeeDrinkItem>>,
+    cardType: CardType,
+    coffeeDrinks: ModelList<CoffeeDrinkItem>,
     onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit,
-    onFavouriteStateChanged: (MutableState<CoffeeDrinkItem>) -> Unit
+    onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     AdapterList(
-        data = coffeeDrinks.value
+        data = coffeeDrinks
     ) { coffeeDrink ->
-        Clickable(
-            onClick = { onCoffeeDrinkClicked(coffeeDrink) },
-            modifier = Modifier.ripple(bounded = true)
+        Box(
+            modifier = Modifier.ripple(bounded = true) +
+                    Modifier.clickable(
+                        onClick = {
+                            onCoffeeDrinkClicked(coffeeDrink)
+                        }
+                    )
         ) {
-            if (cardType.value.isDetailedCard) {
+            if (cardType.isDetailedCard.value) {
                 Box(modifier = Modifier.padding(8.dp)) {
-                    val coffeeDrinkState = state { coffeeDrink }
                     CoffeeDrinkDetailedItem(
-                        coffeeDrink = state { coffeeDrink },
+                        coffeeDrink = coffeeDrink,
                         onFavouriteStateChanged = { onFavouriteStateChanged(it) }
                     )
                 }
             } else {
                 CoffeeDrinkListItemWithDivider(
-                    coffeeDrink = state { coffeeDrink },
+                    coffeeDrink = coffeeDrink,
                     onFavouriteStateChanged = { onFavouriteStateChanged(it) }
                 )
             }
@@ -167,18 +163,12 @@ fun CoffeeDrinkList(
 
 private fun onCoffeeFavouriteStateChanged(
     repository: CoffeeDrinkRepository,
-    coffee: MutableState<CoffeeDrinkItem>
+    coffee: CoffeeDrinkItem
 ) {
-    val newFavouriteState = !coffee.value.isFavourite
+    val newFavouriteState = !coffee.isFavourite.value
+    coffee.isFavourite.value = newFavouriteState
 
-    val index = coffeeDrinks.indexOf(coffee.value)
-
-    // TODO: check if needed
-    coffeeDrinks[index].isFavourite = newFavouriteState
-
-    coffee.value = coffee.value.copy(isFavourite = newFavouriteState)
-
-    repository.getCoffeeDrink(coffee.value.id)?.copy(isFavourite = newFavouriteState)?.let {
+    repository.getCoffeeDrink(coffee.id)?.copy(isFavourite = newFavouriteState)?.let {
         repository.updateFavouriteState(
             it.id,
             newFavouriteState
