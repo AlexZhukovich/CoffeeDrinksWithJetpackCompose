@@ -1,9 +1,8 @@
 package com.alexzh.coffeedrinks.ui.screen.order
 
+import androidx.annotation.DrawableRes
 import androidx.compose.Composable
-import androidx.compose.MutableState
 import androidx.compose.frames.ModelList
-import androidx.compose.state
 import androidx.ui.core.Modifier
 import androidx.ui.core.drawOpacity
 import androidx.ui.foundation.AdapterList
@@ -63,21 +62,21 @@ fun OrderCoffeeDrinkScreen(
 
     OrderCoffeeDrinkScreenUI(
         router,
-        state { coffeeDrinkOrder }
+        coffeeDrinkOrder
     )
 }
 
 @Composable
 fun OrderCoffeeDrinkScreenUI(
     router: Router,
-    order: MutableState<OrderCoffeeDrinkData>
+    order: OrderCoffeeDrinkData
 ) {
     Column {
         AppBarWithOrderSummary(router, order)
         Surface {
-            AdapterList(data = order.value.drinks) { coffeeDrink ->
+            AdapterList(data = order.drinks) { coffeeDrink ->
                 Column {
-                    OrderCoffeeDrinkItem(orderCoffeeDrink = state { coffeeDrink })
+                    OrderCoffeeDrinkItem(orderCoffeeDrink = coffeeDrink)
                     CoffeeDrinkDivider()
                 }
             }
@@ -113,23 +112,23 @@ private fun AppBar(
 
 @Composable
 fun OrderCoffeeDrinkItem(
-    orderCoffeeDrink: MutableState<OrderCoffeeDrink>
+    orderCoffeeDrink: OrderCoffeeDrink
 ) {
     Box(modifier = Modifier.padding(top = 16.dp, end = 16.dp)) {
         Row {
-            Logo(orderCoffeeDrink.value)
+            Logo(orderCoffeeDrink.imageRes)
             Box(
                 modifier = Modifier.weight(1f) + Modifier.padding(start = 8.dp),
                 gravity = ContentGravity.CenterStart
             ) {
                 Column {
                     Text(
-                        text = orderCoffeeDrink.value.name,
+                        text = orderCoffeeDrink.name,
                         style = MaterialTheme.typography.h6,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
-                        text = orderCoffeeDrink.value.description,
+                        text = orderCoffeeDrink.description,
                         style = MaterialTheme.typography.body2
                     )
                 }
@@ -138,7 +137,7 @@ fun OrderCoffeeDrinkItem(
                 Column {
                     Text(
                         modifier = Modifier.padding(bottom = 4.dp) + Modifier.fillMaxWidth(),
-                        text = "€ ${orderCoffeeDrink.value.price}",
+                        text = "€ ${orderCoffeeDrink.price}",
                         style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Right)
                     )
                     Counter(
@@ -151,7 +150,7 @@ fun OrderCoffeeDrinkItem(
 }
 
 @Composable
-private fun Logo(orderCoffeeDrink: OrderCoffeeDrink) {
+private fun Logo(@DrawableRes logoId: Int) {
     Surface(
         modifier = Modifier.preferredSize(72.dp) + Modifier.padding(16.dp),
         shape = CircleShape,
@@ -159,14 +158,14 @@ private fun Logo(orderCoffeeDrink: OrderCoffeeDrink) {
     ) {
         Image(
             modifier = Modifier.preferredSize(64.dp),
-            painter = ImagePainter(imageResource(id = orderCoffeeDrink.imageRes))
+            painter = ImagePainter(imageResource(id = logoId))
         )
     }
 }
 
 @Composable
 private fun Counter(
-    orderCoffeeDrink: MutableState<OrderCoffeeDrink>
+    orderCoffeeDrink: OrderCoffeeDrink
 ) {
     Surface(
         shape = RoundedCornerShape(size = 5.dp),
@@ -188,7 +187,7 @@ private fun Counter(
                 }
                 Text(
                     modifier = Modifier.weight(1f) + Modifier.padding(top = 8.dp, bottom = 8.dp),
-                    text = orderCoffeeDrink.value.count.toString(),
+                    text = orderCoffeeDrink.count.value.toString(),
                     style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Center)
                 )
                 Button(
@@ -205,7 +204,7 @@ private fun Counter(
 }
 
 @Composable
-private fun AppBarWithOrderSummary(router: Router, order: MutableState<OrderCoffeeDrinkData>) {
+private fun AppBarWithOrderSummary(router: Router, order: OrderCoffeeDrinkData) {
     Surface(
         color = MaterialTheme.colors.primary,
         elevation = 4.dp
@@ -223,7 +222,7 @@ private fun AppBarWithOrderSummary(router: Router, order: MutableState<OrderCoff
                     )
                 )
                 Text(
-                    text = "€ ${order.value.totalPrice}",
+                    text = "€ ${order.totalPrice}",
                     style = MaterialTheme.typography.subtitle1.copy(
                         color = MaterialTheme.colors.onPrimary
                     )
@@ -246,17 +245,17 @@ private fun CoffeeDrinkDivider() {
 }
 
 private fun addCoffeeDrink(
-    orderCoffeeDrinkState: MutableState<OrderCoffeeDrink>
+    orderCoffeeDrinkState: OrderCoffeeDrink
 ) {
-    if (orderCoffeeDrinkState.value.count < 99) {
-        val newValue = orderCoffeeDrinkState.value.count + 1
-        orderCoffeeDrinkState.value = orderCoffeeDrinkState.value.copy(count = newValue)
+    if (orderCoffeeDrinkState.count.value < 99) {
+        orderCoffeeDrinkState.count.value++
     }
 }
 
-private fun removeCoffeeDrink(orderCoffeeDrinkState: MutableState<OrderCoffeeDrink>) {
-    if (orderCoffeeDrinkState.value.count > 0) {
-        val newValue = orderCoffeeDrinkState.value.count - 1
-        orderCoffeeDrinkState.value = orderCoffeeDrinkState.value.copy(count = newValue)
+private fun removeCoffeeDrink(
+    orderCoffeeDrinkState: OrderCoffeeDrink
+) {
+    if (orderCoffeeDrinkState.count.value > 0) {
+        orderCoffeeDrinkState.count.value--
     }
 }
