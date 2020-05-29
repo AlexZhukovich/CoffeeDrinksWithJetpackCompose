@@ -29,9 +29,8 @@ class RuntimeCoffeeDrinkRepositoryTest {
     fun `should update favourite state of not-favourite coffee`() {
         val coffeeName = repository.getCoffeeDrinks().first().name
         val coffee = repository.getCoffeeDrinks().first { it.name == coffeeName }
-        val favouriteCoffee = coffee.copy(isFavourite = true)
 
-        repository.updateCoffeeDrink(favouriteCoffee)
+        repository.updateFavouriteState(coffee.id, true)
 
         val result = repository.getCoffeeDrinks().first { it.name == coffeeName }
         assertTrue(result.isFavourite)
@@ -41,11 +40,9 @@ class RuntimeCoffeeDrinkRepositoryTest {
     fun `should update favourite state of favourite coffee`() {
         val coffeeName = repository.getCoffeeDrinks().first().name
         val coffee = repository.getCoffeeDrinks().first { it.name == coffeeName }
-        val favouriteCoffee = coffee.copy(isFavourite = true)
-        val nonFavouriteCoffee = coffee.copy(isFavourite = false)
 
-        repository.updateCoffeeDrink(favouriteCoffee)
-        repository.updateCoffeeDrink(nonFavouriteCoffee)
+        repository.updateFavouriteState(coffee.id, true)
+        repository.updateFavouriteState(coffee.id, false)
 
         val result = repository.getCoffeeDrinks().first { it.name == coffeeName }
         assertFalse(result.isFavourite)
