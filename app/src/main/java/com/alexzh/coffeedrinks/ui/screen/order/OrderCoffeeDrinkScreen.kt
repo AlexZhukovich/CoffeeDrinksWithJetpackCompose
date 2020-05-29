@@ -52,9 +52,9 @@ fun OrderCoffeeDrinkScreen(
 ) {
     repository.getCoffeeDrinks()
         .map { mapper.map(it) }
-        .forEach {
-            if (!coffeeDrinks.contains(it)) {
-                coffeeDrinks.add(it)
+        .forEach { coffeeDrink ->
+            if (coffeeDrinks.size == 0 || coffeeDrinks.find { it.id == coffeeDrink.id } == null) {
+                coffeeDrinks.add(coffeeDrink)
             }
         }
 
