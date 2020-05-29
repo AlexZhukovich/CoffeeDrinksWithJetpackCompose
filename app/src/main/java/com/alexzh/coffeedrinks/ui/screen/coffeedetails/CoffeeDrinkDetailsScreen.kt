@@ -1,8 +1,6 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedetails
 
 import androidx.compose.Composable
-import androidx.compose.MutableState
-import androidx.compose.state
 import androidx.ui.core.Modifier
 import androidx.ui.core.drawOpacity
 import androidx.ui.core.paint
@@ -76,7 +74,7 @@ fun CoffeeDrinkDetailsScreen(
         CoffeeDrinkDetailsScreenUI(
             router,
             repository,
-            state<CoffeeDrinkDetail> { coffeeDrink }
+            coffeeDrink
         )
     }
 }
@@ -85,7 +83,7 @@ fun CoffeeDrinkDetailsScreen(
 private fun CoffeeDrinkDetailsScreenUI(
     router: Router,
     repository: CoffeeDrinkRepository,
-    coffeeDrink: MutableState<CoffeeDrinkDetail>
+    coffeeDrink: CoffeeDrinkDetail
 ) {
     ConstraintLayout(
         constraintSet = ConstraintSet {
@@ -192,7 +190,7 @@ private fun CoffeeDrinkDetailsScreenUI(
             Icon(
                 painter = ImagePainter(
                     imageResource(
-                        if (coffeeDrink.value.isFavourite) {
+                        if (coffeeDrink.isFavourite.value) {
                             R.drawable.ic_favorite_white
                         } else {
                             R.drawable.ic_favorite_border_white
@@ -209,14 +207,14 @@ private fun CoffeeDrinkDetailsScreenUI(
         )
 
         Text(
-            text = coffeeDrink.value.name,
+            text = coffeeDrink.name,
             style = MaterialTheme.typography.h4.copy(MaterialTheme.colors.onSurface),
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp) +
                     Modifier.tag(DRINK_NAME_TAG)
         )
 
         Text(
-            text = coffeeDrink.value.description,
+            text = coffeeDrink.description,
             style = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.Justify
@@ -228,7 +226,7 @@ private fun CoffeeDrinkDetailsScreenUI(
         )
 
         Text(
-            text = coffeeDrink.value.ingredients,
+            text = coffeeDrink.ingredients,
             style = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.Justify
@@ -243,12 +241,10 @@ private fun CoffeeDrinkDetailsScreenUI(
 
 private fun onFavouriteStateChanged(
     repository: CoffeeDrinkRepository,
-    coffeeDrink: MutableState<CoffeeDrinkDetail>
+    coffeeDrink: CoffeeDrinkDetail
 ) {
-    val currentFavState = coffeeDrink.value.isFavourite
-    coffeeDrink.value = coffeeDrink.value.copy(isFavourite = !currentFavState)
+    val newFavState = !coffeeDrink.isFavourite.value
+    coffeeDrink.isFavourite.value = newFavState
 
-    repository.getCoffeeDrink(coffeeDrink.value.id)?.copy(isFavourite = currentFavState)?.let {
-        repository.updateFavouriteState(it.id, !currentFavState)
-    }
+    repository.updateFavouriteState(coffeeDrink.id, newFavState)
 }
