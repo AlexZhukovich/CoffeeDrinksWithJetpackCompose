@@ -87,7 +87,7 @@ fun CoffeeDrinkListItem(
             } else {
                 MaterialTheme.colors.primaryVariant
             },
-            favouriteState = coffeeDrink.isFavourite,
+            favouriteState = coffeeDrink.isFavourite.value,
             onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
         )
     }

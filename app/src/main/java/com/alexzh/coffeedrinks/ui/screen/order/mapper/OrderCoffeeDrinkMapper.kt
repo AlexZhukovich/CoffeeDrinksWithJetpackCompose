@@ -1,5 +1,6 @@
 package com.alexzh.coffeedrinks.ui.screen.order.mapper
 
+import androidx.compose.mutableStateOf
 import com.alexzh.coffeedrinks.data.CoffeeDrink
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrink
 
@@ -12,7 +13,7 @@ class OrderCoffeeDrinkMapper {
             imageRes = coffeeDrink.imageUrl,
             description = coffeeDrink.orderDescription,
             price = coffeeDrink.price,
-            count = 0
+            count = mutableStateOf(0)
         )
     }
 }

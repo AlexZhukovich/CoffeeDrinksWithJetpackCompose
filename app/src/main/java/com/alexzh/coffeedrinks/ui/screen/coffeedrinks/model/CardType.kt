@@ -1,8 +1,9 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model
 
-import androidx.compose.Model
+import androidx.compose.MutableState
+import androidx.compose.mutableStateOf
 
-@Model
-class CardType(
-    var isDetailedCard: Boolean
+data class CardType(
+    var isDetailedCard: MutableState<Boolean> =
+        mutableStateOf(false)
 )

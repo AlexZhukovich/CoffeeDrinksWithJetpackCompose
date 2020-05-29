@@ -1,14 +1,14 @@
 package com.alexzh.coffeedrinks.ui.screen.order.model
 
 import androidx.annotation.DrawableRes
-import androidx.compose.Model
+import androidx.compose.MutableState
+import androidx.compose.mutableStateOf
 
-@Model
 data class OrderCoffeeDrink(
     val id: Long,
     val name: String,
     @DrawableRes val imageRes: Int,
     val description: String,
     val price: Double,
-    var count: Int = 0
+    var count: MutableState<Int> = mutableStateOf(0)
 )

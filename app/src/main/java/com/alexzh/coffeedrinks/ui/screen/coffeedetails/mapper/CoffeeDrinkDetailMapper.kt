@@ -1,5 +1,6 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper
 
+import androidx.compose.mutableStateOf
 import com.alexzh.coffeedrinks.data.CoffeeDrink
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetail
 
@@ -16,7 +17,7 @@ class CoffeeDrinkDetailMapper {
             imageUrl = coffeeDrink.imageUrl,
             ingredients = coffeeDrink.ingredients,
             description = coffeeDrink.description,
-            isFavourite = coffeeDrink.isFavourite
+            isFavourite = mutableStateOf(coffeeDrink.isFavourite)
         )
     }
 }

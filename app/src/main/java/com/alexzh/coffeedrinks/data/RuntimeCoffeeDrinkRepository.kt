@@ -13,12 +13,13 @@ object RuntimeCoffeeDrinkRepository : CoffeeDrinkRepository {
         return coffeeDrinks.firstOrNull { it.id == id }
     }
 
-    override fun updateCoffeeDrink(coffeeDrink: CoffeeDrink): Boolean {
-        val position = coffeeDrinks.indexOfFirst { it.id == coffeeDrink.id }
+    override fun updateFavouriteState(id: Long, newFavouriteState: Boolean): Boolean {
+        val position = coffeeDrinks.indexOfFirst { it.id == id }
         return if (position > -1) {
-            val oldCoffeeDrink = coffeeDrinks.first { it.id == coffeeDrink.id }
+            val oldCoffeeDrink = coffeeDrinks.first { it.id == id }
+            val newCoffeeDrink = oldCoffeeDrink.copy(isFavourite = newFavouriteState)
             coffeeDrinks.remove(oldCoffeeDrink)
-            coffeeDrinks.add(position, coffeeDrink)
+            coffeeDrinks.add(position, newCoffeeDrink)
             true
         } else {
             false
