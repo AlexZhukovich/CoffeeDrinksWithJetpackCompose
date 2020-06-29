@@ -3,11 +3,11 @@ package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 import androidx.compose.Composable
 import androidx.compose.frames.ModelList
 import androidx.ui.core.Modifier
-import androidx.ui.foundation.AdapterList
 import androidx.ui.foundation.Box
 import androidx.ui.foundation.Icon
 import androidx.ui.foundation.Text
 import androidx.ui.foundation.clickable
+import androidx.ui.foundation.lazy.LazyColumnItems
 import androidx.ui.graphics.painter.ImagePainter
 import androidx.ui.layout.Column
 import androidx.ui.layout.padding
@@ -15,7 +15,6 @@ import androidx.ui.material.IconButton
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.Surface
 import androidx.ui.material.TopAppBar
-import androidx.ui.material.ripple.ripple
 import androidx.ui.res.imageResource
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
@@ -133,16 +132,15 @@ fun CoffeeDrinkList(
     onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
-    AdapterList(
-        data = coffeeDrinks
+    LazyColumnItems(
+        items = coffeeDrinks
     ) { coffeeDrink ->
         Box(
-            modifier = Modifier.ripple(bounded = true) +
-                    Modifier.clickable(
-                        onClick = {
-                            onCoffeeDrinkClicked(coffeeDrink)
-                        }
-                    )
+            modifier = Modifier.clickable(
+                onClick = {
+                    onCoffeeDrinkClicked(coffeeDrink)
+                }
+            )
         ) {
             if (cardType.isDetailedCard.value) {
                 Box(modifier = Modifier.padding(8.dp)) {
