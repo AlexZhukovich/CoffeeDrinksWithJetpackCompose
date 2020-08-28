@@ -4,11 +4,13 @@ import android.app.Application
 import com.alexzh.coffeedrinks.di.dataModule
 import com.alexzh.coffeedrinks.di.mapperModule
 import com.alexzh.coffeedrinks.di.routerModule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
+@ExperimentalCoroutinesApi
 class CoffeeDrinksApp : Application() {
 
     override fun onCreate() {

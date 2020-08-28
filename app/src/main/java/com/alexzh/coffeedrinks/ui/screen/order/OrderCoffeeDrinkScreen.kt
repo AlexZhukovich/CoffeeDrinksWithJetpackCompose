@@ -1,39 +1,39 @@
 package com.alexzh.coffeedrinks.ui.screen.order
 
 import androidx.annotation.DrawableRes
-import androidx.compose.Composable
-import androidx.compose.frames.ModelList
-import androidx.ui.core.Modifier
-import androidx.ui.core.drawOpacity
-import androidx.ui.foundation.AdapterList
-import androidx.ui.foundation.Border
-import androidx.ui.foundation.Box
-import androidx.ui.foundation.ContentGravity
-import androidx.ui.foundation.Icon
-import androidx.ui.foundation.Image
-import androidx.ui.foundation.Text
-import androidx.ui.foundation.isSystemInDarkTheme
-import androidx.ui.foundation.shape.corner.CircleShape
-import androidx.ui.foundation.shape.corner.RoundedCornerShape
-import androidx.ui.graphics.Color
-import androidx.ui.graphics.painter.ImagePainter
-import androidx.ui.layout.Column
-import androidx.ui.layout.Row
-import androidx.ui.layout.fillMaxHeight
-import androidx.ui.layout.fillMaxSize
-import androidx.ui.layout.fillMaxWidth
-import androidx.ui.layout.padding
-import androidx.ui.layout.preferredSize
-import androidx.ui.layout.preferredWidth
-import androidx.ui.material.Button
-import androidx.ui.material.Divider
-import androidx.ui.material.IconButton
-import androidx.ui.material.MaterialTheme
-import androidx.ui.material.Surface
-import androidx.ui.material.TopAppBar
-import androidx.ui.res.imageResource
-import androidx.ui.text.style.TextAlign
-import androidx.ui.unit.dp
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.ContentGravity
+import androidx.compose.foundation.Icon
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.Divider
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawOpacity
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ImagePainter
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.router.Router
@@ -42,7 +42,7 @@ import com.alexzh.coffeedrinks.ui.screen.order.mapper.OrderCoffeeDrinkMapper
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrink
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrinkData
 
-private val coffeeDrinks = ModelList<OrderCoffeeDrink>()
+private val coffeeDrinks = mutableStateListOf<OrderCoffeeDrink>()
 
 @Composable
 fun OrderCoffeeDrinkScreen(
@@ -74,7 +74,7 @@ fun OrderCoffeeDrinkScreenUI(
     Column {
         AppBarWithOrderSummary(router, order)
         Surface {
-            AdapterList(data = order.drinks) { coffeeDrink ->
+            LazyColumnFor(items = order.drinks) { coffeeDrink ->
                 Column {
                     OrderCoffeeDrinkItem(orderCoffeeDrink = coffeeDrink)
                     CoffeeDrinkDivider()
@@ -118,7 +118,8 @@ fun OrderCoffeeDrinkItem(
         Row {
             Logo(orderCoffeeDrink.imageRes)
             Box(
-                modifier = Modifier.weight(1f) + Modifier.padding(start = 8.dp),
+                modifier = Modifier.weight(1f)
+                        .padding(start = 8.dp),
                 gravity = ContentGravity.CenterStart
             ) {
                 Column {
@@ -136,7 +137,8 @@ fun OrderCoffeeDrinkItem(
             Box(modifier = Modifier.preferredWidth(100.dp)) {
                 Column {
                     Text(
-                        modifier = Modifier.padding(bottom = 4.dp) + Modifier.fillMaxWidth(),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                                .fillMaxWidth(),
                         text = "€ ${orderCoffeeDrink.price}",
                         style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Right)
                     )
@@ -152,7 +154,8 @@ fun OrderCoffeeDrinkItem(
 @Composable
 private fun Logo(@DrawableRes logoId: Int) {
     Surface(
-        modifier = Modifier.preferredSize(72.dp) + Modifier.padding(16.dp),
+        modifier = Modifier.preferredSize(72.dp)
+                .padding(16.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
@@ -169,7 +172,7 @@ private fun Counter(
 ) {
     Surface(
         shape = RoundedCornerShape(size = 5.dp),
-        border = Border(1.dp, Color.Gray),
+        border = BorderStroke(1.dp, Color.Gray),
         color = Color.Transparent
     ) {
         Box(
@@ -178,7 +181,8 @@ private fun Counter(
         ) {
             Row {
                 Button(
-                    modifier = Modifier.preferredWidth(40.dp) + Modifier.fillMaxHeight(),
+                    modifier = Modifier.preferredWidth(40.dp)
+                            .fillMaxHeight(),
                     backgroundColor = Color.Transparent,
                     elevation = 0.dp,
                     onClick = { removeCoffeeDrink(orderCoffeeDrink) }
@@ -186,12 +190,14 @@ private fun Counter(
                     Text(text = "—", style = MaterialTheme.typography.body1)
                 }
                 Text(
-                    modifier = Modifier.weight(1f) + Modifier.padding(top = 8.dp, bottom = 8.dp),
+                    modifier = Modifier.weight(1f)
+                            .padding(top = 8.dp, bottom = 8.dp),
                     text = orderCoffeeDrink.count.value.toString(),
                     style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Center)
                 )
                 Button(
-                    modifier = Modifier.preferredWidth(40.dp) + Modifier.fillMaxHeight(),
+                    modifier = Modifier.preferredWidth(40.dp)
+                            .fillMaxHeight(),
                     backgroundColor = Color.Transparent,
                     elevation = 0.dp,
                     onClick = { addCoffeeDrink(orderCoffeeDrink) }
@@ -235,7 +241,8 @@ private fun AppBarWithOrderSummary(router: Router, order: OrderCoffeeDrinkData) 
 @Composable
 private fun CoffeeDrinkDivider() {
     Divider(
-        modifier = Modifier.padding(start = 72.dp) + Modifier.drawOpacity(0.12f),
+        modifier = Modifier.padding(start = 72.dp)
+                .drawOpacity(0.12f),
         color = if (isSystemInDarkTheme()) {
             Color.White
         } else {

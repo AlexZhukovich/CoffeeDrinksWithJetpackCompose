@@ -1,31 +1,31 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
-import androidx.compose.Composable
-import androidx.ui.core.Modifier
-import androidx.ui.core.drawOpacity
-import androidx.ui.core.paint
-import androidx.ui.foundation.Box
-import androidx.ui.foundation.ContentGravity
-import androidx.ui.foundation.Image
-import androidx.ui.foundation.Text
-import androidx.ui.foundation.isSystemInDarkTheme
-import androidx.ui.foundation.shape.corner.RoundedCornerShape
-import androidx.ui.graphics.Color
-import androidx.ui.graphics.painter.ColorPainter
-import androidx.ui.graphics.painter.ImagePainter
-import androidx.ui.layout.Stack
-import androidx.ui.layout.StackScope
-import androidx.ui.layout.fillMaxSize
-import androidx.ui.layout.fillMaxWidth
-import androidx.ui.layout.padding
-import androidx.ui.layout.preferredHeight
-import androidx.ui.layout.preferredSize
-import androidx.ui.material.MaterialTheme
-import androidx.ui.material.Surface
-import androidx.ui.res.imageResource
-import androidx.ui.text.style.TextOverflow
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.ContentGravity
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Stack
+import androidx.compose.foundation.layout.StackScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredHeight
+import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawOpacity
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.graphics.painter.ImagePainter
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import androidx.ui.unit.dp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.appTypography
@@ -79,7 +79,8 @@ private fun CoffeeDrinkGridCard(
         elevation = 1.dp
     ) {
         Stack(
-            modifier = Modifier.preferredHeight(240.dp) + Modifier.fillMaxWidth()
+            modifier = Modifier.preferredHeight(240.dp)
+                    .fillMaxWidth()
         ) {
             addBackground()
             children()
@@ -90,9 +91,9 @@ private fun CoffeeDrinkGridCard(
 @Composable
 private fun addBackground() {
     Box(
-        modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth() + Modifier.paint(
-            ColorPainter(MaterialTheme.colors.primary)
-        )
+        modifier = Modifier.preferredHeight(160.dp)
+                .fillMaxWidth()
+                .paint(ColorPainter(MaterialTheme.colors.primary))
     )
 }
 
@@ -120,7 +121,8 @@ private fun addFavouriteIcon(
 @Composable
 private fun addTitle(title: String) {
     Box(
-        modifier = Modifier.preferredHeight(160.dp) + Modifier.fillMaxWidth(),
+        modifier = Modifier.preferredHeight(160.dp)
+                .fillMaxWidth(),
         gravity = ContentGravity.BottomStart
     ) {
         Text(
@@ -136,7 +138,8 @@ private fun addTitle(title: String) {
 @Composable
 private fun addLogo(imageUrl: Int) {
     Box(
-        modifier = Modifier.preferredHeight(164.dp) + Modifier.fillMaxWidth(),
+        modifier = Modifier.preferredHeight(164.dp)
+                .fillMaxWidth(),
         gravity = ContentGravity.Center
     ) {
         Image(
@@ -149,7 +152,8 @@ private fun addLogo(imageUrl: Int) {
 @Composable
 private fun addDescription(description: String) {
     Box(
-        modifier = Modifier.fillMaxSize() + Modifier.padding(8.dp),
+        modifier = Modifier.fillMaxSize()
+                .padding(8.dp),
         gravity = ContentGravity.BottomStart
     ) {
         Text(

@@ -1,13 +1,13 @@
 package com.alexzh.coffeedrinks.ui.component
 
 import androidx.annotation.DrawableRes
-import androidx.compose.Composable
-import androidx.ui.core.Modifier
-import androidx.ui.foundation.Box
-import androidx.ui.foundation.selection.toggleable
-import androidx.ui.graphics.Color
-import androidx.ui.layout.preferredSize
-import androidx.ui.unit.dp
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun Favourite(
@@ -18,9 +18,9 @@ fun Favourite(
     @DrawableRes nonFavouriteVectorId: Int,
     tint: Color = Color.Transparent
 ) {
-    Box(modifier = modifier +
-            Modifier.preferredSize(48.dp) +
-            Modifier.toggleable(value = state, onValueChange = onValueChanged)
+    Box(modifier = modifier
+            .preferredSize(48.dp)
+            .toggleable(value = state, onValueChange = onValueChanged)
     ) {
         if (state) {
             VectorImage(
