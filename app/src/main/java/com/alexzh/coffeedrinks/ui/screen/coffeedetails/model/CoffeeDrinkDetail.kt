@@ -1,6 +1,6 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedetails.model
 
-import androidx.compose.MutableState
+import androidx.compose.runtime.MutableState
 
 data class CoffeeDrinkDetail(
     val id: Long,

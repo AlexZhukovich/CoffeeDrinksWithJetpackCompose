@@ -1,10 +1,10 @@
 package com.alexzh.coffeedrinks.ui
 
-import androidx.ui.material.Typography
-import androidx.ui.text.font.FontStyle
-import androidx.ui.text.font.FontWeight
-import androidx.ui.text.font.ResourceFont
-import androidx.ui.text.font.fontFamily
+import androidx.compose.material.Typography
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.ResourceFont
+import androidx.compose.ui.text.font.fontFamily
 import com.alexzh.coffeedrinks.R
 
 private val appFontFamily = fontFamily(

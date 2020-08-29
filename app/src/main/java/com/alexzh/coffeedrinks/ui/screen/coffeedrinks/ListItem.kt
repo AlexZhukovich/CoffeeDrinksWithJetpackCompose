@@ -1,30 +1,30 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
 import androidx.annotation.DrawableRes
-import androidx.compose.Composable
-import androidx.ui.core.Modifier
-import androidx.ui.core.drawOpacity
-import androidx.ui.foundation.Box
-import androidx.ui.foundation.Image
-import androidx.ui.foundation.Text
-import androidx.ui.foundation.isSystemInDarkTheme
-import androidx.ui.foundation.shape.corner.CircleShape
-import androidx.ui.graphics.Color
-import androidx.ui.graphics.painter.ImagePainter
-import androidx.ui.layout.Column
-import androidx.ui.layout.Row
-import androidx.ui.layout.fillMaxSize
-import androidx.ui.layout.padding
-import androidx.ui.layout.preferredSize
-import androidx.ui.material.Divider
-import androidx.ui.material.MaterialTheme
-import androidx.ui.material.Surface
-import androidx.ui.res.imageResource
-import androidx.ui.text.TextStyle
-import androidx.ui.text.style.TextOverflow
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawOpacity
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ImagePainter
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.ui.tooling.preview.Preview
-import androidx.ui.unit.dp
-import androidx.ui.unit.sp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.appTypography
@@ -96,7 +96,8 @@ fun CoffeeDrinkListItem(
 @Composable
 private fun CoffeeDrinkLogo(@DrawableRes id: Int) {
     Surface(
-        modifier = Modifier.preferredSize(COFFEE_DRINK_IMAGE_SIZE) + Modifier.padding(16.dp),
+        modifier = Modifier.preferredSize(COFFEE_DRINK_IMAGE_SIZE)
+                .padding(16.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
@@ -122,7 +123,8 @@ private fun CoffeeDrinkTitle(title: String) {
 private fun CoffeeDrinkIngredient(ingredients: String) {
     Text(
         text = ingredients,
-        modifier = Modifier.padding(end = 8.dp) + Modifier.drawOpacity(0.54f),
+        modifier = Modifier.padding(end = 8.dp)
+                .drawOpacity(0.54f),
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         style = MaterialTheme.typography.body1,
@@ -148,7 +150,8 @@ private fun CoffeeDrinkFavouriteIcon(
 @Composable
 private fun CoffeeDrinkDivider() {
     Divider(
-        modifier = Modifier.padding(start = COFFEE_DRINK_IMAGE_SIZE) + Modifier.drawOpacity(0.12f),
+        modifier = Modifier.padding(start = COFFEE_DRINK_IMAGE_SIZE)
+                .drawOpacity(0.12f),
         color = if (isSystemInDarkTheme()) {
             Color.White
         } else {

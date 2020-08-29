@@ -1,23 +1,24 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
-import androidx.compose.Composable
-import androidx.compose.frames.ModelList
-import androidx.ui.core.Modifier
-import androidx.ui.foundation.Box
-import androidx.ui.foundation.Icon
-import androidx.ui.foundation.Text
-import androidx.ui.foundation.clickable
-import androidx.ui.foundation.lazy.LazyColumnItems
-import androidx.ui.graphics.painter.ImagePainter
-import androidx.ui.layout.Column
-import androidx.ui.layout.padding
-import androidx.ui.material.IconButton
-import androidx.ui.material.MaterialTheme
-import androidx.ui.material.Surface
-import androidx.ui.material.TopAppBar
-import androidx.ui.res.imageResource
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.Icon
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.ImagePainter
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import androidx.ui.unit.dp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
@@ -29,12 +30,14 @@ import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CardType
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-private val coffeeDrinks = ModelList<CoffeeDrinkItem>()
+private val coffeeDrinks = mutableStateListOf<CoffeeDrinkItem>()
 val cardType = CardType()
 
 @Preview
 @Composable
+@ExperimentalCoroutinesApi
 fun previewCoffeeDrinksScreen() {
     MaterialTheme(colors = lightThemeColors, typography = appTypography) {
         CoffeeDrinksScreen(
@@ -67,7 +70,7 @@ fun CoffeeDrinksScreen(
 fun CoffeeDrinksScreenUI(
     router: Router,
     repository: CoffeeDrinkRepository,
-    coffeeDrinks: ModelList<CoffeeDrinkItem>
+    coffeeDrinks: SnapshotStateList<CoffeeDrinkItem>
 ) {
     Surface {
         Column {
@@ -128,13 +131,11 @@ fun CoffeeDrinkAppBar(
 @Composable
 fun CoffeeDrinkList(
     cardType: CardType,
-    coffeeDrinks: ModelList<CoffeeDrinkItem>,
+    coffeeDrinks: SnapshotStateList<CoffeeDrinkItem>,
     onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
-    LazyColumnItems(
-        items = coffeeDrinks
-    ) { coffeeDrink ->
+    LazyColumnFor(items = coffeeDrinks) { coffeeDrink ->
         Box(
             modifier = Modifier.clickable(
                 onClick = {

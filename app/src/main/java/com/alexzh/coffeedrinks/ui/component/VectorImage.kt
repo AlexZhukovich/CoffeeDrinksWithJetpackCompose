@@ -1,16 +1,16 @@
 package com.alexzh.coffeedrinks.ui.component
 
 import androidx.annotation.DrawableRes
-import androidx.compose.Composable
-import androidx.ui.core.Modifier
-import androidx.ui.core.paint
-import androidx.ui.foundation.Box
-import androidx.ui.graphics.Color
-import androidx.ui.graphics.ColorFilter
-import androidx.ui.graphics.vector.VectorPainter
-import androidx.ui.layout.preferredSize
-import androidx.ui.res.vectorResource
-import androidx.ui.unit.dp
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.VectorPainter
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun VectorImage(
@@ -19,8 +19,8 @@ fun VectorImage(
     tint: Color = Color.Transparent
 ) {
     Box(
-        modifier = modifier +
-                Modifier.paint(
+        modifier = modifier
+                .paint(
                     VectorPainter(asset = vectorResource(id = id)),
                     colorFilter = ColorFilter.tint(tint)
                 )

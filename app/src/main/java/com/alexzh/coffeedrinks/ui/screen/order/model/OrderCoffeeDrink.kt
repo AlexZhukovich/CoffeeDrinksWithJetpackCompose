@@ -1,8 +1,8 @@
 package com.alexzh.coffeedrinks.ui.screen.order.model
 
 import androidx.annotation.DrawableRes
-import androidx.compose.MutableState
-import androidx.compose.mutableStateOf
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 
 data class OrderCoffeeDrink(
     val id: Long,

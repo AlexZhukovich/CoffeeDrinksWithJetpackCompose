@@ -38,6 +38,13 @@ android {
     }
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs += ["-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check"]
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -52,13 +59,17 @@ dependencies {
 
     // Jetpack Compose
     implementation "androidx.compose:compose-compiler:$compose_version"
-    implementation "androidx.compose:compose-runtime:$compose_version"
-    implementation "androidx.ui:ui-layout:$compose_version"
-    implementation "androidx.ui:ui-layout:$compose_version"
-    implementation "androidx.ui:ui-foundation:$compose_version"
-    implementation "androidx.ui:ui-animation:$compose_version"
+    implementation "androidx.compose.runtime:runtime:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.foundation:foundation-layout:$compose_version"
+    implementation "androidx.compose.foundation:foundation-text:$compose_version"
+    implementation "androidx.compose.animation:animation:$compose_version"
+    implementation "androidx.compose.animation:animation-core:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.material:material-icons-core:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.ui:ui-tooling:$compose_version"
-    implementation "androidx.ui:ui-material:$compose_version"
 
     // Local testing dependencies
     testImplementation "junit:junit:$junit_version"

@@ -2,12 +2,12 @@ package com.alexzh.coffeedrinks.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.Composable
-import androidx.compose.collectAsState
-import androidx.ui.animation.Crossfade
-import androidx.ui.core.setContent
-import androidx.ui.foundation.isSystemInDarkTheme
-import androidx.ui.material.MaterialTheme
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.setContent
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.router.Router
 import com.alexzh.coffeedrinks.ui.router.RouterDestination

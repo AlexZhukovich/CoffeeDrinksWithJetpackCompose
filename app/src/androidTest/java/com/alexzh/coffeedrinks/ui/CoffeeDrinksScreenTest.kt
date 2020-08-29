@@ -2,17 +2,19 @@ package com.alexzh.coffeedrinks.ui
 
 import androidx.ui.test.assertIsDisplayed
 import androidx.ui.test.createComposeRule
-import androidx.ui.test.findBySubstring
-import androidx.ui.test.findByText
+import androidx.ui.test.onNodeWithSubstring
+import androidx.ui.test.onNodeWithText
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.router.AppRouter
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
+@ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
 class CoffeeDrinksScreenTest {
 
@@ -30,11 +32,11 @@ class CoffeeDrinksScreenTest {
 
     @Test
     fun shouldLaunchApp() {
-        findByText("Coffee Drinks").assertIsDisplayed()
+        onNodeWithText("Coffee Drinks").assertIsDisplayed()
     }
 
     @Test
     fun shouldLoadAmericano() {
-        findBySubstring("Americano").assertIsDisplayed()
+        onNodeWithSubstring("Americano").assertIsDisplayed()
     }
 }

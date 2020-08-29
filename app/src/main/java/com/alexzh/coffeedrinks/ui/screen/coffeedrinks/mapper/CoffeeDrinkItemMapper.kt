@@ -1,6 +1,6 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper
 
-import androidx.compose.mutableStateOf
+import androidx.compose.runtime.mutableStateOf
 import com.alexzh.coffeedrinks.data.CoffeeDrink
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 
