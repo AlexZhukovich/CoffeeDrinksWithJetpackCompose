@@ -1,12 +1,9 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
-import androidx.compose.foundation.Box
-import androidx.compose.foundation.ContentGravity
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Stack
-import androidx.compose.foundation.layout.StackScope
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,17 +12,19 @@ import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawOpacity
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.appTypography
@@ -36,7 +35,7 @@ import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 
 @Preview
 @Composable
-fun previewDetailedListItem() {
+fun PreviewDetailedListItem() {
     MaterialTheme(colors = lightThemeColors, typography = appTypography) {
         val repository = RuntimeCoffeeDrinkRepository
         val mapper = CoffeeDrinkItemMapper()
@@ -45,10 +44,10 @@ fun previewDetailedListItem() {
         )
 
         CoffeeDrinkGridCard {
-            addFavouriteIcon(coffeeDrink = coffeeDrink, onFavouriteStateChanged = {})
-            addTitle(title = coffeeDrink.name)
-            addLogo(imageUrl = coffeeDrink.imageUrl)
-            addDescription(description = coffeeDrink.description)
+            AddFavouriteIcon(coffeeDrink = coffeeDrink, onFavouriteStateChanged = {})
+            AddTitle(title = coffeeDrink.name)
+            AddLogo(imageUrl = coffeeDrink.imageUrl)
+            AddDescription(description = coffeeDrink.description)
         }
     }
 }
@@ -59,37 +58,36 @@ fun CoffeeDrinkDetailedItem(
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     CoffeeDrinkGridCard {
-        addFavouriteIcon(
+        AddFavouriteIcon(
             coffeeDrink = coffeeDrink,
             onFavouriteStateChanged = onFavouriteStateChanged
         )
-        addTitle(title = coffeeDrink.name)
-        addLogo(imageUrl = coffeeDrink.imageUrl)
-        addDescription(description = coffeeDrink.description)
+        AddTitle(title = coffeeDrink.name)
+        AddLogo(imageUrl = coffeeDrink.imageUrl)
+        AddDescription(description = coffeeDrink.description)
     }
 }
 
 @Composable
 private fun CoffeeDrinkGridCard(
-    children: @Composable StackScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit
 ) {
     Surface(
         color = MaterialTheme.colors.surface,
         shape = RoundedCornerShape(8.dp),
         elevation = 1.dp
     ) {
-        Stack(
-            modifier = Modifier.preferredHeight(240.dp)
-                    .fillMaxWidth()
+        Box(modifier = Modifier.preferredHeight(240.dp)
+            .fillMaxWidth()
         ) {
-            addBackground()
-            children()
+            AddBackground()
+            content()
         }
     }
 }
 
 @Composable
-private fun addBackground() {
+private fun AddBackground() {
     Box(
         modifier = Modifier.preferredHeight(160.dp)
                 .fillMaxWidth()
@@ -98,13 +96,13 @@ private fun addBackground() {
 }
 
 @Composable
-private fun addFavouriteIcon(
+private fun AddFavouriteIcon(
     coffeeDrink: CoffeeDrinkItem,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth(),
-        gravity = ContentGravity.TopEnd
+        contentAlignment = Alignment.TopEnd,
+        modifier = Modifier.fillMaxWidth()
     ) {
         CoffeeDrinkFavouriteIcon(
             if (isSystemInDarkTheme()) {
@@ -119,11 +117,11 @@ private fun addFavouriteIcon(
 }
 
 @Composable
-private fun addTitle(title: String) {
+private fun AddTitle(title: String) {
     Box(
+        contentAlignment = Alignment.BottomStart,
         modifier = Modifier.preferredHeight(160.dp)
-                .fillMaxWidth(),
-        gravity = ContentGravity.BottomStart
+                .fillMaxWidth()
     ) {
         Text(
             modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
@@ -136,11 +134,11 @@ private fun addTitle(title: String) {
 }
 
 @Composable
-private fun addLogo(imageUrl: Int) {
+private fun AddLogo(imageUrl: Int) {
     Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier.preferredHeight(164.dp)
-                .fillMaxWidth(),
-        gravity = ContentGravity.Center
+                .fillMaxWidth()
     ) {
         Image(
             painter = ImagePainter(imageResource(id = imageUrl)),
@@ -150,18 +148,18 @@ private fun addLogo(imageUrl: Int) {
 }
 
 @Composable
-private fun addDescription(description: String) {
+private fun AddDescription(description: String) {
     Box(
+        contentAlignment = Alignment.BottomStart,
         modifier = Modifier.fillMaxSize()
-                .padding(8.dp),
-        gravity = ContentGravity.BottomStart
+                .padding(8.dp)
     ) {
         Text(
             text = description,
             overflow = TextOverflow.Ellipsis,
             maxLines = 3,
             style = MaterialTheme.typography.body1,
-            modifier = Modifier.drawOpacity(0.54f)
+            modifier = Modifier.alpha(0.54f)
         )
     }
 }
@@ -174,7 +172,7 @@ private fun CoffeeDrinkFavouriteIcon(
 ) {
     Favourite(
         state = favouriteState,
-        modifier = Modifier.drawOpacity(0.78f),
+        modifier = Modifier.alpha(0.78f),
         onValueChanged = onValueChanged,
         favouriteVectorId = R.drawable.ic_baseline_favorite_24,
         nonFavouriteVectorId = R.drawable.ic_baseline_favorite_border_24,

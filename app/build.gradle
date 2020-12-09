@@ -1,31 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 apply from: '../scripts/ktlint.gradle'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.alexzh.coffeedrinks"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerVersion "$compose_compiler_version"
-        kotlinCompilerExtensionVersion "$compose_version"
-    }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,14 +24,32 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerVersion kotlin_version
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
     }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions {
+        // Treat all Kotlin warnings as errors
+        allWarningsAsErrors = true
+        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
+        // Enable experimental coroutines APIs, including Flow
+        freeCompilerArgs += '-Xopt-in=kotlin.Experimental'
+        freeCompilerArgs += '-Xallow-jvm-ir-dependencies'
+
+        // Set JVM target to 1.8
         jvmTarget = "1.8"
-        freeCompilerArgs += ["-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check"]
     }
 }
 
@@ -58,25 +66,24 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
     // Jetpack Compose
-    implementation "androidx.compose:compose-compiler:$compose_version"
     implementation "androidx.compose.runtime:runtime:$compose_version"
-    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.foundation:foundation-layout:$compose_version"
-    implementation "androidx.compose.foundation:foundation-text:$compose_version"
-    implementation "androidx.compose.animation:animation:$compose_version"
-    implementation "androidx.compose.animation:animation-core:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.material:material-icons-core:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
-    implementation "androidx.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.animation:animation:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     // Local testing dependencies
     testImplementation "junit:junit:$junit_version"
 
     // Instrumentation testing dependencies
+    androidTestImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$test_junit_runner"
     androidTestImplementation("androidx.test:rules:$test_rules")
     androidTestImplementation("androidx.test:runner:$test_runner")
-    androidTestImplementation("androidx.ui:ui-test:$compose_version")
+    androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 }

@@ -1,11 +1,9 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedetails
 
-import androidx.compose.foundation.Box
-import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ConstraintLayout
 import androidx.compose.foundation.layout.Dimension
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,20 +12,22 @@ import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawOpacity
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
@@ -43,7 +43,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Preview
 @Composable
 @ExperimentalCoroutinesApi
-fun previewScreen() {
+fun PreviewScreen() {
     val coffeeDrinkId = 1L
     val repository = RuntimeCoffeeDrinkRepository
     val mapper = CoffeeDrinkDetailMapper()
@@ -172,7 +172,7 @@ private fun CoffeeDrinkDetailsScreenUI(
                 linkTo(startGuideline, endGuideline)
                 width = Dimension.fillToConstraints
             }
-            .drawOpacity(0.54f)
+            .alpha(0.54f)
         )
 
         Text(
@@ -186,7 +186,7 @@ private fun CoffeeDrinkDetailsScreenUI(
                 linkTo(startGuideline, endGuideline)
                 width = Dimension.fillToConstraints
             }
-            .drawOpacity(0.54f)
+            .alpha(0.54f)
         )
     }
 }

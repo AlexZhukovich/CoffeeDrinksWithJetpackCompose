@@ -1,9 +1,9 @@
 package com.alexzh.coffeedrinks.ui
 
-import androidx.ui.test.assertIsDisplayed
-import androidx.ui.test.createComposeRule
-import androidx.ui.test.onNodeWithSubstring
-import androidx.ui.test.onNodeWithText
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithSubstring
+import androidx.compose.ui.test.onNodeWithText
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.router.AppRouter
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
@@ -32,11 +32,15 @@ class CoffeeDrinksScreenTest {
 
     @Test
     fun shouldLaunchApp() {
-        onNodeWithText("Coffee Drinks").assertIsDisplayed()
+        composeTestRule
+                .onNodeWithText("Coffee Drinks")
+                .assertIsDisplayed()
     }
 
     @Test
     fun shouldLoadAmericano() {
-        onNodeWithSubstring("Americano").assertIsDisplayed()
+        composeTestRule
+                .onNodeWithSubstring("Americano")
+                .assertIsDisplayed()
     }
 }

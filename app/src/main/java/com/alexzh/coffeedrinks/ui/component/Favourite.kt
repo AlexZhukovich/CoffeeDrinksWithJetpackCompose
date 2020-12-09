@@ -1,7 +1,7 @@
 package com.alexzh.coffeedrinks.ui.component
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Box
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.runtime.Composable
