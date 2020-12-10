@@ -2,15 +2,11 @@ package com.alexzh.coffeedrinks.ui.screen.order
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Box
-import androidx.compose.foundation.ContentGravity
-import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,22 +16,29 @@ import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonConstants
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawOpacity
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
+import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
+import com.alexzh.coffeedrinks.ui.darkThemeColors
 import com.alexzh.coffeedrinks.ui.router.Router
 import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.order.mapper.OrderCoffeeDrinkMapper
@@ -43,6 +46,16 @@ import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrink
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrinkData
 
 private val coffeeDrinks = mutableStateListOf<OrderCoffeeDrink>()
+
+@Preview
+@Composable
+fun PreviewCounter() {
+    val mapper = OrderCoffeeDrinkMapper()
+    val orderCoffeeDrink = mapper.map(RuntimeCoffeeDrinkRepository.getCoffeeDrinks().first())
+    MaterialTheme(colors = darkThemeColors) {
+        Counter(orderCoffeeDrink = orderCoffeeDrink)
+    }
+}
 
 @Composable
 fun OrderCoffeeDrinkScreen(
@@ -118,9 +131,9 @@ fun OrderCoffeeDrinkItem(
         Row {
             Logo(orderCoffeeDrink.imageRes)
             Box(
+                contentAlignment = Alignment.CenterStart,
                 modifier = Modifier.weight(1f)
-                        .padding(start = 8.dp),
-                gravity = ContentGravity.CenterStart
+                    .padding(start = 8.dp)
             ) {
                 Column {
                     Text(
@@ -134,11 +147,11 @@ fun OrderCoffeeDrinkItem(
                     )
                 }
             }
-            Box(modifier = Modifier.preferredWidth(100.dp)) {
+            Box(modifier = Modifier.preferredWidth(120.dp)) {
                 Column {
                     Text(
                         modifier = Modifier.padding(bottom = 4.dp)
-                                .fillMaxWidth(),
+                            .fillMaxWidth(),
                         text = "€ ${orderCoffeeDrink.price}",
                         style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Right)
                     )
@@ -155,7 +168,7 @@ fun OrderCoffeeDrinkItem(
 private fun Logo(@DrawableRes logoId: Int) {
     Surface(
         modifier = Modifier.preferredSize(72.dp)
-                .padding(16.dp),
+            .padding(16.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
@@ -176,33 +189,39 @@ private fun Counter(
         color = Color.Transparent
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
-            gravity = ContentGravity.Center
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
         ) {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(
-                    modifier = Modifier.preferredWidth(40.dp)
-                            .fillMaxHeight(),
-                    backgroundColor = Color.Transparent,
-                    elevation = 0.dp,
+                    modifier = Modifier.preferredWidth(40.dp),
+                    colors = ButtonConstants.defaultOutlinedButtonColors(),
+                    elevation = ButtonConstants.defaultElevation(0.dp),
                     onClick = { removeCoffeeDrink(orderCoffeeDrink) }
                 ) {
-                    Text(text = "—", style = MaterialTheme.typography.body1)
+                    Text(
+                        text = "—",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onBackground
+                    )
                 }
                 Text(
-                    modifier = Modifier.weight(1f)
-                            .padding(top = 8.dp, bottom = 8.dp),
+                    modifier = Modifier.weight(1f),
                     text = orderCoffeeDrink.count.value.toString(),
-                    style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Center)
+                    style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Center),
+                    color = MaterialTheme.colors.onBackground
                 )
                 Button(
-                    modifier = Modifier.preferredWidth(40.dp)
-                            .fillMaxHeight(),
-                    backgroundColor = Color.Transparent,
-                    elevation = 0.dp,
+                    modifier = Modifier.preferredWidth(40.dp),
+                    colors = ButtonConstants.defaultOutlinedButtonColors(),
+                    elevation = ButtonConstants.defaultElevation(0.dp),
                     onClick = { addCoffeeDrink(orderCoffeeDrink) }
                 ) {
-                    Text(text = "＋", style = MaterialTheme.typography.body1)
+                    Text(
+                        text = "+",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onBackground
+                    )
                 }
             }
         }
@@ -242,7 +261,7 @@ private fun AppBarWithOrderSummary(router: Router, order: OrderCoffeeDrinkData) 
 private fun CoffeeDrinkDivider() {
     Divider(
         modifier = Modifier.padding(start = 72.dp)
-                .drawOpacity(0.12f),
+            .alpha(0.12f),
         color = if (isSystemInDarkTheme()) {
             Color.White
         } else {

@@ -1,6 +1,6 @@
 package com.alexzh.coffeedrinks.ui
 
-import androidx.ui.test.ComposeTestRule
+import androidx.compose.ui.test.junit4.ComposeTestRule
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.router.Router
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksScreen
