@@ -1,70 +1,70 @@
 package com.alexzh.coffeedrinks.ui
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.ResourceFont
-import androidx.compose.ui.text.font.fontFamily
 import com.alexzh.coffeedrinks.R
 
-private val appFontFamily = fontFamily(
+private val appFontFamily = FontFamily(
     fonts = listOf(
-        ResourceFont(
+        Font(
             resId = R.font.roboto_black,
             weight = FontWeight.W900,
             style = FontStyle.Normal
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_black_italic,
             weight = FontWeight.W900,
             style = FontStyle.Italic
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_bold,
             weight = FontWeight.W700,
             style = FontStyle.Normal
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_bold_italic,
             weight = FontWeight.W700,
             style = FontStyle.Italic
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_light,
             weight = FontWeight.W300,
             style = FontStyle.Normal
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_light_italic,
             weight = FontWeight.W300,
             style = FontStyle.Italic
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_medium,
             weight = FontWeight.W500,
             style = FontStyle.Normal
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_medium_italic,
             weight = FontWeight.W500,
             style = FontStyle.Italic
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_regular,
             weight = FontWeight.W400,
             style = FontStyle.Normal
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_regular_italic,
             weight = FontWeight.W400,
             style = FontStyle.Italic
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_thin,
             weight = FontWeight.W100,
             style = FontStyle.Normal
         ),
-        ResourceFont(
+        Font(
             resId = R.font.roboto_thin_italic,
             weight = FontWeight.W100,
             style = FontStyle.Italic

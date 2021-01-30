@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Coffee drinks</string>
+
+    <string name="action_back">Back</string>
+    <string name="action_order_coffee_drinks">Order coffee drinks</string>
+    <string name="action_show_detailed_cards">Show detailed cards</string>
+
+    <string name="mark_as_favorite">Mark as favorite</string>
+    <string name="unmark_as_favorite">Unmark as favorite</string>
 </resources>

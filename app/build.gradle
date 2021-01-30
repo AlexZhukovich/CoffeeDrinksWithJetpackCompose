@@ -30,7 +30,6 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerVersion kotlin_version
         kotlinCompilerExtensionVersion compose_version
     }
     packagingOptions {

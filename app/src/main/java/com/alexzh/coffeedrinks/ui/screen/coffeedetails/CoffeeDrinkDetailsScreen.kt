@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -82,22 +83,24 @@ private fun CoffeeDrinkDetailsScreenUI(
         val endGuideline = createGuidelineFromEnd(16.dp)
         val (surface, header, appBar, fab, name, logo, description, ingredients) = createRefs()
 
-        Box(modifier = Modifier.constrainAs(surface) { centerTo(parent) }
-                .fillMaxSize()
-                .background(color = MaterialTheme.colors.surface)
+        Box(modifier = Modifier
+            .constrainAs(surface) { centerTo(parent) }
+            .fillMaxSize()
+            .background(color = MaterialTheme.colors.surface)
         )
 
-        Box(modifier = Modifier.constrainAs(header) { centerHorizontallyTo(surface) }
-                .fillMaxWidth()
-                .preferredHeight(220.dp)
-                .paint(
-                        painter = if (isSystemInDarkTheme()) {
-                            ColorPainter(Color.White)
-                        } else {
-                            ColorPainter(MaterialTheme.colors.primary)
-                        },
-                        alpha = 0.95f
-                )
+        Box(modifier = Modifier
+            .constrainAs(header) { centerHorizontallyTo(surface) }
+            .fillMaxWidth()
+            .preferredHeight(220.dp)
+            .paint(
+                painter = if (isSystemInDarkTheme()) {
+                    ColorPainter(Color.White)
+                } else {
+                    ColorPainter(MaterialTheme.colors.primary)
+                },
+                alpha = 0.95f
+            )
         )
 
         TopAppBar(
@@ -108,21 +111,24 @@ private fun CoffeeDrinkDetailsScreenUI(
             navigationIcon = {
                 IconButton(onClick = { router.navigateTo(RouterDestination.CoffeeDrinks) }) {
                     Icon(
-                            painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
-                            tint = if (isSystemInDarkTheme()) {
-                                Color.Black
-                            } else {
-                                MaterialTheme.colors.onPrimary
-                            }
+                        painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
+                        contentDescription = stringResource(R.string.action_back),
+                        tint = if (isSystemInDarkTheme()) {
+                            Color.Black
+                        } else {
+                            MaterialTheme.colors.onPrimary
+                        }
                     )
                 }
             }
         )
 
         Image(
-                modifier = Modifier.constrainAs(logo) { centerTo(header) }
-                        .preferredSize(180.dp),
-                painter = ImagePainter(imageResource(id = R.drawable.americano_small))
+            modifier = Modifier
+                .constrainAs(logo) { centerTo(header) }
+                .preferredSize(180.dp),
+            painter = ImagePainter(imageResource(id = R.drawable.americano_small)),
+            contentDescription = null
         )
 
         FloatingActionButton(
@@ -147,6 +153,11 @@ private fun CoffeeDrinkDetailsScreenUI(
                         }
                     )
                 ),
+                contentDescription = if (coffeeDrink.isFavourite.value) {
+                    stringResource(R.string.mark_as_favorite)
+                } else {
+                    stringResource(R.string.unmark_as_favorite)
+                },
                 tint = MaterialTheme.colors.onSecondary
             )
         }
@@ -167,12 +178,13 @@ private fun CoffeeDrinkDetailsScreenUI(
                 color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.Justify
             ),
-            modifier = Modifier.constrainAs(description) {
-                top.linkTo(name.bottom, margin = 8.dp)
-                linkTo(startGuideline, endGuideline)
-                width = Dimension.fillToConstraints
-            }
-            .alpha(0.54f)
+            modifier = Modifier
+                .constrainAs(description) {
+                    top.linkTo(name.bottom, margin = 8.dp)
+                    linkTo(startGuideline, endGuideline)
+                    width = Dimension.fillToConstraints
+                }
+                .alpha(0.54f)
         )
 
         Text(
@@ -181,12 +193,13 @@ private fun CoffeeDrinkDetailsScreenUI(
                 color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.Justify
             ),
-            modifier = Modifier.constrainAs(ingredients) {
-                top.linkTo(description.bottom, margin = 8.dp)
-                linkTo(startGuideline, endGuideline)
-                width = Dimension.fillToConstraints
-            }
-            .alpha(0.54f)
+            modifier = Modifier
+                .constrainAs(ingredients) {
+                    top.linkTo(description.bottom, margin = 8.dp)
+                    linkTo(startGuideline, endGuideline)
+                    width = Dimension.fillToConstraints
+                }
+                .alpha(0.54f)
         )
     }
 }
