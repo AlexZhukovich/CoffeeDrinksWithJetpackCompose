@@ -4,7 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -17,6 +18,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alexzh.coffeedrinks.R
@@ -115,13 +117,15 @@ fun CoffeeDrinkAppBar(
                     painter = ImagePainter(
                         imageResource(id = if (cardType.isDetailedCard.value) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
                     ),
+                    contentDescription = stringResource(R.string.action_show_detailed_cards),
                     tint = MaterialTheme.colors.onPrimary
                 )
             }
             IconButton(onClick = { router.navigateTo(RouterDestination.OrderCoffeeDrinks) }) {
                 Icon(
                     painter = ImagePainter(imageResource(id = R.drawable.ic_order_white)),
-                    tint = MaterialTheme.colors.onPrimary
+                    tint = MaterialTheme.colors.onPrimary,
+                    contentDescription = stringResource(R.string.action_order_coffee_drinks)
                 )
             }
         }
@@ -135,26 +139,28 @@ fun CoffeeDrinkList(
     onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
-    LazyColumnFor(items = coffeeDrinks) { coffeeDrink ->
-        Box(
-            modifier = Modifier.clickable(
-                onClick = {
-                    onCoffeeDrinkClicked(coffeeDrink)
-                }
-            )
-        ) {
-            if (cardType.isDetailedCard.value) {
-                Box(modifier = Modifier.padding(8.dp)) {
-                    CoffeeDrinkDetailedItem(
+    LazyColumn {
+        items(items = coffeeDrinks) { coffeeDrink ->
+            Box(
+                modifier = Modifier.clickable(
+                    onClick = {
+                        onCoffeeDrinkClicked(coffeeDrink)
+                    }
+                )
+            ) {
+                if (cardType.isDetailedCard.value) {
+                    Box(modifier = Modifier.padding(8.dp)) {
+                        CoffeeDrinkDetailedItem(
+                            coffeeDrink = coffeeDrink,
+                            onFavouriteStateChanged = { onFavouriteStateChanged(it) }
+                        )
+                    }
+                } else {
+                    CoffeeDrinkListItemWithDivider(
                         coffeeDrink = coffeeDrink,
                         onFavouriteStateChanged = { onFavouriteStateChanged(it) }
                     )
                 }
-            } else {
-                CoffeeDrinkListItemWithDivider(
-                    coffeeDrink = coffeeDrink,
-                    onFavouriteStateChanged = { onFavouriteStateChanged(it) }
-                )
             }
         }
     }

@@ -6,6 +6,7 @@ import androidx.compose.ui.test.onNodeWithSubstring
 import androidx.compose.ui.test.onNodeWithText
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.router.AppRouter
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksScreen
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
@@ -27,20 +28,22 @@ class CoffeeDrinksScreenTest {
 
     @Before
     fun setUp() {
-        composeTestRule.launchCoffeeDrinksScreen(router, repository, mapper)
+        composeTestRule.setContent {
+            CoffeeDrinksScreen(router, repository, mapper)
+        }
     }
 
     @Test
     fun shouldLaunchApp() {
         composeTestRule
-                .onNodeWithText("Coffee Drinks")
-                .assertIsDisplayed()
+            .onNodeWithText("Coffee Drinks")
+            .assertIsDisplayed()
     }
 
     @Test
     fun shouldLoadAmericano() {
         composeTestRule
-                .onNodeWithSubstring("Americano")
-                .assertIsDisplayed()
+            .onNodeWithSubstring("Americano")
+            .assertIsDisplayed()
     }
 }

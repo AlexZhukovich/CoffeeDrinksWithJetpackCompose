@@ -12,11 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.preferredWidth
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonConstants
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -32,6 +33,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -87,10 +89,12 @@ fun OrderCoffeeDrinkScreenUI(
     Column {
         AppBarWithOrderSummary(router, order)
         Surface {
-            LazyColumnFor(items = order.drinks) { coffeeDrink ->
-                Column {
-                    OrderCoffeeDrinkItem(orderCoffeeDrink = coffeeDrink)
-                    CoffeeDrinkDivider()
+            LazyColumn {
+                items(items = order.drinks) { coffeeDrink ->
+                    Column {
+                        OrderCoffeeDrinkItem(orderCoffeeDrink = coffeeDrink)
+                        CoffeeDrinkDivider()
+                    }
                 }
             }
         }
@@ -116,6 +120,7 @@ private fun AppBar(
             IconButton(onClick = onBackClick) {
                 Icon(
                     painter = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white)),
+                    contentDescription = stringResource(R.string.action_back),
                     tint = MaterialTheme.colors.onPrimary
                 )
             }
@@ -132,7 +137,8 @@ fun OrderCoffeeDrinkItem(
             Logo(orderCoffeeDrink.imageRes)
             Box(
                 contentAlignment = Alignment.CenterStart,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .padding(start = 8.dp)
             ) {
                 Column {
@@ -150,7 +156,8 @@ fun OrderCoffeeDrinkItem(
             Box(modifier = Modifier.preferredWidth(120.dp)) {
                 Column {
                     Text(
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        modifier = Modifier
+                            .padding(bottom = 4.dp)
                             .fillMaxWidth(),
                         text = "€ ${orderCoffeeDrink.price}",
                         style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Right)
@@ -167,14 +174,16 @@ fun OrderCoffeeDrinkItem(
 @Composable
 private fun Logo(@DrawableRes logoId: Int) {
     Surface(
-        modifier = Modifier.preferredSize(72.dp)
+        modifier = Modifier
+            .preferredSize(72.dp)
             .padding(16.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
         Image(
             modifier = Modifier.preferredSize(64.dp),
-            painter = ImagePainter(imageResource(id = logoId))
+            painter = ImagePainter(imageResource(id = logoId)),
+            contentDescription = null
         )
     }
 }
@@ -195,8 +204,8 @@ private fun Counter(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(
                     modifier = Modifier.preferredWidth(40.dp),
-                    colors = ButtonConstants.defaultOutlinedButtonColors(),
-                    elevation = ButtonConstants.defaultElevation(0.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(),
+                    elevation = ButtonDefaults.elevation(0.dp),
                     onClick = { removeCoffeeDrink(orderCoffeeDrink) }
                 ) {
                     Text(
@@ -213,8 +222,8 @@ private fun Counter(
                 )
                 Button(
                     modifier = Modifier.preferredWidth(40.dp),
-                    colors = ButtonConstants.defaultOutlinedButtonColors(),
-                    elevation = ButtonConstants.defaultElevation(0.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(),
+                    elevation = ButtonDefaults.elevation(0.dp),
                     onClick = { addCoffeeDrink(orderCoffeeDrink) }
                 ) {
                     Text(
@@ -260,7 +269,8 @@ private fun AppBarWithOrderSummary(router: Router, order: OrderCoffeeDrinkData) 
 @Composable
 private fun CoffeeDrinkDivider() {
     Divider(
-        modifier = Modifier.padding(start = 72.dp)
+        modifier = Modifier
+            .padding(start = 72.dp)
             .alpha(0.12f),
         color = if (isSystemInDarkTheme()) {
             Color.White

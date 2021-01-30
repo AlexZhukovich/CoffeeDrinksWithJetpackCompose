@@ -142,7 +142,8 @@ private fun AddLogo(imageUrl: Int) {
     ) {
         Image(
             painter = ImagePainter(imageResource(id = imageUrl)),
-            modifier = Modifier.preferredSize(100.dp)
+            modifier = Modifier.preferredSize(100.dp),
+            contentDescription = null
         )
     }
 }

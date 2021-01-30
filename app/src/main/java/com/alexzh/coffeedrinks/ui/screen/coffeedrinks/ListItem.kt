@@ -103,7 +103,8 @@ private fun CoffeeDrinkLogo(@DrawableRes id: Int) {
     ) {
         Image(
             painter = ImagePainter(imageResource(id = id)),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentDescription = null
         )
     }
 }
