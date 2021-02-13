@@ -59,6 +59,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
 
     // Koin
     implementation "org.koin:koin-android:$koin_version"
@@ -77,6 +78,7 @@ dependencies {
 
     // Local testing dependencies
     testImplementation "junit:junit:$junit_version"
+    implementation 'io.mockk:mockk:1.10.5'
 
     // Instrumentation testing dependencies
     androidTestImplementation "junit:junit:$junit_version"

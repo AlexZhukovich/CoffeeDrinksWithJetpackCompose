@@ -4,6 +4,7 @@ import android.app.Application
 import com.alexzh.coffeedrinks.di.dataModule
 import com.alexzh.coffeedrinks.di.mapperModule
 import com.alexzh.coffeedrinks.di.routerModule
+import com.alexzh.coffeedrinks.di.viewModelModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -26,7 +27,8 @@ class CoffeeDrinksApp : Application() {
                 listOf(
                     dataModule,
                     mapperModule,
-                    routerModule
+                    routerModule,
+                    viewModelModule
                 )
             )
         }
