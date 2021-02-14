@@ -10,5 +10,6 @@ data class CoffeeDrink(
     val ingredients: String,
     val orderDescription: String,
     val price: Double,
+    // TODO: isFavourite should be immutable
     var isFavourite: Boolean
 )

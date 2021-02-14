@@ -156,7 +156,7 @@ fun CoffeeDrinkList(
                         )
                     }
                 } else {
-                    CoffeeDrinkListItemWithDivider(
+                    CoffeeDrinkList(
                         coffeeDrink = coffeeDrink,
                         onFavouriteStateChanged = { onFavouriteStateChanged(it) }
                     )

@@ -1,5 +1,6 @@
 package com.alexzh.coffeedrinks.data
 
+// TODO: repository should have suspend functions
 interface CoffeeDrinkRepository {
 
     fun getCoffeeDrinks(): List<CoffeeDrink>
