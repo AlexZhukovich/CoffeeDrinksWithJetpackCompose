@@ -78,7 +78,7 @@ dependencies {
 
     // Local testing dependencies
     testImplementation "junit:junit:$junit_version"
-    implementation 'io.mockk:mockk:1.10.5'
+    testImplementation "io.mockk:mockk-android:$mockk_version"
 
     // Instrumentation testing dependencies
     androidTestImplementation "junit:junit:$junit_version"
@@ -87,4 +87,5 @@ dependencies {
     androidTestImplementation("androidx.test:runner:$test_runner")
     androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 }
