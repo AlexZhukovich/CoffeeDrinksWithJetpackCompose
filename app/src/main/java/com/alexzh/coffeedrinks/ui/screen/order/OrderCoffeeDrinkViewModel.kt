@@ -35,7 +35,6 @@ class OrderCoffeeDrinkViewModel(
                     totalPrice = BigDecimal(totalCount)
                 )
             )
-            repository.getCoffeeDrinks()
         }
     }
 

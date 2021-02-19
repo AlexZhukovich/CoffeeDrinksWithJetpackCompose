@@ -1,12 +1,10 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model
 
-import androidx.compose.runtime.MutableState
-
 data class CoffeeDrinkItem(
     val id: Long,
     val name: String,
     val imageUrl: Int,
     val ingredients: String,
     val description: String,
-    var isFavourite: MutableState<Boolean>
+    val isFavourite: Boolean
 )
