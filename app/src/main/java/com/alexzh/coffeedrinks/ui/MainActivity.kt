@@ -14,6 +14,7 @@ import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.CoffeeDrinkDetailsScreen
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksScreen
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksViewModel
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import com.alexzh.coffeedrinks.ui.screen.order.OrderCoffeeDrinkScreen
 import com.alexzh.coffeedrinks.ui.screen.order.OrderCoffeeDrinkViewModel
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private val coffeeDrinkDetailMapper: CoffeeDrinkDetailMapper by inject()
     private val router: Router by inject()
     private val orderViewModel: OrderCoffeeDrinkViewModel by viewModel()
+    private val coffeeDrinksViewModel: CoffeeDrinksViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +54,7 @@ class MainActivity : AppCompatActivity() {
                 when (screen) {
                     is RouterDestination.CoffeeDrinks -> CoffeeDrinksScreen(
                         router,
-                        repository,
-                        coffeeDrinkItemMapper
+                        coffeeDrinksViewModel
                     )
                     is RouterDestination.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(
                         router,

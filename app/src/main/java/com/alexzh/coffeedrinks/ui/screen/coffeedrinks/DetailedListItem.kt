@@ -110,7 +110,7 @@ private fun AddFavouriteIcon(
             } else {
                 MaterialTheme.colors.onPrimary
             },
-            favouriteState = coffeeDrink.isFavourite.value,
+            favouriteState = coffeeDrink.isFavourite,
             onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
         )
     }

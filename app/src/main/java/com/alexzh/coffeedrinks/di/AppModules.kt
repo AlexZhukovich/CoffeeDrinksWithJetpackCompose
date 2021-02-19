@@ -1,6 +1,5 @@
 package com.alexzh.coffeedrinks.di
 
-import androidx.compose.ui.viewinterop.viewModel
 import com.alexzh.coffeedrinks.data.CoffeeDrinkDataSource
 import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.DummyCoffeeDrinksDataSource
@@ -10,6 +9,7 @@ import com.alexzh.coffeedrinks.data.order.RuntimeOrderCoffeeDrinksRepository
 import com.alexzh.coffeedrinks.ui.router.AppRouter
 import com.alexzh.coffeedrinks.ui.router.Router
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksViewModel
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import com.alexzh.coffeedrinks.ui.screen.order.OrderCoffeeDrinkViewModel
 import com.alexzh.coffeedrinks.ui.screen.order.mapper.OrderCoffeeDrinkMapper
@@ -18,8 +18,8 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val dataModule = module {
-    single<CoffeeDrinkRepository> { RuntimeCoffeeDrinkRepository }
     factory<CoffeeDrinkDataSource> { DummyCoffeeDrinksDataSource() }
+    single<CoffeeDrinkRepository> { RuntimeCoffeeDrinkRepository }
     single<OrderCoffeeDrinksRepository> {
         RuntimeOrderCoffeeDrinksRepository(
             coffeeDrinkDataSource = get(),
@@ -40,6 +40,12 @@ val viewModelModule = module {
     viewModel {
         OrderCoffeeDrinkViewModel(
             repository = get()
+        )
+    }
+    viewModel {
+        CoffeeDrinksViewModel(
+            repository = get(),
+            mapper = get()
         )
     }
 }

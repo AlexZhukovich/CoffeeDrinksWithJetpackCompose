@@ -13,80 +13,74 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alexzh.coffeedrinks.R
-import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
-import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
-import com.alexzh.coffeedrinks.ui.appTypography
-import com.alexzh.coffeedrinks.ui.lightThemeColors
-import com.alexzh.coffeedrinks.ui.router.AppRouter
 import com.alexzh.coffeedrinks.ui.router.Router
 import com.alexzh.coffeedrinks.ui.router.RouterDestination
-import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
-import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CardType
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-
-private val coffeeDrinks = mutableStateListOf<CoffeeDrinkItem>()
-val cardType = CardType()
-
-@Preview
-@Composable
-@ExperimentalCoroutinesApi
-fun PreviewCoffeeDrinksScreen() {
-    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
-        CoffeeDrinksScreen(
-            router = AppRouter(),
-            repository = RuntimeCoffeeDrinkRepository,
-            mapper = CoffeeDrinkItemMapper()
-        )
-    }
-}
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinksState
+import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.DisplayingOptions
+import com.alexzh.coffeedrinks.ui.state.UiState
 
 @Composable
 fun CoffeeDrinksScreen(
     router: Router,
-    repository: CoffeeDrinkRepository,
-    mapper: CoffeeDrinkItemMapper
+    viewModel: CoffeeDrinksViewModel
 ) {
-    coffeeDrinks.clear()
-    coffeeDrinks.addAll(
-        repository.getCoffeeDrinks().map { mapper.map(it) }
-    )
+    viewModel.uiState.observeAsState(initial = UiState.Loading).value.let { uiState ->
+        when (uiState) {
+            is UiState.Loading -> ShowLoadingScreen()
+            is UiState.Success -> ShowSuccessScreen(router, uiState.data, viewModel)
+            is UiState.Error -> ShowErrorScreen()
+        }
+    }
+}
 
+@Composable
+fun ShowLoadingScreen() {
+    // TODO: implement it
+}
+
+@Composable
+fun ShowSuccessScreen(
+    router: Router,
+    coffeeDrinksState: CoffeeDrinksState,
+    viewModel: CoffeeDrinksViewModel
+) {
     CoffeeDrinksScreenUI(
         router = router,
-        repository = repository,
-        coffeeDrinks = coffeeDrinks
+        coffeeDrinksState = coffeeDrinksState,
+        viewModel = viewModel
     )
+}
+
+@Composable
+fun ShowErrorScreen() {
+    // TODO: implement it
 }
 
 @Composable
 fun CoffeeDrinksScreenUI(
     router: Router,
-    repository: CoffeeDrinkRepository,
-    coffeeDrinks: SnapshotStateList<CoffeeDrinkItem>
+    coffeeDrinksState: CoffeeDrinksState,
+    viewModel: CoffeeDrinksViewModel
 ) {
     Surface {
         Column {
-            CoffeeDrinkAppBar(router, cardType)
+            CoffeeDrinkAppBar(
+                router,
+                coffeeDrinksState.displayingOption,
+                onChangeDisplayOption = { viewModel.changeDisplayingOption() }
+            )
             CoffeeDrinkList(
-                cardType = cardType,
-                coffeeDrinks = coffeeDrinks,
+                coffeeDrinksState = coffeeDrinksState,
                 onCoffeeDrinkClicked = { onCoffeeDrinkClicked(router, it) },
-                onFavouriteStateChanged = {
-                    onCoffeeFavouriteStateChanged(
-                        repository,
-                        it
-                    )
-                }
+                onFavouriteStateChanged = { viewModel.changeFavouriteState(it) }
             )
         }
     }
@@ -95,7 +89,8 @@ fun CoffeeDrinksScreenUI(
 @Composable
 fun CoffeeDrinkAppBar(
     router: Router,
-    cardType: CardType
+    displayingOption: DisplayingOptions,
+    onChangeDisplayOption: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -109,13 +104,11 @@ fun CoffeeDrinkAppBar(
         backgroundColor = MaterialTheme.colors.primary,
         actions = {
             IconButton(
-                onClick = {
-                    cardType.isDetailedCard.value = !cardType.isDetailedCard.value
-                }
+                onClick = { onChangeDisplayOption() }
             ) {
                 Icon(
                     painter = ImagePainter(
-                        imageResource(id = if (cardType.isDetailedCard.value) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
+                        imageResource(id = if (displayingOption == DisplayingOptions.CARDS) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
                     ),
                     contentDescription = stringResource(R.string.action_show_detailed_cards),
                     tint = MaterialTheme.colors.onPrimary
@@ -134,13 +127,12 @@ fun CoffeeDrinkAppBar(
 
 @Composable
 fun CoffeeDrinkList(
-    cardType: CardType,
-    coffeeDrinks: SnapshotStateList<CoffeeDrinkItem>,
+    coffeeDrinksState: CoffeeDrinksState,
     onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
     LazyColumn {
-        items(items = coffeeDrinks) { coffeeDrink ->
+        items(items = coffeeDrinksState.coffeeDrinks) { coffeeDrink ->
             Box(
                 modifier = Modifier.clickable(
                     onClick = {
@@ -148,7 +140,7 @@ fun CoffeeDrinkList(
                     }
                 )
             ) {
-                if (cardType.isDetailedCard.value) {
+                if (coffeeDrinksState.displayingOption == DisplayingOptions.CARDS) {
                     Box(modifier = Modifier.padding(8.dp)) {
                         CoffeeDrinkDetailedItem(
                             coffeeDrink = coffeeDrink,
@@ -163,21 +155,6 @@ fun CoffeeDrinkList(
                 }
             }
         }
-    }
-}
-
-private fun onCoffeeFavouriteStateChanged(
-    repository: CoffeeDrinkRepository,
-    coffee: CoffeeDrinkItem
-) {
-    val newFavouriteState = !coffee.isFavourite.value
-    coffee.isFavourite.value = newFavouriteState
-
-    repository.getCoffeeDrink(coffee.id)?.copy(isFavourite = newFavouriteState)?.let {
-        repository.updateFavouriteState(
-            it.id,
-            newFavouriteState
-        )
     }
 }
 

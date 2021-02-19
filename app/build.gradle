@@ -64,6 +64,7 @@ dependencies {
     // Koin
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    androidTestImplementation "org.koin:koin-test:$koin_version"
 
     // Jetpack Compose
     implementation "androidx.compose.runtime:runtime:$compose_version"
