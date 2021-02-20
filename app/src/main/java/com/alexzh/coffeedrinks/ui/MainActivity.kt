@@ -8,26 +8,22 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.setContent
-import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
 import com.alexzh.coffeedrinks.ui.router.Router
 import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.CoffeeDrinkDetailsScreen
-import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
+import com.alexzh.coffeedrinks.ui.screen.coffeedetails.CoffeeDrinkDetailsViewModel
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksScreen
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksViewModel
-import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import com.alexzh.coffeedrinks.ui.screen.order.OrderCoffeeDrinkScreen
 import com.alexzh.coffeedrinks.ui.screen.order.OrderCoffeeDrinkViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private val repository: CoffeeDrinkRepository by inject()
-    private val coffeeDrinkItemMapper: CoffeeDrinkItemMapper by inject()
-    private val coffeeDrinkDetailMapper: CoffeeDrinkDetailMapper by inject()
     private val router: Router by inject()
-    private val orderViewModel: OrderCoffeeDrinkViewModel by viewModel()
     private val coffeeDrinksViewModel: CoffeeDrinksViewModel by viewModel()
+    private val coffeeDrinkDetailsViewModel: CoffeeDrinkDetailsViewModel by viewModel()
+    private val orderViewModel: OrderCoffeeDrinkViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +54,7 @@ class MainActivity : AppCompatActivity() {
                     )
                     is RouterDestination.CoffeeDrinkDetails -> CoffeeDrinkDetailsScreen(
                         router,
-                        repository,
-                        coffeeDrinkDetailMapper,
+                        coffeeDrinkDetailsViewModel,
                         screen.coffeeDrinkId
                     )
                     is RouterDestination.OrderCoffeeDrinks -> OrderCoffeeDrinkScreen(

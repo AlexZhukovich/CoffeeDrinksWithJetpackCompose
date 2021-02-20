@@ -8,6 +8,7 @@ import com.alexzh.coffeedrinks.data.order.OrderCoffeeDrinksRepository
 import com.alexzh.coffeedrinks.data.order.RuntimeOrderCoffeeDrinksRepository
 import com.alexzh.coffeedrinks.ui.router.AppRouter
 import com.alexzh.coffeedrinks.ui.router.Router
+import com.alexzh.coffeedrinks.ui.screen.coffeedetails.CoffeeDrinkDetailsViewModel
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksViewModel
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
@@ -44,6 +45,12 @@ val viewModelModule = module {
     }
     viewModel {
         CoffeeDrinksViewModel(
+            repository = get(),
+            mapper = get()
+        )
+    }
+    viewModel {
+        CoffeeDrinkDetailsViewModel(
             repository = get(),
             mapper = get()
         )
