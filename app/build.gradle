@@ -60,6 +60,10 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$androidx_navigation_version"
+    implementation "androidx.fragment:fragment-ktx:$androidx_fragment_version"
+    debugImplementation "androidx.fragment:fragment-testing:$androidx_fragment_version"
 
     // Koin
     implementation "org.koin:koin-android:$koin_version"
@@ -76,6 +80,7 @@ dependencies {
     implementation "androidx.compose.animation:animation:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.navigation:navigation-compose:$compose_nav_compose"
 
     // Local testing dependencies
     testImplementation "junit:junit:$junit_version"

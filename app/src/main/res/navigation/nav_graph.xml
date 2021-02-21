@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/coffeeDrinksFragment">
+
+    <fragment
+        android:id="@+id/orderCoffeeDrinkFragment"
+        android:name="com.alexzh.coffeedrinks.ui.screen.order.OrderCoffeeDrinkFragment"
+        android:label="OrderCoffeeDrinkFragment" />
+    <fragment
+        android:id="@+id/coffeeDrinksFragment"
+        android:name="com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksFragment"
+        android:label="CoffeeDrinksFragment" />
+    <fragment
+        android:id="@+id/coffeeDrinkDetailsFragment"
+        android:name="com.alexzh.coffeedrinks.ui.screen.coffeedetails.CoffeeDrinkDetailsFragment"
+        android:label="CoffeeDrinkDetailsFragment" />
+</navigation>

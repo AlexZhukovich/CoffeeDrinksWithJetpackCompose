@@ -98,7 +98,7 @@ fun CoffeeDrinkListItem(
 private fun CoffeeDrinkLogo(@DrawableRes id: Int) {
     Surface(
         modifier = Modifier.preferredSize(COFFEE_DRINK_IMAGE_SIZE)
-                .padding(16.dp),
+            .padding(16.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
@@ -126,7 +126,7 @@ private fun CoffeeDrinkIngredient(ingredients: String) {
     Text(
         text = ingredients,
         modifier = Modifier.padding(end = 8.dp)
-                .alpha(0.54f),
+            .alpha(0.54f),
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         style = MaterialTheme.typography.body1,

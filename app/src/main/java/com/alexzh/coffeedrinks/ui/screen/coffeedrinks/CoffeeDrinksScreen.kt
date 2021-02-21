@@ -13,73 +13,58 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alexzh.coffeedrinks.R
-import com.alexzh.coffeedrinks.ui.router.Router
-import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinksState
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.DisplayingOptions
-import com.alexzh.coffeedrinks.ui.state.UiState
 
 @Composable
-fun CoffeeDrinksScreen(
-    router: Router,
-    viewModel: CoffeeDrinksViewModel
-) {
-    viewModel.uiState.observeAsState(initial = UiState.Loading).value.let { uiState ->
-        when (uiState) {
-            is UiState.Loading -> ShowLoadingScreen()
-            is UiState.Success -> ShowSuccessScreen(router, uiState.data, viewModel)
-            is UiState.Error -> ShowErrorScreen()
-        }
-    }
-}
-
-@Composable
-fun ShowLoadingScreen() {
+fun ShowLoadingCoffeeDrinksScreen() {
     // TODO: implement it
 }
 
 @Composable
-fun ShowSuccessScreen(
-    router: Router,
+fun ShowSuccessCoffeeDrinksScreen(
     coffeeDrinksState: CoffeeDrinksState,
-    viewModel: CoffeeDrinksViewModel
+    viewModel: CoffeeDrinksViewModel,
+    onOrderCoffeeDrinksMenuItem: () -> Unit,
+    onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit
 ) {
     CoffeeDrinksScreenUI(
-        router = router,
         coffeeDrinksState = coffeeDrinksState,
-        viewModel = viewModel
+        viewModel = viewModel,
+        onOrderCoffeeDrinksMenuItem,
+        onCoffeeDrinkClicked
     )
 }
 
 @Composable
-fun ShowErrorScreen() {
+fun ShowErrorCoffeeDrinksScreen() {
     // TODO: implement it
 }
 
 @Composable
 fun CoffeeDrinksScreenUI(
-    router: Router,
     coffeeDrinksState: CoffeeDrinksState,
-    viewModel: CoffeeDrinksViewModel
+    viewModel: CoffeeDrinksViewModel,
+    onOrderCoffeeDrinksMenuItem: () -> Unit,
+    onCoffeeDrinkClicked: (CoffeeDrinkItem) -> Unit
 ) {
     Surface {
         Column {
             CoffeeDrinkAppBar(
-                router,
                 coffeeDrinksState.displayingOption,
-                onChangeDisplayOption = { viewModel.changeDisplayingOption() }
+                onChangeDisplayOption = { viewModel.changeDisplayingOption() },
+                onOrderCoffeeDrinksMenuItem = { onOrderCoffeeDrinksMenuItem() }
             )
             CoffeeDrinkList(
                 coffeeDrinksState = coffeeDrinksState,
-                onCoffeeDrinkClicked = { onCoffeeDrinkClicked(router, it) },
+                onCoffeeDrinkClicked = { coffeeDrink -> onCoffeeDrinkClicked(coffeeDrink) },
                 onFavouriteStateChanged = { viewModel.changeFavouriteState(it) }
             )
         }
@@ -88,9 +73,9 @@ fun CoffeeDrinksScreenUI(
 
 @Composable
 fun CoffeeDrinkAppBar(
-    router: Router,
     displayingOption: DisplayingOptions,
-    onChangeDisplayOption: () -> Unit
+    onChangeDisplayOption: () -> Unit,
+    onOrderCoffeeDrinksMenuItem: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -114,7 +99,9 @@ fun CoffeeDrinkAppBar(
                     tint = MaterialTheme.colors.onPrimary
                 )
             }
-            IconButton(onClick = { router.navigateTo(RouterDestination.OrderCoffeeDrinks) }) {
+            IconButton(
+                onClick = { onOrderCoffeeDrinksMenuItem() }
+            ) {
                 Icon(
                     painter = ImagePainter(imageResource(id = R.drawable.ic_order_white)),
                     tint = MaterialTheme.colors.onPrimary,
@@ -156,8 +143,4 @@ fun CoffeeDrinkList(
             }
         }
     }
-}
-
-private fun onCoffeeDrinkClicked(router: Router, coffee: CoffeeDrinkItem) {
-    router.navigateTo(RouterDestination.CoffeeDrinkDetails(coffee.id))
 }

@@ -6,15 +6,12 @@ import com.alexzh.coffeedrinks.data.DummyCoffeeDrinksDataSource
 import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
 import com.alexzh.coffeedrinks.data.order.OrderCoffeeDrinksRepository
 import com.alexzh.coffeedrinks.data.order.RuntimeOrderCoffeeDrinksRepository
-import com.alexzh.coffeedrinks.ui.router.AppRouter
-import com.alexzh.coffeedrinks.ui.router.Router
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.CoffeeDrinkDetailsViewModel
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.CoffeeDrinksViewModel
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
 import com.alexzh.coffeedrinks.ui.screen.order.OrderCoffeeDrinkViewModel
 import com.alexzh.coffeedrinks.ui.screen.order.mapper.OrderCoffeeDrinkMapper
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -55,9 +52,4 @@ val viewModelModule = module {
             mapper = get()
         )
     }
-}
-
-@ExperimentalCoroutinesApi
-val routerModule = module {
-    factory<Router> { AppRouter() }
 }

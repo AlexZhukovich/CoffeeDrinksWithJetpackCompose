@@ -77,8 +77,9 @@ private fun CoffeeDrinkGridCard(
         shape = RoundedCornerShape(8.dp),
         elevation = 1.dp
     ) {
-        Box(modifier = Modifier.preferredHeight(240.dp)
-            .fillMaxWidth()
+        Box(
+            modifier = Modifier.preferredHeight(240.dp)
+                .fillMaxWidth()
         ) {
             AddBackground()
             content()
@@ -90,8 +91,8 @@ private fun CoffeeDrinkGridCard(
 private fun AddBackground() {
     Box(
         modifier = Modifier.preferredHeight(160.dp)
-                .fillMaxWidth()
-                .paint(ColorPainter(MaterialTheme.colors.primary))
+            .fillMaxWidth()
+            .paint(ColorPainter(MaterialTheme.colors.primary))
     )
 }
 
@@ -121,7 +122,7 @@ private fun AddTitle(title: String) {
     Box(
         contentAlignment = Alignment.BottomStart,
         modifier = Modifier.preferredHeight(160.dp)
-                .fillMaxWidth()
+            .fillMaxWidth()
     ) {
         Text(
             modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
@@ -138,7 +139,7 @@ private fun AddLogo(imageUrl: Int) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.preferredHeight(164.dp)
-                .fillMaxWidth()
+            .fillMaxWidth()
     ) {
         Image(
             painter = ImagePainter(imageResource(id = imageUrl)),
@@ -153,7 +154,7 @@ private fun AddDescription(description: String) {
     Box(
         contentAlignment = Alignment.BottomStart,
         modifier = Modifier.fillMaxSize()
-                .padding(8.dp)
+            .padding(8.dp)
     ) {
         Text(
             text = description,

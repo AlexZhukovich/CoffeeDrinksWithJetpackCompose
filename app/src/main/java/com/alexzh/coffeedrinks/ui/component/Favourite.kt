@@ -18,7 +18,8 @@ fun Favourite(
     @DrawableRes nonFavouriteVectorId: Int,
     tint: Color = Color.Transparent
 ) {
-    Box(modifier = modifier
+    Box(
+        modifier = modifier
             .preferredSize(48.dp)
             .toggleable(value = state, onValueChange = onValueChanged)
     ) {
