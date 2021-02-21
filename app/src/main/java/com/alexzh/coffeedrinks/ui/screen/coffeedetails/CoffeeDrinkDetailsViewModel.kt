@@ -16,7 +16,7 @@ class CoffeeDrinkDetailsViewModel(
     private val repository: CoffeeDrinkRepository,
     private val mapper: CoffeeDrinkDetailMapper
 ) : ViewModel() {
-    private val _uiState: MutableLiveData<UiState<CoffeeDrinkDetailState>> = MutableLiveData(UiState.Loading)
+    private val _uiState: MutableLiveData<UiState<CoffeeDrinkDetailState>> = MutableLiveData()
     val uiState: LiveData<UiState<CoffeeDrinkDetailState>>
         get() = _uiState
 

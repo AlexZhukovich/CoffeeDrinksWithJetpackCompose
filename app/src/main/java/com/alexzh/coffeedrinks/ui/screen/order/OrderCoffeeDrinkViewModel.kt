@@ -7,21 +7,17 @@ import androidx.lifecycle.viewModelScope
 import com.alexzh.coffeedrinks.data.order.OrderCoffeeDrinksRepository
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrinkState
 import com.alexzh.coffeedrinks.ui.state.UiState
-import java.math.BigDecimal
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class OrderCoffeeDrinkViewModel(
     private val repository: OrderCoffeeDrinksRepository
 ) : ViewModel() {
-    private val _uiState: MutableLiveData<UiState<OrderCoffeeDrinkState>> = MutableLiveData(UiState.Loading)
+    private val _uiState: MutableLiveData<UiState<OrderCoffeeDrinkState>> = MutableLiveData()
     val uiState: LiveData<UiState<OrderCoffeeDrinkState>>
         get() = _uiState
 
-    init {
-        loadDrinks()
-    }
-
-    private fun loadDrinks() {
+    fun loadDrinks() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             val coffeeDrinks = repository.getCoffeeDrinks()

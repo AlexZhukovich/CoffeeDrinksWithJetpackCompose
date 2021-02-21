@@ -16,22 +16,20 @@ class CoffeeDrinksViewModel(
     private val repository: CoffeeDrinkRepository,
     private val mapper: CoffeeDrinkItemMapper
 ) : ViewModel() {
-    private val _uiState: MutableLiveData<UiState<CoffeeDrinksState>> = MutableLiveData(UiState.Loading)
+    private var currentDisplayingOption = DisplayingOptions.LIST
+
+    private val _uiState: MutableLiveData<UiState<CoffeeDrinksState>> = MutableLiveData()
     val uiState: LiveData<UiState<CoffeeDrinksState>>
         get() = _uiState
 
-    init {
-        loadCoffeeDrinks()
-    }
-
-    private fun loadCoffeeDrinks() {
+    fun loadCoffeeDrinks() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             val coffeeDrinks = repository.getCoffeeDrinks()
             _uiState.value = UiState.Success(
                 CoffeeDrinksState(
                     coffeeDrinks.map { mapper.map(it) },
-                    DisplayingOptions.LIST
+                    currentDisplayingOption
                 )
             )
         }
@@ -40,12 +38,12 @@ class CoffeeDrinksViewModel(
     fun changeDisplayingOption() {
         when (val state = _uiState.value) {
             is UiState.Success -> {
-                val newDisplayingOption = if (state.data.displayingOption == DisplayingOptions.LIST) {
+                currentDisplayingOption = if (currentDisplayingOption == DisplayingOptions.LIST) {
                     DisplayingOptions.CARDS
                 } else {
                     DisplayingOptions.LIST
                 }
-                _uiState.value = UiState.Success(state.data.copy(displayingOption = newDisplayingOption))
+                _uiState.value = UiState.Success(state.data.copy(displayingOption = currentDisplayingOption))
             }
             else -> loadCoffeeDrinks()
         }

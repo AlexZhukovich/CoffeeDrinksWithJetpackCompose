@@ -18,7 +18,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
@@ -30,53 +29,34 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.alexzh.coffeedrinks.R
-import com.alexzh.coffeedrinks.ui.router.Router
-import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetailState
-import com.alexzh.coffeedrinks.ui.state.UiState
 
 @Composable
-fun CoffeeDrinkDetailsScreen(
-    router: Router,
-    viewModel: CoffeeDrinkDetailsViewModel,
-    coffeeDrinkId: Long
-) {
-    viewModel.uiState.observeAsState(initial = UiState.Loading).value.let { uiState ->
-        when (uiState) {
-            is UiState.Loading -> ShowLoadingScreen()
-            is UiState.Success -> ShowSuccessScreen(router, uiState.data, viewModel)
-            is UiState.Error -> ShowErrorScreen()
-        }
-    }
-    viewModel.loadCoffeeDrinkDetails(coffeeDrinkId)
-}
-
-@Composable
-fun ShowLoadingScreen() {
+fun ShowLoadingCoffeeDrinkDetailsScreen() {
     // TODO: implement it
 }
 
 @Composable
-fun ShowSuccessScreen(
-    router: Router,
+fun ShowSuccessCoffeeDrinkDetailsScreen(
+    onBack: () -> Unit,
     coffeeDrinkDetailState: CoffeeDrinkDetailState,
     viewModel: CoffeeDrinkDetailsViewModel
 ) {
     CoffeeDrinkDetailsScreenUI(
-        router = router,
+        onBack = onBack,
         coffeeDrinkDetailState = coffeeDrinkDetailState,
         viewModel = viewModel
     )
 }
 
 @Composable
-fun ShowErrorScreen() {
+fun ShowErrorCoffeeDrinkDetailsScreen() {
     // TODO: implement it
 }
 
 @Composable
 private fun CoffeeDrinkDetailsScreenUI(
-    router: Router,
+    onBack: () -> Unit,
     coffeeDrinkDetailState: CoffeeDrinkDetailState,
     viewModel: CoffeeDrinkDetailsViewModel
 ) {
@@ -85,24 +65,26 @@ private fun CoffeeDrinkDetailsScreenUI(
         val endGuideline = createGuidelineFromEnd(16.dp)
         val (surface, header, appBar, fab, name, logo, description, ingredients) = createRefs()
 
-        Box(modifier = Modifier
-            .constrainAs(surface) { centerTo(parent) }
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.surface)
+        Box(
+            modifier = Modifier
+                .constrainAs(surface) { centerTo(parent) }
+                .fillMaxSize()
+                .background(color = MaterialTheme.colors.surface)
         )
 
-        Box(modifier = Modifier
-            .constrainAs(header) { centerHorizontallyTo(surface) }
-            .fillMaxWidth()
-            .preferredHeight(220.dp)
-            .paint(
-                painter = if (isSystemInDarkTheme()) {
-                    ColorPainter(Color.White)
-                } else {
-                    ColorPainter(MaterialTheme.colors.primary)
-                },
-                alpha = 0.95f
-            )
+        Box(
+            modifier = Modifier
+                .constrainAs(header) { centerHorizontallyTo(surface) }
+                .fillMaxWidth()
+                .preferredHeight(220.dp)
+                .paint(
+                    painter = if (isSystemInDarkTheme()) {
+                        ColorPainter(Color.White)
+                    } else {
+                        ColorPainter(MaterialTheme.colors.primary)
+                    },
+                    alpha = 0.95f
+                )
         )
 
         TopAppBar(
@@ -111,7 +93,12 @@ private fun CoffeeDrinkDetailsScreenUI(
             elevation = 0.dp,
             modifier = Modifier.constrainAs(appBar) { centerHorizontallyTo(header) },
             navigationIcon = {
-                IconButton(onClick = { router.navigateTo(RouterDestination.CoffeeDrinks) }) {
+                IconButton(
+                    onClick = {
+//                        navController.popBackStack()
+                        onBack()
+                    }
+                ) {
                     Icon(
                         painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
                         contentDescription = stringResource(R.string.action_back),

@@ -22,7 +22,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,56 +30,15 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alexzh.coffeedrinks.R
-import com.alexzh.coffeedrinks.data.DummyCoffeeDrinksDataSource
-import com.alexzh.coffeedrinks.data.order.OrderCoffeeDrinkMapper
-import com.alexzh.coffeedrinks.data.order.RuntimeOrderCoffeeDrinksRepository
-import com.alexzh.coffeedrinks.ui.appTypography
 import com.alexzh.coffeedrinks.ui.component.AppDivider
 import com.alexzh.coffeedrinks.ui.component.Counter
-import com.alexzh.coffeedrinks.ui.lightThemeColors
-import com.alexzh.coffeedrinks.ui.router.Router
-import com.alexzh.coffeedrinks.ui.router.RouterDestination
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrinkState
-import com.alexzh.coffeedrinks.ui.state.UiState
 import java.math.BigDecimal
-import kotlinx.coroutines.runBlocking
-
-@Preview
-@Composable
-fun PreviewOrderCoffeeDrinkItem() {
-    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
-        val repository = RuntimeOrderCoffeeDrinksRepository(
-            DummyCoffeeDrinksDataSource(),
-            OrderCoffeeDrinkMapper()
-        )
-
-        OrderCoffeeDrinkItem(
-            orderCoffeeDrink = runBlocking { repository.getCoffeeDrinks() }.first(),
-            onAdded = {},
-            onRemoved = {}
-        )
-    }
-}
 
 @Composable
-fun OrderCoffeeDrinkScreen(
-    router: Router,
-    viewModel: OrderCoffeeDrinkViewModel
-) {
-    viewModel.uiState.observeAsState(initial = UiState.Loading).value.let { uiState ->
-        when (uiState) {
-            is UiState.Loading -> ShowLoadingScreen()
-            is UiState.Success -> ShowSuccessScreen(router, uiState.data, viewModel = viewModel)
-            is UiState.Error -> ShowErrorScreen()
-        }
-    }
-}
-
-@Composable
-private fun ShowLoadingScreen() {
+fun ShowLoadingOrderCoffeeDrinksScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(
             color = MaterialTheme.colors.primaryVariant,
@@ -92,13 +50,16 @@ private fun ShowLoadingScreen() {
 }
 
 @Composable
-private fun ShowSuccessScreen(
-    router: Router,
+fun ShowSuccessOrderCoffeeDrinksScreen(
     orderCoffeeDrinkState: OrderCoffeeDrinkState,
-    viewModel: OrderCoffeeDrinkViewModel
+    viewModel: OrderCoffeeDrinkViewModel,
+    onBack: () -> Unit
 ) {
     Column {
-        AppBarWithOrderSummary(router, orderCoffeeDrinkState.totalPrice)
+        AppBarWithOrderSummary(
+            totalPrice = orderCoffeeDrinkState.totalPrice,
+            onBackClick = onBack
+        )
         Surface {
             LazyColumn {
                 items(items = orderCoffeeDrinkState.coffeeDrinks) { coffeeDrink ->
@@ -117,7 +78,7 @@ private fun ShowSuccessScreen(
 }
 
 @Composable
-private fun ShowErrorScreen() {
+fun ShowErrorOrderCoffeeDrinksScreen() {
     // TODO: implement UI
 }
 
@@ -222,14 +183,17 @@ private fun Logo(
 }
 
 @Composable
-private fun AppBarWithOrderSummary(router: Router, totalPrice: BigDecimal) {
+private fun AppBarWithOrderSummary(
+    totalPrice: BigDecimal,
+    onBackClick: () -> Unit
+) {
     Surface(
         color = MaterialTheme.colors.primary,
         elevation = 4.dp
     ) {
         Column {
             AppBar {
-                router.navigateTo(RouterDestination.CoffeeDrinks)
+                onBackClick()
             }
             Row(modifier = Modifier.padding(16.dp)) {
                 Text(
