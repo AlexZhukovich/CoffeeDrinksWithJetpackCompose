@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alexzh.coffeedrinks.R
-import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
+import com.alexzh.coffeedrinks.data.DummyCoffeeDrinksDataSource
 import com.alexzh.coffeedrinks.ui.appTypography
 import com.alexzh.coffeedrinks.ui.component.AppDivider
 import com.alexzh.coffeedrinks.ui.component.Favourite
@@ -39,10 +39,9 @@ private val COFFEE_DRINK_IMAGE_SIZE = 72.dp
 @Preview
 @Composable
 fun PreviewListItem() {
-    val repository = RuntimeCoffeeDrinkRepository
     val mapper = CoffeeDrinkItemMapper()
     val coffeeDrink = mapper.map(
-        repository.getCoffeeDrinks().first()
+        DummyCoffeeDrinksDataSource().getCoffeeDrinks().first()
     )
 
     MaterialTheme(colors = lightThemeColors, typography = appTypography) {

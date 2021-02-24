@@ -10,6 +10,8 @@ import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailM
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetail
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetailState
 import com.alexzh.coffeedrinks.ui.state.UiState
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CoffeeDrinkDetailsViewModel(
@@ -23,25 +25,26 @@ class CoffeeDrinkDetailsViewModel(
     fun loadCoffeeDrinkDetails(coffeeDrinkId: Long) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            val coffeeDrink = mapper.map(
-                repository.getCoffeeDrink(coffeeDrinkId)
-            )
-            if (coffeeDrink != null) {
-                _uiState.value = UiState.Success(
-                    CoffeeDrinkDetailState(
-                        coffeeDrink
-                    )
-                )
-            } else {
-                _uiState.value = UiState.Error(NoCoffeeDrinkFoundException())
-            }
+            repository.getCoffeeDrink(coffeeDrinkId)
+                .map { mapper.map(it) }
+                .collect { coffeeDrink ->
+                    if (coffeeDrink != null) {
+                        _uiState.value = UiState.Success(CoffeeDrinkDetailState(coffeeDrink))
+                    } else {
+                        _uiState.value = UiState.Error(NoCoffeeDrinkFoundException())
+                    }
+                }
         }
     }
 
     fun changeFavouriteState(coffeeDrink: CoffeeDrinkDetail) {
         viewModelScope.launch {
             repository.updateFavouriteState(coffeeDrink.id, !coffeeDrink.isFavourite)
+                .collect { result ->
+                    if (result) {
+                        loadCoffeeDrinkDetails(coffeeDrink.id)
+                    }
+                }
         }
-        loadCoffeeDrinkDetails(coffeeDrink.id)
     }
 }

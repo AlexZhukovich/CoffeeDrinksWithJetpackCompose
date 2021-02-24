@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alexzh.coffeedrinks.R
-import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
+import com.alexzh.coffeedrinks.data.DummyCoffeeDrinksDataSource
 import com.alexzh.coffeedrinks.ui.appTypography
 import com.alexzh.coffeedrinks.ui.component.Favourite
 import com.alexzh.coffeedrinks.ui.lightThemeColors
@@ -37,10 +37,9 @@ import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 @Composable
 fun PreviewDetailedListItem() {
     MaterialTheme(colors = lightThemeColors, typography = appTypography) {
-        val repository = RuntimeCoffeeDrinkRepository
         val mapper = CoffeeDrinkItemMapper()
         val coffeeDrink = mapper.map(
-            repository.getCoffeeDrinks().first()
+            DummyCoffeeDrinksDataSource().getCoffeeDrinks().first()
         )
 
         CoffeeDrinkGridCard {
