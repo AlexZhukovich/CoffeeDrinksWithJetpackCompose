@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.alexzh.coffeedrinks.data.order.OrderCoffeeDrinksRepository
 import com.alexzh.coffeedrinks.ui.screen.order.model.OrderCoffeeDrinkState
 import com.alexzh.coffeedrinks.ui.state.UiState
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -20,31 +21,42 @@ class OrderCoffeeDrinkViewModel(
     fun loadDrinks() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            val coffeeDrinks = repository.getCoffeeDrinks()
-            val totalCount = coffeeDrinks
-                .filter { it.count > 0 }
-                .map { it.count * it.price }
-                .sum()
-            _uiState.value = UiState.Success(
-                OrderCoffeeDrinkState(
-                    coffeeDrinks = coffeeDrinks,
-                    totalPrice = BigDecimal(totalCount)
-                )
-            )
+            repository.getCoffeeDrinks()
+                .collect { coffeeDrinks ->
+                    val totalCount = coffeeDrinks
+                        .filter { it.count > 0 }
+                        .map { it.count * it.price }
+                        .sum()
+
+                    _uiState.value = UiState.Success(
+                        OrderCoffeeDrinkState(
+                            coffeeDrinks = coffeeDrinks,
+                            totalPrice = BigDecimal(totalCount)
+                        )
+                    )
+                }
         }
     }
 
     fun addDrink(coffeeDrinkId: Long) {
         viewModelScope.launch {
             repository.add(coffeeDrinkId)
-            loadDrinks()
+                .collect { isAdded ->
+                    if (isAdded) {
+                        loadDrinks()
+                    }
+                }
         }
     }
 
     fun removeDrink(coffeeDrinkId: Long) {
         viewModelScope.launch {
             repository.remove(coffeeDrinkId)
-            loadDrinks()
+                .collect { isRemoved ->
+                    if (isRemoved) {
+                        loadDrinks()
+                    }
+                }
         }
     }
 }
