@@ -8,6 +8,7 @@ import com.alexzh.coffeedrinks.generator.GenerateOrderCoffeeDrink.generateOrderC
 import com.alexzh.coffeedrinks.generator.GenerateOrderCoffeeDrink.generateOrderCoffeeDrinks
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -32,7 +33,7 @@ class RuntimeOrderCoffeeDrinksRepositoryTest {
         runBlocking {
             assertEquals(
                 orderCoffeeDrinks,
-                repository.getCoffeeDrinks()
+                repository.getCoffeeDrinks().single()
             )
         }
     }
@@ -47,11 +48,11 @@ class RuntimeOrderCoffeeDrinksRepositoryTest {
         stubMapToOrderCoffeeDrink(coffeeDrinks, orderCoffeeDrinks)
 
         runBlocking {
-            repository.getCoffeeDrinks()
-            repository.add(orderCoffeeDrinks.first().id)
+            repository.getCoffeeDrinks().single()
+            repository.add(orderCoffeeDrinks.first().id).single()
             assertEquals(
                 updateOrderCoffeeDrinks,
-                repository.getCoffeeDrinks()
+                repository.getCoffeeDrinks().single()
             )
         }
     }
@@ -65,11 +66,11 @@ class RuntimeOrderCoffeeDrinksRepositoryTest {
         stubMapToOrderCoffeeDrink(coffeeDrinks, orderCoffeeDrinks)
 
         runBlocking {
-            repository.getCoffeeDrinks()
-            repository.add(orderCoffeeDrinks.first().id)
+            repository.getCoffeeDrinks().single()
+            repository.add(orderCoffeeDrinks.first().id).single()
             assertEquals(
                 orderCoffeeDrinks,
-                repository.getCoffeeDrinks()
+                repository.getCoffeeDrinks().single()
             )
         }
     }
@@ -84,11 +85,11 @@ class RuntimeOrderCoffeeDrinksRepositoryTest {
         stubMapToOrderCoffeeDrink(coffeeDrinks, orderCoffeeDrinks)
 
         runBlocking {
-            repository.getCoffeeDrinks()
-            repository.remove(orderCoffeeDrinks.first().id)
+            repository.getCoffeeDrinks().single()
+            repository.remove(orderCoffeeDrinks.first().id).single()
             assertEquals(
                 updateOrderCoffeeDrinks,
-                repository.getCoffeeDrinks()
+                repository.getCoffeeDrinks().single()
             )
         }
     }
@@ -102,11 +103,11 @@ class RuntimeOrderCoffeeDrinksRepositoryTest {
         stubMapToOrderCoffeeDrink(coffeeDrinks, orderCoffeeDrinks)
 
         runBlocking {
-            repository.getCoffeeDrinks()
-            repository.remove(orderCoffeeDrinks.first().id)
+            repository.getCoffeeDrinks().single()
+            repository.remove(orderCoffeeDrinks.first().id).single()
             assertEquals(
                 orderCoffeeDrinks,
-                repository.getCoffeeDrinks()
+                repository.getCoffeeDrinks().single()
             )
         }
     }

@@ -1,6 +1,8 @@
 package com.alexzh.coffeedrinks.data.order
 
 import com.alexzh.coffeedrinks.data.CoffeeDrinkDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class RuntimeOrderCoffeeDrinksRepository(
     private val coffeeDrinkDataSource: CoffeeDrinkDataSource,
@@ -13,34 +15,46 @@ class RuntimeOrderCoffeeDrinksRepository(
 
     private val coffeeDrinks = mutableListOf<OrderCoffeeDrink>()
 
-    override suspend fun getCoffeeDrinks(): List<OrderCoffeeDrink> {
-        if (coffeeDrinks.isEmpty()) {
-            coffeeDrinks.addAll(
-                orderCoffeeDrinkMapper.map(coffeeDrinkDataSource.getCoffeeDrinks())
-            )
+    override suspend fun getCoffeeDrinks(): Flow<List<OrderCoffeeDrink>> {
+        return flow {
+            if (coffeeDrinks.isEmpty()) {
+                coffeeDrinks.addAll(
+                    orderCoffeeDrinkMapper.map(coffeeDrinkDataSource.getCoffeeDrinks())
+                )
+            }
+            emit(coffeeDrinks)
         }
-        return coffeeDrinks
     }
 
-    override suspend fun add(coffeeDrinkId: Long): Boolean {
-        val index = coffeeDrinks.indexOfFirst { it.id == coffeeDrinkId }
-        if (index > -1) {
-            val coffeeDrink = coffeeDrinks[index]
-            val newValue = if (coffeeDrink.count == MAX_VALUE) MAX_VALUE else coffeeDrink.count + 1
-            coffeeDrinks[index] = coffeeDrink.copy(count = newValue)
-            return true
+    override suspend fun add(coffeeDrinkId: Long): Flow<Boolean> {
+        return flow {
+            val index = coffeeDrinks.indexOfFirst { it.id == coffeeDrinkId }
+            val result = if (index > -1) {
+                val coffeeDrink = coffeeDrinks[index]
+                val newValue =
+                    if (coffeeDrink.count == MAX_VALUE) MAX_VALUE else coffeeDrink.count + 1
+                coffeeDrinks[index] = coffeeDrink.copy(count = newValue)
+                true
+            } else {
+                false
+            }
+            emit(result)
         }
-        return false
     }
 
-    override suspend fun remove(coffeeDrinkId: Long): Boolean {
-        val index = coffeeDrinks.indexOfFirst { it.id == coffeeDrinkId }
-        if (index > -1) {
-            val coffeeDrink = coffeeDrinks[index]
-            val newValue = if (coffeeDrink.count == MIN_VALUE) MIN_VALUE else coffeeDrink.count - 1
-            coffeeDrinks[index] = coffeeDrink.copy(count = newValue)
-            return true
+    override suspend fun remove(coffeeDrinkId: Long): Flow<Boolean> {
+        return flow {
+            val index = coffeeDrinks.indexOfFirst { it.id == coffeeDrinkId }
+            val result = if (index > -1) {
+                val coffeeDrink = coffeeDrinks[index]
+                val newValue =
+                    if (coffeeDrink.count == MIN_VALUE) MIN_VALUE else coffeeDrink.count - 1
+                coffeeDrinks[index] = coffeeDrink.copy(count = newValue)
+                true
+            } else {
+                false
+            }
+            emit(result)
         }
-        return false
     }
 }

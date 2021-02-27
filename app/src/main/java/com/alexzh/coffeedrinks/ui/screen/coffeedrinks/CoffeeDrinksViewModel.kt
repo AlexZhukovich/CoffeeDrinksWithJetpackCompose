@@ -10,6 +10,8 @@ import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinkItem
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.CoffeeDrinksState
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.model.DisplayingOptions
 import com.alexzh.coffeedrinks.ui.state.UiState
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CoffeeDrinksViewModel(
@@ -25,13 +27,18 @@ class CoffeeDrinksViewModel(
     fun loadCoffeeDrinks() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            val coffeeDrinks = repository.getCoffeeDrinks()
-            _uiState.value = UiState.Success(
-                CoffeeDrinksState(
-                    coffeeDrinks.map { mapper.map(it) },
-                    currentDisplayingOption
-                )
-            )
+            repository.getCoffeeDrinks()
+                .map { coffeeDrinks ->
+                    coffeeDrinks.map { mapper.map(it) }
+                }
+                .collect {
+                    _uiState.value = UiState.Success(
+                        CoffeeDrinksState(
+                            it,
+                            currentDisplayingOption
+                        )
+                    )
+                }
         }
     }
 
@@ -52,7 +59,11 @@ class CoffeeDrinksViewModel(
     fun changeFavouriteState(coffeeDrink: CoffeeDrinkItem) {
         viewModelScope.launch {
             repository.updateFavouriteState(coffeeDrink.id, !coffeeDrink.isFavourite)
+                .collect { result ->
+                    if (result) {
+                        loadCoffeeDrinks()
+                    }
+                }
         }
-        loadCoffeeDrinks()
     }
 }
