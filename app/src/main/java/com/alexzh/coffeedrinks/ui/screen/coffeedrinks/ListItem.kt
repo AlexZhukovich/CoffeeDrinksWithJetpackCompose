@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -18,7 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ImagePainter
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -96,13 +97,13 @@ fun CoffeeDrinkListItem(
 @Composable
 private fun CoffeeDrinkLogo(@DrawableRes id: Int) {
     Surface(
-        modifier = Modifier.preferredSize(COFFEE_DRINK_IMAGE_SIZE)
+        modifier = Modifier.size(COFFEE_DRINK_IMAGE_SIZE)
             .padding(16.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
         Image(
-            painter = ImagePainter(imageResource(id = id)),
+            painter = BitmapPainter(ImageBitmap.imageResource(id = id)),
             modifier = Modifier.fillMaxSize(),
             contentDescription = null
         )

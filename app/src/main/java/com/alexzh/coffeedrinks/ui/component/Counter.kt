@@ -4,7 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -36,7 +36,7 @@ fun Counter(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(
-                    modifier = Modifier.preferredWidth(40.dp),
+                    modifier = Modifier.width(40.dp),
                     colors = ButtonDefaults.outlinedButtonColors(),
                     elevation = ButtonDefaults.elevation(0.dp),
                     onClick = { onRemoved(orderCoffeeDrink.id) }
@@ -54,7 +54,7 @@ fun Counter(
                     color = MaterialTheme.colors.onBackground
                 )
                 Button(
-                    modifier = Modifier.preferredWidth(40.dp),
+                    modifier = Modifier.width(40.dp),
                     colors = ButtonDefaults.outlinedButtonColors(),
                     elevation = ButtonDefaults.elevation(0.dp),
                     onClick = { onAdded(orderCoffeeDrink.id) }

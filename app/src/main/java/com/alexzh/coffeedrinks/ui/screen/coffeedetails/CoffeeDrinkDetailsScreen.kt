@@ -4,12 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ConstraintLayout
-import androidx.compose.foundation.layout.Dimension
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -22,12 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetailState
 
@@ -76,7 +77,7 @@ private fun CoffeeDrinkDetailsScreenUI(
             modifier = Modifier
                 .constrainAs(header) { centerHorizontallyTo(surface) }
                 .fillMaxWidth()
-                .preferredHeight(220.dp)
+                .height(220.dp)
                 .paint(
                     painter = if (isSystemInDarkTheme()) {
                         ColorPainter(Color.White)
@@ -94,13 +95,10 @@ private fun CoffeeDrinkDetailsScreenUI(
             modifier = Modifier.constrainAs(appBar) { centerHorizontallyTo(header) },
             navigationIcon = {
                 IconButton(
-                    onClick = {
-//                        navController.popBackStack()
-                        onBack()
-                    }
+                    onClick = { onBack() }
                 ) {
                     Icon(
-                        painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
+                        painter = BitmapPainter(image = ImageBitmap.imageResource(id = R.drawable.ic_arrow_back_white)),
                         contentDescription = stringResource(R.string.action_back),
                         tint = if (isSystemInDarkTheme()) {
                             Color.Black
@@ -115,8 +113,8 @@ private fun CoffeeDrinkDetailsScreenUI(
         Image(
             modifier = Modifier
                 .constrainAs(logo) { centerTo(header) }
-                .preferredSize(180.dp),
-            painter = ImagePainter(imageResource(id = R.drawable.americano_small)),
+                .size(180.dp),
+            painter = BitmapPainter(ImageBitmap.imageResource(id = R.drawable.americano_small)),
             contentDescription = null
         )
 
@@ -133,8 +131,8 @@ private fun CoffeeDrinkDetailsScreenUI(
             }
         ) {
             Icon(
-                painter = ImagePainter(
-                    imageResource(
+                painter = BitmapPainter(
+                    ImageBitmap.imageResource(
                         if (coffeeDrinkDetailState.coffeeDrinks.isFavourite) {
                             R.drawable.ic_favorite_white
                         } else {

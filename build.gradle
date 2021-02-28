@@ -3,14 +3,14 @@
 apply from: 'scripts/git-hooks.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.4.21-2'
+    ext.kotlin_version = '1.4.30'
     ext.kotlin_coroutines_version = '1.3.9'
-    ext.compose_version = '1.0.0-alpha11'
-    ext.compose_nav_compose = "1.0.0-alpha06"
+    ext.compose_version = '1.0.0-beta01'
+    ext.compose_nav_compose = "1.0.0-alpha07"
     ext.appcompat_version = '1.2.0'
     ext.androidx_core_version = '1.3.2'
     ext.androidx_fragment_version = '1.3.0'
-    ext.androidx_navigation_version = '2.3.0'
+    ext.androidx_navigation_version = '2.3.3'
     ext.koin_version = '2.1.6'
     ext.junit_version = '4.13.1'
     ext.test_junit_runner = '1.1.1'
@@ -23,7 +23,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha06'
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha08'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

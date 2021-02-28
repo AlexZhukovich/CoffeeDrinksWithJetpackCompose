@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -19,8 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,7 +78,7 @@ private fun CoffeeDrinkGridCard(
         elevation = 1.dp
     ) {
         Box(
-            modifier = Modifier.preferredHeight(240.dp)
+            modifier = Modifier.height(240.dp)
                 .fillMaxWidth()
         ) {
             AddBackground()
@@ -89,7 +90,7 @@ private fun CoffeeDrinkGridCard(
 @Composable
 private fun AddBackground() {
     Box(
-        modifier = Modifier.preferredHeight(160.dp)
+        modifier = Modifier.height(160.dp)
             .fillMaxWidth()
             .paint(ColorPainter(MaterialTheme.colors.primary))
     )
@@ -120,7 +121,7 @@ private fun AddFavouriteIcon(
 private fun AddTitle(title: String) {
     Box(
         contentAlignment = Alignment.BottomStart,
-        modifier = Modifier.preferredHeight(160.dp)
+        modifier = Modifier.height(160.dp)
             .fillMaxWidth()
     ) {
         Text(
@@ -137,12 +138,12 @@ private fun AddTitle(title: String) {
 private fun AddLogo(imageUrl: Int) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.preferredHeight(164.dp)
+        modifier = Modifier.height(164.dp)
             .fillMaxWidth()
     ) {
         Image(
-            painter = ImagePainter(imageResource(id = imageUrl)),
-            modifier = Modifier.preferredSize(100.dp),
+            painter = BitmapPainter(ImageBitmap.imageResource(id = imageUrl)),
+            modifier = Modifier.size(100.dp),
             contentDescription = null
         )
     }

@@ -2,7 +2,6 @@ package com.alexzh.coffeedrinks.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithSubstring
 import androidx.compose.ui.test.onNodeWithText
 import androidx.fragment.app.testing.launchFragmentInContainer
 import com.alexzh.coffeedrinks.R
@@ -39,7 +38,7 @@ class CoffeeDrinksScreenTest : KoinTest {
     @Test
     fun shouldLoadAmericano() {
         composeTestRule
-            .onNodeWithSubstring("Americano")
+            .onNodeWithText("Americano", true)
             .assertIsDisplayed()
     }
 }
