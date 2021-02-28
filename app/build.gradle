@@ -81,6 +81,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.navigation:navigation-compose:$compose_nav_compose"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03"
 
     // Local testing dependencies
     testImplementation "junit:junit:$junit_version"

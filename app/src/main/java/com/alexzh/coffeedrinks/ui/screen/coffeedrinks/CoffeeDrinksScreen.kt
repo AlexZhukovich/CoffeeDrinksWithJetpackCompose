@@ -14,7 +14,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.ImagePainter
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -92,8 +93,8 @@ fun CoffeeDrinkAppBar(
                 onClick = { onChangeDisplayOption() }
             ) {
                 Icon(
-                    painter = ImagePainter(
-                        imageResource(id = if (displayingOption == DisplayingOptions.CARDS) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
+                    painter = BitmapPainter(
+                        ImageBitmap.imageResource(id = if (displayingOption == DisplayingOptions.CARDS) R.drawable.ic_list_white else R.drawable.ic_extended_list_white)
                     ),
                     contentDescription = stringResource(R.string.action_show_detailed_cards),
                     tint = MaterialTheme.colors.onPrimary
@@ -103,7 +104,7 @@ fun CoffeeDrinkAppBar(
                 onClick = { onOrderCoffeeDrinksMenuItem() }
             ) {
                 Icon(
-                    painter = ImagePainter(imageResource(id = R.drawable.ic_order_white)),
+                    painter = BitmapPainter(ImageBitmap.imageResource(id = R.drawable.ic_order_white)),
                     tint = MaterialTheme.colors.onPrimary,
                     contentDescription = stringResource(R.string.action_order_coffee_drinks)
                 )

@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSize
-import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -25,7 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ImagePainter
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -44,7 +45,7 @@ fun ShowLoadingOrderCoffeeDrinksScreen() {
             color = MaterialTheme.colors.primaryVariant,
             modifier = Modifier
                 .align(Alignment.Center)
-                .preferredSize(36.dp)
+                .size(36.dp)
         )
     }
 }
@@ -100,7 +101,7 @@ private fun AppBar(
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
-                    painter = ImagePainter(imageResource(id = R.drawable.ic_arrow_back_white)),
+                    painter = BitmapPainter(ImageBitmap.imageResource(id = R.drawable.ic_arrow_back_white)),
                     contentDescription = stringResource(R.string.action_back),
                     tint = MaterialTheme.colors.onPrimary
                 )
@@ -140,7 +141,7 @@ fun OrderCoffeeDrinkItem(
                 }
             }
             Box(
-                modifier = Modifier.preferredWidth(120.dp)
+                modifier = Modifier.width(120.dp)
                     .padding(start = 8.dp)
             ) {
                 Column {
@@ -169,14 +170,14 @@ private fun Logo(
 ) {
     Surface(
         modifier = modifier
-            .preferredSize(72.dp)
+            .size(72.dp)
             .padding(16.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
         Image(
-            modifier = Modifier.preferredSize(64.dp),
-            painter = ImagePainter(imageResource(id = logoId)),
+            modifier = Modifier.size(64.dp),
+            painter = BitmapPainter(ImageBitmap.imageResource(id = logoId)),
             contentDescription = null
         )
     }
