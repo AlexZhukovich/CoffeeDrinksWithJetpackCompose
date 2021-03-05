@@ -5,12 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -18,7 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ImagePainter
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,8 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alexzh.coffeedrinks.R
-import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
+import com.alexzh.coffeedrinks.data.DummyCoffeeDrinksDataSource
 import com.alexzh.coffeedrinks.ui.appTypography
+import com.alexzh.coffeedrinks.ui.component.AppDivider
 import com.alexzh.coffeedrinks.ui.component.Favourite
 import com.alexzh.coffeedrinks.ui.lightThemeColors
 import com.alexzh.coffeedrinks.ui.screen.coffeedrinks.mapper.CoffeeDrinkItemMapper
@@ -38,10 +40,9 @@ private val COFFEE_DRINK_IMAGE_SIZE = 72.dp
 @Preview
 @Composable
 fun PreviewListItem() {
-    val repository = RuntimeCoffeeDrinkRepository
     val mapper = CoffeeDrinkItemMapper()
     val coffeeDrink = mapper.map(
-        repository.getCoffeeDrinks().first()
+        DummyCoffeeDrinksDataSource().getCoffeeDrinks().first()
     )
 
     MaterialTheme(colors = lightThemeColors, typography = appTypography) {
@@ -53,7 +54,7 @@ fun PreviewListItem() {
 }
 
 @Composable
-fun CoffeeDrinkListItemWithDivider(
+fun CoffeeDrinkList(
     coffeeDrink: CoffeeDrinkItem,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
@@ -62,7 +63,7 @@ fun CoffeeDrinkListItemWithDivider(
             coffeeDrink = coffeeDrink,
             onFavouriteStateChanged = { onFavouriteStateChanged(it) }
         )
-        CoffeeDrinkDivider()
+        AppDivider(PaddingValues(start = COFFEE_DRINK_IMAGE_SIZE))
     }
 }
 
@@ -87,7 +88,7 @@ fun CoffeeDrinkListItem(
             } else {
                 MaterialTheme.colors.primaryVariant
             },
-            favouriteState = coffeeDrink.isFavourite.value,
+            favouriteState = coffeeDrink.isFavourite,
             onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
         )
     }
@@ -96,13 +97,13 @@ fun CoffeeDrinkListItem(
 @Composable
 private fun CoffeeDrinkLogo(@DrawableRes id: Int) {
     Surface(
-        modifier = Modifier.preferredSize(COFFEE_DRINK_IMAGE_SIZE)
-                .padding(16.dp),
+        modifier = Modifier.size(COFFEE_DRINK_IMAGE_SIZE)
+            .padding(16.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
         Image(
-            painter = ImagePainter(imageResource(id = id)),
+            painter = BitmapPainter(ImageBitmap.imageResource(id = id)),
             modifier = Modifier.fillMaxSize(),
             contentDescription = null
         )
@@ -125,7 +126,7 @@ private fun CoffeeDrinkIngredient(ingredients: String) {
     Text(
         text = ingredients,
         modifier = Modifier.padding(end = 8.dp)
-                .alpha(0.54f),
+            .alpha(0.54f),
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         style = MaterialTheme.typography.body1,
@@ -145,18 +146,5 @@ private fun CoffeeDrinkFavouriteIcon(
         favouriteVectorId = R.drawable.ic_baseline_favorite_24,
         nonFavouriteVectorId = R.drawable.ic_baseline_favorite_border_24,
         tint = tint
-    )
-}
-
-@Composable
-private fun CoffeeDrinkDivider() {
-    Divider(
-        modifier = Modifier.padding(start = COFFEE_DRINK_IMAGE_SIZE)
-                .alpha(0.12f),
-        color = if (isSystemInDarkTheme()) {
-            Color.White
-        } else {
-            Color.Black
-        }
     )
 }

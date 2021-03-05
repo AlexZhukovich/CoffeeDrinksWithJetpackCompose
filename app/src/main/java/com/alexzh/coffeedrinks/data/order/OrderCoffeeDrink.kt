@@ -1,14 +1,12 @@
-package com.alexzh.coffeedrinks.data
+package com.alexzh.coffeedrinks.data.order
 
 import androidx.annotation.DrawableRes
 
-data class CoffeeDrink(
+data class OrderCoffeeDrink(
     val id: Long,
     val name: String,
     @DrawableRes val imageUrl: Int,
-    val description: String,
     val ingredients: String,
-    val orderDescription: String,
     val price: Double,
-    val isFavourite: Boolean
+    val count: Int
 )

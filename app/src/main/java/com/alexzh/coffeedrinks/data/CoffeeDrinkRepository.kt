@@ -1,10 +1,12 @@
 package com.alexzh.coffeedrinks.data
 
+import kotlinx.coroutines.flow.Flow
+
 interface CoffeeDrinkRepository {
 
-    fun getCoffeeDrinks(): List<CoffeeDrink>
+    suspend fun getCoffeeDrinks(): Flow<List<CoffeeDrink>>
 
-    fun getCoffeeDrink(id: Long): CoffeeDrink?
+    suspend fun getCoffeeDrink(id: Long): Flow<CoffeeDrink?>
 
-    fun updateFavouriteState(id: Long, newFavouriteState: Boolean): Boolean
+    suspend fun updateFavouriteState(id: Long, newFavouriteState: Boolean): Flow<Boolean>
 }

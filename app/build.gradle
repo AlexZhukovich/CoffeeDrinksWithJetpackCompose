@@ -59,10 +59,16 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$androidx_core_version"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$androidx_navigation_version"
+    implementation "androidx.fragment:fragment-ktx:$androidx_fragment_version"
+    debugImplementation "androidx.fragment:fragment-testing:$androidx_fragment_version"
 
     // Koin
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    androidTestImplementation "org.koin:koin-test:$koin_version"
 
     // Jetpack Compose
     implementation "androidx.compose.runtime:runtime:$compose_version"
@@ -74,9 +80,12 @@ dependencies {
     implementation "androidx.compose.animation:animation:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.navigation:navigation-compose:$compose_nav_compose"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha03"
 
     // Local testing dependencies
     testImplementation "junit:junit:$junit_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
 
     // Instrumentation testing dependencies
     androidTestImplementation "junit:junit:$junit_version"
@@ -85,4 +94,5 @@ dependencies {
     androidTestImplementation("androidx.test:runner:$test_runner")
     androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 }

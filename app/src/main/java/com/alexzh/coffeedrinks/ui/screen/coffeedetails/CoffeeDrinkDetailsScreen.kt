@@ -4,12 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ConstraintLayout
-import androidx.compose.foundation.layout.Dimension
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -22,85 +20,72 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.graphics.painter.ImagePainter
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.alexzh.coffeedrinks.R
-import com.alexzh.coffeedrinks.data.CoffeeDrinkRepository
-import com.alexzh.coffeedrinks.data.RuntimeCoffeeDrinkRepository
-import com.alexzh.coffeedrinks.ui.appTypography
-import com.alexzh.coffeedrinks.ui.lightThemeColors
-import com.alexzh.coffeedrinks.ui.router.AppRouter
-import com.alexzh.coffeedrinks.ui.router.Router
-import com.alexzh.coffeedrinks.ui.router.RouterDestination
-import com.alexzh.coffeedrinks.ui.screen.coffeedetails.mapper.CoffeeDrinkDetailMapper
-import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetail
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.alexzh.coffeedrinks.ui.screen.coffeedetails.model.CoffeeDrinkDetailState
 
-@Preview
 @Composable
-@ExperimentalCoroutinesApi
-fun PreviewScreen() {
-    val coffeeDrinkId = 1L
-    val repository = RuntimeCoffeeDrinkRepository
-    val mapper = CoffeeDrinkDetailMapper()
-    val router = AppRouter()
-    MaterialTheme(colors = lightThemeColors, typography = appTypography) {
-        CoffeeDrinkDetailsScreen(router, repository, mapper, coffeeDrinkId)
-    }
+fun ShowLoadingCoffeeDrinkDetailsScreen() {
+    // TODO: implement it
 }
 
 @Composable
-fun CoffeeDrinkDetailsScreen(
-    router: Router,
-    repository: CoffeeDrinkRepository,
-    mapper: CoffeeDrinkDetailMapper,
-    coffeeDrinkId: Long
+fun ShowSuccessCoffeeDrinkDetailsScreen(
+    onBack: () -> Unit,
+    coffeeDrinkDetailState: CoffeeDrinkDetailState,
+    viewModel: CoffeeDrinkDetailsViewModel
 ) {
-    val coffeeDrink = mapper.map(repository.getCoffeeDrink(coffeeDrinkId))
+    CoffeeDrinkDetailsScreenUI(
+        onBack = onBack,
+        coffeeDrinkDetailState = coffeeDrinkDetailState,
+        viewModel = viewModel
+    )
+}
 
-    if (coffeeDrink != null) {
-        CoffeeDrinkDetailsScreenUI(
-            router,
-            repository,
-            coffeeDrink
-        )
-    }
+@Composable
+fun ShowErrorCoffeeDrinkDetailsScreen() {
+    // TODO: implement it
 }
 
 @Composable
 private fun CoffeeDrinkDetailsScreenUI(
-    router: Router,
-    repository: CoffeeDrinkRepository,
-    coffeeDrink: CoffeeDrinkDetail
+    onBack: () -> Unit,
+    coffeeDrinkDetailState: CoffeeDrinkDetailState,
+    viewModel: CoffeeDrinkDetailsViewModel
 ) {
     ConstraintLayout {
         val startGuideline = createGuidelineFromStart(16.dp)
         val endGuideline = createGuidelineFromEnd(16.dp)
         val (surface, header, appBar, fab, name, logo, description, ingredients) = createRefs()
 
-        Box(modifier = Modifier
-            .constrainAs(surface) { centerTo(parent) }
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.surface)
+        Box(
+            modifier = Modifier
+                .constrainAs(surface) { centerTo(parent) }
+                .fillMaxSize()
+                .background(color = MaterialTheme.colors.surface)
         )
 
-        Box(modifier = Modifier
-            .constrainAs(header) { centerHorizontallyTo(surface) }
-            .fillMaxWidth()
-            .preferredHeight(220.dp)
-            .paint(
-                painter = if (isSystemInDarkTheme()) {
-                    ColorPainter(Color.White)
-                } else {
-                    ColorPainter(MaterialTheme.colors.primary)
-                },
-                alpha = 0.95f
-            )
+        Box(
+            modifier = Modifier
+                .constrainAs(header) { centerHorizontallyTo(surface) }
+                .fillMaxWidth()
+                .height(220.dp)
+                .paint(
+                    painter = if (isSystemInDarkTheme()) {
+                        ColorPainter(Color.White)
+                    } else {
+                        ColorPainter(MaterialTheme.colors.primary)
+                    },
+                    alpha = 0.95f
+                )
         )
 
         TopAppBar(
@@ -109,9 +94,11 @@ private fun CoffeeDrinkDetailsScreenUI(
             elevation = 0.dp,
             modifier = Modifier.constrainAs(appBar) { centerHorizontallyTo(header) },
             navigationIcon = {
-                IconButton(onClick = { router.navigateTo(RouterDestination.CoffeeDrinks) }) {
+                IconButton(
+                    onClick = { onBack() }
+                ) {
                     Icon(
-                        painter = ImagePainter(image = imageResource(id = R.drawable.ic_arrow_back_white)),
+                        painter = BitmapPainter(image = ImageBitmap.imageResource(id = R.drawable.ic_arrow_back_white)),
                         contentDescription = stringResource(R.string.action_back),
                         tint = if (isSystemInDarkTheme()) {
                             Color.Black
@@ -126,8 +113,8 @@ private fun CoffeeDrinkDetailsScreenUI(
         Image(
             modifier = Modifier
                 .constrainAs(logo) { centerTo(header) }
-                .preferredSize(180.dp),
-            painter = ImagePainter(imageResource(id = R.drawable.americano_small)),
+                .size(180.dp),
+            painter = BitmapPainter(ImageBitmap.imageResource(id = R.drawable.americano_small)),
             contentDescription = null
         )
 
@@ -140,20 +127,20 @@ private fun CoffeeDrinkDetailsScreenUI(
             shape = CircleShape,
             backgroundColor = MaterialTheme.colors.secondary,
             onClick = {
-                onFavouriteStateChanged(repository, coffeeDrink)
+                viewModel.changeFavouriteState(coffeeDrinkDetailState.coffeeDrinks)
             }
         ) {
             Icon(
-                painter = ImagePainter(
-                    imageResource(
-                        if (coffeeDrink.isFavourite.value) {
+                painter = BitmapPainter(
+                    ImageBitmap.imageResource(
+                        if (coffeeDrinkDetailState.coffeeDrinks.isFavourite) {
                             R.drawable.ic_favorite_white
                         } else {
                             R.drawable.ic_favorite_border_white
                         }
                     )
                 ),
-                contentDescription = if (coffeeDrink.isFavourite.value) {
+                contentDescription = if (coffeeDrinkDetailState.coffeeDrinks.isFavourite) {
                     stringResource(R.string.mark_as_favorite)
                 } else {
                     stringResource(R.string.unmark_as_favorite)
@@ -163,7 +150,7 @@ private fun CoffeeDrinkDetailsScreenUI(
         }
 
         Text(
-            text = coffeeDrink.name,
+            text = coffeeDrinkDetailState.coffeeDrinks.name,
             style = MaterialTheme.typography.h4.copy(MaterialTheme.colors.onSurface),
             modifier = Modifier.constrainAs(name) {
                 top.linkTo(header.bottom, margin = 16.dp)
@@ -173,7 +160,7 @@ private fun CoffeeDrinkDetailsScreenUI(
         )
 
         Text(
-            text = coffeeDrink.description,
+            text = coffeeDrinkDetailState.coffeeDrinks.description,
             style = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.Justify
@@ -188,7 +175,7 @@ private fun CoffeeDrinkDetailsScreenUI(
         )
 
         Text(
-            text = coffeeDrink.ingredients,
+            text = coffeeDrinkDetailState.coffeeDrinks.ingredients,
             style = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.Justify
@@ -202,14 +189,4 @@ private fun CoffeeDrinkDetailsScreenUI(
                 .alpha(0.54f)
         )
     }
-}
-
-private fun onFavouriteStateChanged(
-    repository: CoffeeDrinkRepository,
-    coffeeDrink: CoffeeDrinkDetail
-) {
-    val newFavState = !coffeeDrink.isFavourite.value
-    coffeeDrink.isFavourite.value = newFavState
-
-    repository.updateFavouriteState(coffeeDrink.id, newFavState)
 }
