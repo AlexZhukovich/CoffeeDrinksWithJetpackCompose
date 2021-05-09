@@ -3,16 +3,18 @@
 apply from: 'scripts/git-hooks.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.4.30'
+    ext.kotlin_version = '1.4.32'
     ext.kotlin_coroutines_version = '1.3.9'
-    ext.compose_version = '1.0.0-beta01'
-    ext.compose_nav_compose = "1.0.0-alpha07"
-    ext.appcompat_version = '1.2.0'
+    ext.compose_version = '1.0.0-beta06'
+    ext.compose_nav_version = "1.0.0-alpha10"
+    ext.compose_constraintlayout_version = "1.0.0-alpha06"
+    ext.appcompat_version = '1.3.0-rc01'
     ext.androidx_core_version = '1.3.2'
-    ext.androidx_fragment_version = '1.3.0'
-    ext.androidx_navigation_version = '2.3.3'
+    ext.androidx_fragment_version = '1.3.3'
+    ext.androidx_lifecycle_version = '2.3.1'
+    ext.androidx_navigation_version = '2.3.5'
     ext.koin_version = '2.2.2'
-    ext.junit_version = '4.13.1'
+    ext.junit_version = '4.13.2'
     ext.test_junit_runner = '1.1.1'
     ext.test_runner = '1.3.0'
     ext.test_rules = '1.3.0'
@@ -20,10 +22,10 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha08'
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha15'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -33,7 +35,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
     configurations.all {
