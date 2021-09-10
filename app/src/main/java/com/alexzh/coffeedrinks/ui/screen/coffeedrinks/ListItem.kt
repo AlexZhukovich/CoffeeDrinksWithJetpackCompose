@@ -26,7 +26,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.DummyCoffeeDrinksDataSource
 import com.alexzh.coffeedrinks.ui.appTypography
 import com.alexzh.coffeedrinks.ui.component.AppDivider
@@ -98,7 +97,7 @@ fun CoffeeDrinkListItem(
 private fun CoffeeDrinkLogo(@DrawableRes id: Int) {
     Surface(
         modifier = Modifier.size(COFFEE_DRINK_IMAGE_SIZE)
-            .padding(16.dp),
+            .padding(8.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
@@ -143,8 +142,6 @@ private fun CoffeeDrinkFavouriteIcon(
     Favourite(
         state = favouriteState,
         onValueChanged = onValueChanged,
-        favouriteVectorId = R.drawable.ic_baseline_favorite_24,
-        nonFavouriteVectorId = R.drawable.ic_baseline_favorite_border_24,
         tint = tint
     )
 }
