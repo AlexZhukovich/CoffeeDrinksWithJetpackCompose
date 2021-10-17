@@ -54,7 +54,6 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$androidx_navigation_version"
     implementation "androidx.fragment:fragment-ktx:$androidx_fragment_version"
-    debugImplementation "androidx.fragment:fragment-testing:$androidx_fragment_version"
 
     // Koin
     implementation "org.koin:koin-android:$koin_version"
@@ -85,6 +84,9 @@ dependencies {
     androidTestImplementation("androidx.test:runner:$test_runner")
     androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
+
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    debugImplementation "androidx.fragment:fragment-testing:$androidx_fragment_version"
+    debugImplementation "androidx.test:core:$test_core"
 }
