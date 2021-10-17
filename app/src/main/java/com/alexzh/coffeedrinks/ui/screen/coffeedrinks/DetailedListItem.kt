@@ -26,7 +26,6 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.alexzh.coffeedrinks.R
 import com.alexzh.coffeedrinks.data.DummyCoffeeDrinksDataSource
 import com.alexzh.coffeedrinks.ui.appTypography
 import com.alexzh.coffeedrinks.ui.component.Favourite
@@ -176,8 +175,6 @@ private fun CoffeeDrinkFavouriteIcon(
         state = favouriteState,
         modifier = Modifier.alpha(0.78f),
         onValueChanged = onValueChanged,
-        favouriteVectorId = R.drawable.ic_baseline_favorite_24,
-        nonFavouriteVectorId = R.drawable.ic_baseline_favorite_border_24,
         tint = tint
     )
 }

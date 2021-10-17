@@ -3,15 +3,20 @@ apply plugin: 'kotlin-android'
 apply from: '../scripts/ktlint.gradle'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
+    buildToolsVersion "31.0.0"
+
     defaultConfig {
         applicationId "com.alexzh.coffeedrinks"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
-        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
     buildTypes {
         release {
@@ -25,6 +30,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        useIR = true
     }
     buildFeatures {
         compose true
@@ -38,27 +44,12 @@ android {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-    kotlinOptions {
-        // Treat all Kotlin warnings as errors
-        allWarningsAsErrors = true
-        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
-        // Enable experimental coroutines APIs, including Flow
-        freeCompilerArgs += '-Xopt-in=kotlin.Experimental'
-        freeCompilerArgs += '-Xallow-jvm-ir-dependencies'
-
-        // Set JVM target to 1.8
-        jvmTarget = "1.8"
-    }
-}
-
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$androidx_core_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$androidx_navigation_version"
@@ -94,5 +85,6 @@ dependencies {
     androidTestImplementation("androidx.test:runner:$test_runner")
     androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 }
