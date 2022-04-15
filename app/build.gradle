@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'shot'
 apply from: '../scripts/ktlint.gradle'
+
+shot {
+    applicationId = "com.alexzh.coffeedrinks"
+}
 
 android {
     compileSdkVersion 31
@@ -13,7 +18,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
         vectorDrawables {
             useSupportLibrary true
         }

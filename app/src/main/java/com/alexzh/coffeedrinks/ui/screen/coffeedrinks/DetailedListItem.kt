@@ -14,6 +14,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -110,7 +112,7 @@ private fun AddFavouriteIcon(
             } else {
                 MaterialTheme.colors.onPrimary
             },
-            favouriteState = coffeeDrink.isFavourite,
+            favouriteState = mutableStateOf(coffeeDrink.isFavourite),
             onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
         )
     }
@@ -168,7 +170,7 @@ private fun AddDescription(description: String) {
 @Composable
 private fun CoffeeDrinkFavouriteIcon(
     tint: Color = MaterialTheme.colors.onSurface,
-    favouriteState: Boolean,
+    favouriteState: MutableState<Boolean>,
     onValueChanged: (Boolean) -> Unit
 ) {
     Favourite(
