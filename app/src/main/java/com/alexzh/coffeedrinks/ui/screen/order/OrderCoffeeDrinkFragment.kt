@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.alexzh.coffeedrinks.ui.navigateToPreviousScreen
 import com.alexzh.coffeedrinks.ui.state.UiState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@OptIn(ExperimentalAnimationApi::class)
 class OrderCoffeeDrinkFragment : Fragment() {
     private val viewModel: OrderCoffeeDrinkViewModel by viewModel()
 

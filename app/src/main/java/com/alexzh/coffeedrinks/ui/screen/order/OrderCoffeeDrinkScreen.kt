@@ -1,6 +1,7 @@
 package com.alexzh.coffeedrinks.ui.screen.order
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,6 +53,7 @@ fun ShowLoadingOrderCoffeeDrinksScreen() {
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun ShowSuccessOrderCoffeeDrinksScreen(
     orderCoffeeDrinkState: OrderCoffeeDrinkState,
@@ -58,7 +62,7 @@ fun ShowSuccessOrderCoffeeDrinksScreen(
 ) {
     Column {
         AppBarWithOrderSummary(
-            totalPrice = orderCoffeeDrinkState.totalPrice,
+            totalPrice = mutableStateOf(orderCoffeeDrinkState.totalPrice),
             onBackClick = onBack
         )
         Surface {
@@ -67,10 +71,10 @@ fun ShowSuccessOrderCoffeeDrinksScreen(
                     Column {
                         OrderCoffeeDrinkItem(
                             orderCoffeeDrink = coffeeDrink,
-                            onAdded = { coffeeDrinkId -> viewModel.addDrink(coffeeDrinkId) },
-                            onRemoved = { coffeeDrinkId -> viewModel.removeDrink(coffeeDrinkId) }
+                            onAdded = { viewModel.addDrink(coffeeDrink.id) },
+                            onRemoved = { viewModel.removeDrink(coffeeDrink.id) }
                         )
-                        AppDivider(PaddingValues(start = 72.dp))
+                        AppDivider(PaddingValues(start = 84.dp))
                     }
                 }
             }
@@ -110,55 +114,47 @@ private fun AppBar(
     )
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun OrderCoffeeDrinkItem(
     orderCoffeeDrink: com.alexzh.coffeedrinks.data.order.OrderCoffeeDrink,
-    onAdded: (Long) -> Unit,
-    onRemoved: (Long) -> Unit
+    onAdded: () -> Unit,
+    onRemoved: () -> Unit
 ) {
-    Box(modifier = Modifier.padding(top = 16.dp, end = 16.dp)) {
-        Row {
-            Logo(orderCoffeeDrink.imageUrl)
-            Box(
-                contentAlignment = Alignment.CenterStart,
+    Row(
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Logo(orderCoffeeDrink.imageUrl)
+        Column(
+            modifier = Modifier.weight(1f)
+                .padding(horizontal = 4.dp)
+        ) {
+            Text(
+                text = orderCoffeeDrink.name,
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.padding(bottom = 4.dp)
+                    .fillMaxWidth()
+            )
+            Text(
+                text = orderCoffeeDrink.ingredients,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Column(modifier = Modifier.width(90.dp)) {
+            Text(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp)
-            ) {
-                Column {
-                    Text(
-                        text = orderCoffeeDrink.name,
-                        style = MaterialTheme.typography.h6,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                            .fillMaxWidth()
-                    )
-                    Text(
-                        text = orderCoffeeDrink.ingredients,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-            }
-            Box(
-                modifier = Modifier.width(120.dp)
-                    .padding(start = 8.dp)
-            ) {
-                Column {
-                    Text(
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .fillMaxWidth(),
-                        text = "€ ${orderCoffeeDrink.price}",
-                        style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Right)
-                    )
-                    Counter(
-                        orderCoffeeDrink,
-                        onAdded,
-                        onRemoved
-                    )
-                }
-            }
+                    .padding(bottom = 4.dp)
+                    .fillMaxWidth(),
+                text = "€ ${orderCoffeeDrink.price}",
+                style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Right)
+            )
+            Counter(
+                mutableStateOf(orderCoffeeDrink.count),
+                onAdded,
+                onRemoved
+            )
         }
     }
 }
@@ -171,7 +167,7 @@ private fun Logo(
     Surface(
         modifier = modifier
             .size(72.dp)
-            .padding(16.dp),
+            .padding(8.dp),
         shape = CircleShape,
         color = Color(0xFFFAFAFA)
     ) {
@@ -183,9 +179,10 @@ private fun Logo(
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 private fun AppBarWithOrderSummary(
-    totalPrice: BigDecimal,
+    totalPrice: MutableState<BigDecimal>,
     onBackClick: () -> Unit
 ) {
     Surface(
@@ -196,7 +193,7 @@ private fun AppBarWithOrderSummary(
             AppBar {
                 onBackClick()
             }
-            Row(modifier = Modifier.padding(16.dp)) {
+            Row(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = "Total cost",
                     modifier = Modifier.weight(1f),
@@ -205,7 +202,7 @@ private fun AppBarWithOrderSummary(
                     )
                 )
                 Text(
-                    text = "€ $totalPrice",
+                    text = "€ ${totalPrice.value}",
                     style = MaterialTheme.typography.h6.copy(
                         color = MaterialTheme.colors.onPrimary
                     )

@@ -7,4 +7,7 @@
 
     <string name="mark_as_favorite">Mark as favorite</string>
     <string name="unmark_as_favorite">Unmark as favorite</string>
+
+    <string name="counter_increase">＋</string>
+    <string name="counter_decrease">—</string>
 </resources>
