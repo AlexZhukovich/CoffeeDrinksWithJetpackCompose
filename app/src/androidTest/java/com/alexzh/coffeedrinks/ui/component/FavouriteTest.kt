@@ -8,15 +8,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.unit.dp
+import androidx.test.filters.MediumTest
 import com.karumi.shot.ScreenshotTest
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
+@RunWith(JUnit4::class)
 class FavouriteTest : ScreenshotTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    @MediumTest
     @Test
     fun animationShouldBeRenderedCorrectly() {
         composeTestRule.apply {
