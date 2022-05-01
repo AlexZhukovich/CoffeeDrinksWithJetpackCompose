@@ -5,28 +5,28 @@ on:
       - '*'
       - '!master'
 jobs:
-#  unit-tests:
-#    name: Run Unit tests
-#    runs-on: ubuntu-18.04
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: set up JDK 11
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: 'temurin'
-#          java-version: '11'
-#      - name: Unit tests
-#        run: bash ./gradlew test
-  instrumentation-test:
-    name: Run Instrumentation tests
-    runs-on: macos-latest
+  build:
+    name: Run Unit tests
+    runs-on: ubuntu-18.04
     steps:
-      - name: set up JDK 17
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
-      - name: checkout
+      - name: Build
+        run: bash ./gradlew build
+  instrumentation-test:
+    name: Run Instrumentation tests
+    runs-on: macos-latest
+    steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - name: Checkout
         uses: actions/checkout@v3
       - name: Make files executable
         run: chmod +x ./gradlew
@@ -38,18 +38,19 @@ jobs:
           arch: x86_64
           profile: pixel_3a
           script: ./gradlew connectedCheck
-#  screenshot-test:
-#    name: Run Screenshot tests
-#    runs-on: macos-latest
-#    steps:
-#      - name: checkout
-#        uses: actions/checkout@v3
-#      - name: Make files executable
-#        run: chmod +x ./gradlew
-#      - name: Screenshot tests
-#        uses: reactivecircus/android-emulator-runner@v2
-#        with:
-#          api-level: 29
-#          profile: pixel_3a
-#          target: google_apis
-#          script: ./gradlew executeScreenshotTests -Pandroid.testInstrumentationRunnerArguments.size=medium
+  screenshot-test:
+    name: Run Screenshot tests
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Make files executable
+        run: chmod +x ./gradlew
+      - name: Screenshot tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel_3a
+          script: ./gradlew executeScreenshotTests -Pandroid.testInstrumentationRunnerArguments.size=medium
