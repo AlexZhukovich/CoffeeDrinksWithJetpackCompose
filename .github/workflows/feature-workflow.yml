@@ -33,8 +33,7 @@ jobs:
       - name: Instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 31
-#          profile: Nexus 6
+          api-level: 30
           script: ./gradlew connectedCheck
 #  screenshot-test:
 #    name: Run Screenshot tests
