@@ -35,7 +35,7 @@ jobs:
         with:
           api-level: 31
           profile: pixel_3a
-          target: google_apis
+#          target: google_apis
           script: ./gradlew connectedCheck
 #  screenshot-test:
 #    name: Run Screenshot tests
