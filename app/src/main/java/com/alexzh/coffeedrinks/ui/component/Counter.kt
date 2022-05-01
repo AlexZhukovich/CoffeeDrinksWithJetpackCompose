@@ -17,7 +17,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,7 +31,7 @@ import com.alexzh.coffeedrinks.R
 @ExperimentalAnimationApi
 @Composable
 fun Counter(
-    state: MutableState<Int>,
+    value: Int,
     onIncrease: () -> Unit,
     onDecrease: () -> Unit
 ) {
@@ -58,7 +57,7 @@ fun Counter(
 
             AnimatedContent(
                 modifier = Modifier.weight(1f),
-                targetState = state.value,
+                targetState = value,
                 transitionSpec = {
                     if (targetState > initialState) {
                         slideInVertically({ height -> height }) + fadeIn() with
@@ -99,7 +98,7 @@ fun Counter(
 fun Preview_Counter() {
     val state = remember { mutableStateOf(0) }
     Counter(
-        state = state,
+        value = state.value,
         onIncrease = { state.value++ },
         onDecrease = { state.value-- },
     )
