@@ -34,8 +34,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 31
-          arch: x86_64
-          profile: Pixel 5
+          profile: pixel_3a
           target: google_apis
           script: ./gradlew connectedCheck
   screenshot-test:
