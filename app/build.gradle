@@ -5,7 +5,7 @@ apply from: '../scripts/ktlint.gradle'
 
 shot {
     applicationId = "com.alexzh.coffeedrinks"
-    tolerance =  1.0
+    tolerance =  100
 }
 
 android {
