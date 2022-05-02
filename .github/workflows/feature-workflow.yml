@@ -52,7 +52,7 @@ jobs:
       - name: Make files executable
         run: chmod +x ./gradlew
       - name: Screenshot tests
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@v2.24.0
         with:
           api-level: 31
           arch: x86_64
@@ -61,7 +61,3 @@ jobs:
           sdcard-path-or-size: 512M
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: ./gradlew executeScreenshotTests -Pandroid.testInstrumentationRunnerArguments.size=medium
-      - name: Download artifacts from "screenshot-test" job
-        uses: actions/download-artifact@v3
-        with:
-          name: work
