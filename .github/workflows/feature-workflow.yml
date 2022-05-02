@@ -54,7 +54,7 @@ jobs:
       - name: Screenshot tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 31
           arch: x86_64
           profile: pixel
           target: google_apis
