@@ -60,3 +60,7 @@ jobs:
           target: google_apis
           sdcard-path-or-size: 512M
           script: ./gradlew executeScreenshotTests -Pandroid.testInstrumentationRunnerArguments.size=medium
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: working-dir
