@@ -59,6 +59,7 @@ jobs:
           profile: pixel
           target: google_apis
           sdcard-path-or-size: 512M
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: ./gradlew executeScreenshotTests -Pandroid.testInstrumentationRunnerArguments.size=medium
       - name: Download artifacts from "screenshot-test" job
         uses: actions/download-artifact@v3
