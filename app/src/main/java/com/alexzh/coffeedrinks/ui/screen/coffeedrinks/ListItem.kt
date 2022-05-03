@@ -1,6 +1,5 @@
 package com.alexzh.coffeedrinks.ui.screen.coffeedrinks
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -17,8 +16,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -78,78 +77,57 @@ fun CoffeeDrinkListItem(
     coffeeDrink: CoffeeDrinkItem,
     onFavouriteStateChanged: (CoffeeDrinkItem) -> Unit
 ) {
+    val favouriteState = remember { mutableStateOf(coffeeDrink.isFavourite) }
+    val favouriteIconColor = if (isSystemInDarkTheme()) {
+        MaterialTheme.colors.onPrimary
+    } else {
+        MaterialTheme.colors.primaryVariant
+    }
+
     Row {
-        CoffeeDrinkLogo(id = coffeeDrink.imageUrl)
+        Surface(
+            modifier = Modifier.size(COFFEE_DRINK_IMAGE_SIZE)
+                .padding(8.dp),
+            shape = CircleShape,
+            color = Color(0xFFFAFAFA)
+        ) {
+            Image(
+                painter = BitmapPainter(ImageBitmap.imageResource(id = coffeeDrink.imageUrl)),
+                modifier = Modifier.fillMaxSize(),
+                contentDescription = null
+            )
+        }
         Box(
             modifier = Modifier.fillMaxWidth()
                 .weight(1f)
         ) {
             Column {
-                CoffeeDrinkTitle(title = coffeeDrink.name)
-                CoffeeDrinkIngredient(ingredients = coffeeDrink.ingredients)
+                Text(
+                    text = coffeeDrink.name,
+                    modifier = Modifier.padding(top = 8.dp, end = 8.dp),
+                    style = TextStyle(fontSize = 24.sp),
+                    color = MaterialTheme.colors.onSurface,
+                    maxLines = 1
+                )
+                Text(
+                    text = coffeeDrink.ingredients,
+                    modifier = Modifier.padding(end = 8.dp)
+                        .alpha(0.54f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.body1,
+                    color = MaterialTheme.colors.onSurface
+                )
             }
         }
-        CoffeeDrinkFavouriteIcon(
-            tint = if (isSystemInDarkTheme()) {
-                MaterialTheme.colors.onPrimary
-            } else {
-                MaterialTheme.colors.primaryVariant
+
+        Favourite(
+            state = favouriteState,
+            onValueChanged = {
+                onFavouriteStateChanged(coffeeDrink)
+                favouriteState.value = !favouriteState.value
             },
-            favouriteState = mutableStateOf(coffeeDrink.isFavourite),
-            onValueChanged = { onFavouriteStateChanged(coffeeDrink) }
+            tint = favouriteIconColor
         )
     }
-}
-
-@Composable
-private fun CoffeeDrinkLogo(@DrawableRes id: Int) {
-    Surface(
-        modifier = Modifier.size(COFFEE_DRINK_IMAGE_SIZE)
-            .padding(8.dp),
-        shape = CircleShape,
-        color = Color(0xFFFAFAFA)
-    ) {
-        Image(
-            painter = BitmapPainter(ImageBitmap.imageResource(id = id)),
-            modifier = Modifier.fillMaxSize(),
-            contentDescription = null
-        )
-    }
-}
-
-@Composable
-private fun CoffeeDrinkTitle(title: String) {
-    Text(
-        text = title,
-        modifier = Modifier.padding(top = 8.dp, end = 8.dp),
-        style = TextStyle(fontSize = 24.sp),
-        color = MaterialTheme.colors.onSurface,
-        maxLines = 1
-    )
-}
-
-@Composable
-private fun CoffeeDrinkIngredient(ingredients: String) {
-    Text(
-        text = ingredients,
-        modifier = Modifier.padding(end = 8.dp)
-            .alpha(0.54f),
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        style = MaterialTheme.typography.body1,
-        color = MaterialTheme.colors.onSurface
-    )
-}
-
-@Composable
-private fun CoffeeDrinkFavouriteIcon(
-    tint: Color = MaterialTheme.colors.onSurface,
-    favouriteState: MutableState<Boolean>,
-    onValueChanged: (Boolean) -> Unit
-) {
-    Favourite(
-        state = favouriteState,
-        onValueChanged = onValueChanged,
-        tint = tint
-    )
 }

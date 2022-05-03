@@ -3,6 +3,4 @@
     package="com.alexzh.coffeedrinks.test"
     android:sharedUserId="com.alexzh.coffeedrinks.uid">
 
-    <application
-        android:requestLegacyExternalStorage="true" />
 </manifest>

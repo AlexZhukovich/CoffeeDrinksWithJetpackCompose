@@ -3,6 +3,7 @@
 apply from: 'scripts/git-hooks.gradle'
 
 buildscript {
+    ext.android_gradle_plugin_version = '7.1.3'
     ext.kotlin_version = '1.5.31'
     ext.kotlin_coroutines_version = '1.5.2'
     ext.compose_version = '1.0.4'
@@ -20,15 +21,16 @@ buildscript {
     ext.test_runner = '1.4.0'
     ext.test_rules = '1.4.0'
     ext.mockk_version = '1.10.6'
+    ext.shot_version = '5.14.0'
 
     repositories {
-        google()
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.3'
+        classpath "com.android.tools.build:gradle:$android_gradle_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.karumi:shot:5.13.0'
+        classpath "com.karumi:shot:$shot_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

@@ -1,36 +1,33 @@
 name: Commits and Pull Requests
-
 on:
   pull_request:
     branches:
       - '*'
-
   push:
     branches:
       - 'master'
-
 jobs:
   unit-tests:
     name: Run Unit tests
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: '11'
       - name: Unit tests
         run: bash ./gradlew test
-
   apk:
     name: Generate APK
     runs-on: ubuntu-18.04
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: '11'
       - name: Build debug APK
         run: bash ./gradlew assembleDebug
@@ -39,34 +36,59 @@ jobs:
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
-
   instrumentation-test:
     name: Run Instrumentation tests
     runs-on: macos-latest
     steps:
-      - name: set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: '11'
-      - name: checkout
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Make files executable
         run: chmod +x ./gradlew
       - name: Instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 31
+          arch: x86_64
+          profile: pixel
+          target: google_apis
           script: ./gradlew connectedCheck
-
+  screenshot-test:
+    name: Run Screenshot tests
+    runs-on: macos-latest
+    steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Make files executable
+        run: chmod +x ./gradlew
+      - name: Screenshot tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          arch: x86_64
+          profile: pixel
+          target: google_apis
+          sdcard-path-or-size: 512M
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: ./gradlew executeScreenshotTests -Pandroid.testInstrumentationRunnerArguments.size=medium
   code-style-verification:
     name: Code style verification
     runs-on: ubuntu-18.04
-
     steps:
       - name: set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: '11'
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: KtLint verification
         run: bash ./gradlew ktlint

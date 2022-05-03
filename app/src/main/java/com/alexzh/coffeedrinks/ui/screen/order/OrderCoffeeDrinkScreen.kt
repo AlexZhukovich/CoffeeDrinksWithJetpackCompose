@@ -23,8 +23,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -62,7 +60,7 @@ fun ShowSuccessOrderCoffeeDrinksScreen(
 ) {
     Column {
         AppBarWithOrderSummary(
-            totalPrice = mutableStateOf(orderCoffeeDrinkState.totalPrice),
+            totalPrice = orderCoffeeDrinkState.totalPrice,
             onBackClick = onBack
         )
         Surface {
@@ -151,9 +149,9 @@ fun OrderCoffeeDrinkItem(
                 style = MaterialTheme.typography.subtitle1.copy(textAlign = TextAlign.Right)
             )
             Counter(
-                mutableStateOf(orderCoffeeDrink.count),
-                onAdded,
-                onRemoved
+                value = orderCoffeeDrink.count,
+                onIncrease = onAdded,
+                onDecrease = onRemoved
             )
         }
     }
@@ -182,7 +180,7 @@ private fun Logo(
 @ExperimentalAnimationApi
 @Composable
 private fun AppBarWithOrderSummary(
-    totalPrice: MutableState<BigDecimal>,
+    totalPrice: BigDecimal,
     onBackClick: () -> Unit
 ) {
     Surface(
@@ -202,7 +200,7 @@ private fun AppBarWithOrderSummary(
                     )
                 )
                 Text(
-                    text = "€ ${totalPrice.value}",
+                    text = "€ $totalPrice",
                     style = MaterialTheme.typography.h6.copy(
                         color = MaterialTheme.colors.onPrimary
                     )
