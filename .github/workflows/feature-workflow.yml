@@ -33,10 +33,10 @@ jobs:
       - name: Instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
-          target: google_apis
+          api-level: 31
           arch: x86_64
-          profile: pixel_3a
+          profile: pixel
+          target: google_apis
           script: ./gradlew connectedCheck
   screenshot-test:
     name: Run Screenshot tests
