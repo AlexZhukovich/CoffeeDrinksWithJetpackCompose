@@ -37,7 +37,7 @@ class FavouriteTest : ScreenshotTest {
                     state = state,
                     modifier = Modifier.size(150.dp),
                     onValueChanged = { },
-                    tint = Color.Black
+                    tint = Color.Red
                 )
             }
 
