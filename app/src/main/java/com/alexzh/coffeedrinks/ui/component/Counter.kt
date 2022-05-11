@@ -11,6 +11,7 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -39,6 +40,7 @@ fun Counter(
         shape = RoundedCornerShape(size = 5.dp),
         border = BorderStroke(1.dp, Color.LightGray),
         color = Color.White,
+        modifier = Modifier.height(36.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -60,11 +62,11 @@ fun Counter(
                 targetState = value,
                 transitionSpec = {
                     if (targetState > initialState) {
-                        slideInVertically({ height -> height }) + fadeIn() with
-                            slideOutVertically({ height -> -height }) + fadeOut()
+                        slideInVertically { height -> height } + fadeIn() with
+                            slideOutVertically { height -> -height } + fadeOut()
                     } else {
-                        slideInVertically({ height -> -height }) + fadeIn() with
-                            slideOutVertically({ height -> height }) + fadeOut()
+                        slideInVertically { height -> -height } + fadeIn() with
+                            slideOutVertically { height -> height } + fadeOut()
                     }.using(
                         SizeTransform(clip = false)
                     )

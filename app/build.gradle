@@ -10,8 +10,6 @@ shot {
 
 android {
     compileSdkVersion 31
-    buildToolsVersion "31.0.0"
-
     defaultConfig {
         applicationId "com.alexzh.coffeedrinks"
         minSdkVersion 21
@@ -55,7 +53,6 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_version"
@@ -95,5 +92,5 @@ dependencies {
 
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     debugImplementation "androidx.fragment:fragment-testing:$androidx_fragment_version"
-    debugImplementation "androidx.test:core:$test_core"
+    debugImplementation "androidx.test:monitor:$test_monitor"
 }
